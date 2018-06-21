@@ -1,0 +1,39 @@
+@import "../../../styles/color.less";
+
+.atomuser-logo {
+  background-color: @atomuser-primary-color;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+
+  .atomuser-icon {
+    width: 50%;
+    height: 50%;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+
+    .atomuser-icon-dot {
+      width: 25%;
+      height: 25%;
+      background-color: @atomuser-primary-color;
+      border-radius: 50%;
+      position: absolute;
+      top: 20%;
+      left: 20%;
+    }
+  }
+
+  &.contrast {
+    background-color: white;
+    .atomuser-icon {
+      background-color: @atomuser-primary-color;
+      .atomuser-icon-dot {
+        background-color: white;
+      }
+    }
+  }
+
+}
