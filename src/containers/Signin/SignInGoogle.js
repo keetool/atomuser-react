@@ -5,6 +5,7 @@ import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {Icon} from "antd";
 import {capitalizeFirstLetter} from "../../helpers/utility";
+import PropTypes from "prop-types";
 
 let cx = classNamesBind.bind(styles);
 
@@ -14,16 +15,20 @@ class SignInGoogle extends React.Component {
     }
 
     render() {
-        const {t} = this.props;
+        const {t, disable, isLogging} = this.props;
         return (
-            <div className={cx('btn', 'btn-google')}>
+            <div className={cx('btn', 'btn-google', {'disable': disable})}>
                 <Icon type="google" style={{fontSize: 25, position: 'absolute'}}/>
-                <div className={cx('text-login')}>{capitalizeFirstLetter(t('social.login.form.text_login_google'))}</div>
+                <div className={cx('text-login')}>{capitalizeFirstLetter(t(
+                    isLogging ? 'social.login.form.is_logging' : 'social.login.form.text_login_google'))}</div>
             </div>
         );
     }
 }
 
-SignInGoogle.propTypes = {};
+SignInGoogle.propTypes = {
+    disable: PropTypes.bool,
+    isLogging: PropTypes.bool,
+};
 
 export default translate(props => props.namespaces)(SignInGoogle);

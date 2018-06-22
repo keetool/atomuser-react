@@ -1,8 +1,8 @@
 import axios from "axios";
-import { BASE_API_URL } from "../constants/env";
+import { MERCHANT_API_URL } from "../constants/env";
 
 export function getLogsApi(params = {}) {
-  let url = BASE_API_URL + `v1/log`;
+  let url = MERCHANT_API_URL + `v1/log`;
   return axios.get(url, {
     params: {
       page: params.page ? params.page : 1,
