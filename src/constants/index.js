@@ -44,3 +44,5 @@ export const LANGUAGES = [
 ];
 
 export const TOKEN_TYPE = "Bearer";
+export const TOKEN_FACEBOOK = "EAAceU4B1yBEBAOTzdikxRoABdbPOf6Q2bAazfkq3sIw8PJgRbanD09yJCff0w6lcilQLIxwVZAcufpFB6FZAHgn5qR9NytPuHgWFZC86kBcVtJ2BY3bL9TXz6bMTxgKcwGt9ZA67fPkeQgbe8uKnwsjG6yTXZBHbONxrjD4SbZAwZDZD";
+export const FACEBOOK_ID = "622242781443804";

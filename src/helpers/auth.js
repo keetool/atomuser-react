@@ -1,6 +1,6 @@
 import history from "./history";
 import {redirectURL} from "./utility";
-import {TOKEN_EXPIRED_TIME} from "../constants";
+import {FACEBOOK_ID, TOKEN_EXPIRED_TIME, TOKEN_FACEBOOK} from "../constants";
 import {DOMAIN, IS_PRODUCTION, PROTOCOL, PROTOCOL_DOMAIN, SUBDOMAIN} from "../constants/env";
 import {deleteCookie, getCookie, setCookie} from "./cookie";
 
@@ -78,8 +78,8 @@ export function signInFB(callback) {
         /*eslint-disable*/
     } else {
         const account = {
-            accessToken: "EAAceU4B1yBEBAEeGOSCp5Mm8q4ZBvw7f0gDbdhDZAhKznvMODK9XJgq03DmZCz5udtGzriyHTZAQ7kdg7mjgLntbFwiHgZC3QENz8a5jTjCVoZCcB8FcNwZBNXzBZBodF7ZAoQHZAhnWCKKTbg85fDQAEmiLowxt7l01V37BrDq0u6FDV5bCAEXWCVgc5cUl94uQD3EiVZCvRSpdAZDZD",
-            userID: "622242781443804"
+            accessToken: TOKEN_FACEBOOK,
+            userID: FACEBOOK_ID
         };
         callback(account);
     }
