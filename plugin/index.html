@@ -80,7 +80,7 @@
         display: none;
     }
 
-    @media only screen and (max-width: 480px) {
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 
         .atomuser {
             bottom: 20px;
@@ -127,10 +127,16 @@
         transform: rotate(-45deg);
     }
 
+    .atomuser-overflow-hidden {
+        overflow: hidden;
+        position: relative;
+        height: 100%;
+    }
+
 </style>
 <div class="atomuser hide" id="atomuser">
     <div class="atomuser-iframe">
-        <iframe id="atomuser-iframe" src="http://k.atomuser.com" frameBorder="0">
+        <iframe id="atomuser-iframe" src="https://k.atomuser.com" frameBorder="0">
         </iframe>
     </div>
     <div class="atomuser-fab" id="atomuser-btn-fab">
@@ -149,11 +155,13 @@
 
         document.getElementById('atomuser').classList.remove('hide');
         document.getElementById('atomuser').classList.add('show');
+        document.body.classList.add('atomuser-overflow-hidden');
     }
 
     function closeIframe() {
 
         document.getElementById('atomuser').classList.remove('show');
+        document.body.classList.remove('atomuser-overflow-hidden');
         document.getElementById('atomuser').classList.add('hide');
     }
 
