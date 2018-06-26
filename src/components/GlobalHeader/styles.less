@@ -1,11 +1,12 @@
-@import "~antd/lib/style/themes/default.less";
 @import "../../styles/variables";
 
 .header {
   height: @atomuser-layout-header-height;
-  width: @atomuser-main-width;
-  margin: 0 auto;
-  padding: 0px 15px;
+  @media screen and (min-width: @atomuser-screen-without-mobile) {
+    width: @atomuser-layout-width-without-mobile;
+    margin: 0 auto;
+  }
+  padding: 0 @atomuser-padding-content-horizontal;
   background: @atomuser-primary-color;
   display: flex;
   flex-direction: row;
@@ -25,7 +26,6 @@
   height: @atomuser-layout-header-height;
   line-height: @atomuser-layout-header-height;
   background-color: @atomuser-primary-color;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   padding: 0;
   position: relative;
   &.header-fixed-top {

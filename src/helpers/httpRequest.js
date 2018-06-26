@@ -2,7 +2,7 @@ import i18n from "../languages/i18n";
 import {signout} from "./auth";
 
 export function httpSuccess(status) {
-    return status == 200;
+    return status == 200 || status == 201;
 }
 
 export function messageHttpRequest(error = {}) {

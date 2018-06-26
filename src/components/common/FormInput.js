@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import generatorFormItem from "../utility/generatorFormItem";
+import generatorFormItem from "../HOC/generatorFormItem";
 import { Input } from "antd";
 import { addPropsComponent, removeProp } from "../../helpers/utility";
 

@@ -1,4 +1,3 @@
-@import "~antd/lib/style/themes/default.less";
 @import "../../styles/variables";
 
 .layout-content {
@@ -7,8 +6,10 @@
   -ms-transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   -o-transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
-  width: @atomuser-main-width;
-  margin: 0 auto;
+  @media screen and (min-width: @atomuser-screen-without-mobile) {
+    width: @atomuser-layout-width-without-mobile;
+    margin: 0 auto;
+  }
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   &.fixed-sider {
     padding-left: 256px;
@@ -26,8 +27,8 @@
   }
 
   .content {
-    margin: 24px 24px 0;
-    height: 2000px;
+    background-color: white;
+    //height: 2000px;
     min-height: calc(100vh - 3 * @atomuser-layout-header-height) !important;
   }
 }

@@ -43,7 +43,8 @@ class GlobalTab extends React.Component {
                         <IconTab type='message'/>
                     </div>
                     <div className={cx({
-                        "tabbar-item": true
+                        "tabbar-item": true,
+                        "active": true
                     })} style={{width: tabbarItemWidth}}>
                         <IconTab type='form'/>
                     </div>
