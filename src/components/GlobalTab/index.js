@@ -35,28 +35,28 @@ class GlobalTab extends React.Component {
                     <div className={cx({
                         "tabbar-item": true
                     })} style={{width: tabbarItemWidth}}>
-                        <IconTab type='tags-o'/>
+                        <IconTab type='search'/>
                     </div>
                     <div className={cx({
                         "tabbar-item": true
                     })} style={{width: tabbarItemWidth}}>
-                        <IconTab type='message'/>
+                        <IconTab type='star-o'/>
                     </div>
                     <div className={cx({
                         "tabbar-item": true,
                         "active": true
                     })} style={{width: tabbarItemWidth}}>
-                        <IconTab type='form'/>
+                        <IconTab type='appstore-o'/>
                     </div>
                     <div className={cx({
                         "tabbar-item": true
                     })} style={{width: tabbarItemWidth}}>
-                        <IconTab type="bell"/>
+                        <IconTab type="heart-o"/>
                     </div>
                     <div className={cx({
                         "tabbar-item": true
                     })} style={{width: tabbarItemWidth}}>
-                        <IconTab type="contacts"/>
+                        <IconTab type="user"/>
                     </div>
                 </div>
             </Layout.Footer>

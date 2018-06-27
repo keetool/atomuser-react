@@ -10,7 +10,6 @@ const headerContent = () => {
 
 
             render() {
-                console.log(this.props.fixed);
                 return (
                     <div className={cx({
                         'header': true,

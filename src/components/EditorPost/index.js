@@ -69,6 +69,7 @@ class EditorPost extends React.Component {
         console.log("success");
         this.props.addPost(data);
         this._ref.innerHTML = '';
+        this._onBlur();
     };
 
     submitPost = () => {

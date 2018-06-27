@@ -1,0 +1,54 @@
+@import "../../../styles/variables";
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  .creator {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .name {
+      margin-left: 10px;
+      font-weight: bold;
+      flex: 1;
+    }
+  }
+  .action {
+    .action-icon {
+      font-size: 25px;
+      color: @atomuser-grey-color;
+    }
+  }
+}
+
+.content {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.layout-action {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  i {
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .action-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    i {
+      margin-right: 10px;
+    }
+    .action-like {
+      .liked {
+        color: #ff0000;
+      }
+    }
+  }
+}
+

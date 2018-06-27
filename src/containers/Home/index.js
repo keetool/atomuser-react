@@ -5,6 +5,7 @@ import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import EditorPost from "../../components/EditorPost";
 import {getPosts} from "../../actions/postActions";
+import Posts from "./ListPost";
 
 let cx = classNamesBind.bind(styles);
 
@@ -13,7 +14,9 @@ const HEADER_FIXED_TOP = true;
 class Home extends React.Component {
 
     state = {
-        posts: []
+        posts: [],
+        isLoading: false,
+        pagination: null
     };
 
     constructor(props, context) {
@@ -32,7 +35,7 @@ class Home extends React.Component {
     };
 
     render() {
-        const {posts} = this.state;
+        const {posts, isLoading, pagination} = this.state;
         return (
             <div>
                 <Header fixed={HEADER_FIXED_TOP}/>
@@ -41,14 +44,7 @@ class Home extends React.Component {
                     "header-fixed-top": HEADER_FIXED_TOP
                 })}>
                     <EditorPost addPost={this.addPost}/>
-                    {posts.map((post) => {
-                        return (
-                            <div>
-                                <div dangerouslySetInnerHTML={{__html: post.body}}/>
-                                <hr/>
-                            </div>
-                        );
-                    })}
+                    <Posts posts={posts} isLoading={isLoading} pagination={pagination}/>
                 </div>
             </div>
 
