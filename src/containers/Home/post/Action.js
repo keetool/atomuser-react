@@ -7,44 +7,65 @@ import {Icon} from "antd";
 
 let cx = classNamesBind.bind(styles);
 
-const ActionLike = ({liked}) => {
+const ActionVote = () => {
     return (
         <div className={cx({
-            "action-like": true
+            "action-vote": true
         })}>
-            {
-                liked ?
-                    (
-                        <Icon type="heart" className={cx({
-                            "liked": true
-                        })}/>
-                    )
-                    :
-                    (
-                        <Icon type="heart-o"/>
-                    )
-            }
+            <Icon type="caret-up" className={cx({
+                "active": true
+            })}/>
+            <div className={cx({
+                "text-vote": true
+            })}>
+                12
+            </div>
+            <Icon type="caret-down"/>
+            {/*{*/}
+            {/*liked ?*/}
+            {/*(*/}
+            {/*<Icon type="heart" className={cx({*/}
+            {/*"liked": true*/}
+            {/*})}/>*/}
+            {/*)*/}
+            {/*:*/}
+            {/*(*/}
+            {/*<Icon type="heart-o"/>*/}
+            {/*)*/}
+            {/*}*/}
 
         </div>
     );
 };
 
-const Action = () => {
+const ActionComment = () => {
     return (
         <div className={cx({
-            "layout-action": true
+            "action-comment": true
         })}>
             <div className={cx({
-                "action-left": true
+                "text-comment": true
             })}>
-                <ActionLike liked/>
-                <Icon type="message"/>
-                <Icon type="swap"/>
+                1002
             </div>
-            <div className={cx({
-                "action-right": true
-            })}>
-                <Icon type="star"/>
+            <Icon type="message"/>
+        </div>
+    );
+};
+
+
+const Action = () => {
+    return (
+        <div className={cx("layout-action")}>
+            <div className={cx("action-left")}>
+                <ActionVote liked/>
+                <div className={cx("divider", "vertical")}/>
+                <ActionComment/>
+            </div>
+            <div className={cx("action-right")}>
+                <Icon type="star" className={cx({
+                    "active": true
+                })}/>
             </div>
         </div>
     );

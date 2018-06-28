@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import styles from './styles.less';
-// import classNamesBind from "classnames/bind";
+import styles from './styles.less';
+import classNamesBind from "classnames/bind";
 import Header from "./Header";
 import Content from "./Content";
 import Footer from "./Footer";
 import Action from "./Action";
 // import _ from "lodash";
 
-// let cx = classNamesBind.bind(styles);
+let cx = classNamesBind.bind(styles);
 
 class Post extends React.Component {
     constructor(props, context) {
@@ -30,11 +30,11 @@ class Post extends React.Component {
     render() {
         const {post} = this.props;
         return (
-            <div>
+            <div className={cx("layout-post")}>
                 <Header creator={post.creator}/>
                 <Content post={post}/>
                 <Action/>
-                <Footer/>
+                <Footer createdAt={post.created_at}/>
             </div>
         );
     }

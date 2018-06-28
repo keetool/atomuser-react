@@ -1,5 +1,10 @@
 @import "../../../styles/variables";
 
+@margin-icon-action: 10px;
+
+.layout-post {
+}
+
 .header {
   display: flex;
   flex-direction: row;
@@ -24,7 +29,7 @@
 }
 
 .content {
-  margin-top: 15px;
+  margin-top: 5px;
   margin-bottom: 15px;
 }
 
@@ -36,19 +41,57 @@
   i {
     cursor: pointer;
     font-size: 18px;
+    color: @atomuser-grey-color;
   }
+
+  .active {
+    color: @atomuser-primary-color;
+  }
+
   .action-left {
     display: flex;
     flex-direction: row;
     align-items: center;
     i {
-      margin-right: 10px;
+      margin-right: @margin-icon-action;
+
     }
-    .action-like {
-      .liked {
-        color: #ff0000;
+    .action-vote {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .text-vote {
+        font-weight: bold;
+        margin-right: @margin-icon-action;
       }
     }
+
+    .action-comment {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .text-comment {
+        font-weight: bold;
+        margin-right: @margin-icon-action;
+      }
+    }
+  }
+}
+
+.divider {
+  background-color: @atomuser-grey-color;
+  margin-right: @margin-icon-action;
+  &.vertical {
+    width: 2px;
+    height: 18px;
+  }
+}
+
+.footer {
+  margin-top: 15px;
+  color: @atomuser-grey-color;
+  .text-time {
+    margin-top: 5px;
   }
 }
 
