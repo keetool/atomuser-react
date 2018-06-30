@@ -4,6 +4,6 @@ export default [
     {
         path: "/",
         exact: true,
-        component: asyncComponent(() => import("../containers/Home"))
+        component: asyncComponent(() => import("../modules/Home"))
     }
 ];

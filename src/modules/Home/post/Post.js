@@ -7,33 +7,21 @@ import Content from "./Content";
 import Footer from "./Footer";
 import Action from "./Action";
 // import _ from "lodash";
+// import store from "../store";
+import {observer} from "mobx-react";
 
 let cx = classNamesBind.bind(styles);
 
+@observer
 class Post extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        this.setData = this.setState.bind(this);
-        this.state = {
-            post: props.post
-        };
-    }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if (!_.isEqual(nextProps.post, this.props.post)) {
-    //         this.setState({
-    //             post: nextProps.post
-    //         });
-    //     }
-    // }
-
     render() {
         const {post} = this.props;
+        console.log("render post");
         return (
             <div className={cx("layout-post")}>
                 <Header creator={post.creator}/>
                 <Content post={post}/>
-                <Action/>
+                <Action post={post}/>
                 <Footer createdAt={post.created_at}/>
             </div>
         );

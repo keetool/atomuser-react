@@ -19,7 +19,7 @@ const Footer = ({createdAt}) => {
 };
 
 Footer.propTypes = {
-    createdAt: PropTypes.string.isRequired
+    createdAt: PropTypes.number.isRequired
 };
 
 export default Footer;

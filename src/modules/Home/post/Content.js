@@ -4,19 +4,22 @@ import PropTypes from 'prop-types';
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 // import {Icon} from "antd";
+import {observer} from "mobx-react";
 
 let cx = classNamesBind.bind(styles);
 
-const Content = ({post = {}}) => {
-    return (
-        <div className={cx({
+@observer
+class Content extends React.Component {
+    render() {
+        console.log("render content");
+        const {post} = this.props;
+        return (<div className={cx({
             "content": true
         })}>
             <div dangerouslySetInnerHTML={{__html: post.body}}/>
-        </div>
-
-    );
-};
+        </div>);
+    }
+}
 
 Content.propTypes = {
     post: PropTypes.object.isRequired

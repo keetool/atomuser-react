@@ -6,19 +6,17 @@ const clamp = (n, min, max) => {
 
 class Progress {
     minimum = 0.08;
-    setState = null;
     value = null;
-    key = '';
+    callbackValue = null;
     config = {
         trickle: true,
         trickleRate: 0.02,
         trickleSpeed: 800,
     };
 
-    init = (setState, key, config = {}) => {
-        this.setState = setState;
-        this.key = key;
+    init = (callbackValue, config = {}) => {
         this.config = {...this.config, ...config};
+        this.callbackValue = callbackValue;
     };
 
     start = () => {
@@ -60,11 +58,11 @@ class Progress {
 
         if (!this.isInited) return;
 
-        this.setState({[this.key]: value});
+        this.callbackValue(this.value);
     };
 
     isInited = () => {
-        return this.setState && this.key;
+        return this.callbackValue;
     };
 
     done = () => {
@@ -72,7 +70,7 @@ class Progress {
 
         if (!this.isInited) return;
 
-        this.setState({[this.key]: 1});
+        this.callbackValue(this.value);
 
         if (this.run) {
             clearInterval(this.run);

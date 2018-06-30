@@ -2,7 +2,7 @@ import React from "react";
 import {Route, Router, Switch} from "react-router-dom";
 import asyncComponent from "./helpers/AsyncFunc";
 import {isLoggedIn} from "./helpers/auth";
-import AppContainer from "./containers/App/index";
+import AppContainer from "./modules/App/index";
 import PropTypes from "prop-types";
 import history from "./helpers/history";
 import {LocaleProvider} from "antd";
@@ -39,7 +39,7 @@ const Routes = () => {
                         exact
                         path={"/signin"}
                         component={asyncComponent(() =>
-                            import("./containers/Signin/index")
+                            import("./modules/Signin/index")
                         )}
                     />
                     <RestrictedRoute path="/" component={AppContainer}/>

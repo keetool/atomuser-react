@@ -6,11 +6,11 @@ export default [
     children: [
       {
         path: "/registers",
-        component: asyncComponent(() => import("../containers/Teaching/Registers"))
+        component: asyncComponent(() => import("../modules/Teaching/Registers"))
       },
       {
         path: "/classes",
-        component: asyncComponent(() => import("../containers/Teaching/Classes"))
+        component: asyncComponent(() => import("../modules/Teaching/Classes"))
       }
     ]
   }

@@ -4,23 +4,36 @@ import Post from "./post/Post";
 import Loading from "./post/Loading";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
+import {observer} from "mobx-react";
+import store from "./store";
 
 let cx = classNamesBind.bind(styles);
 
+@observer
 class ListPost extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        this.setData = this.setState.bind(this);
+    componentDidMount() {
+        this.addEventScroll();
     }
 
-    componentDidMount() {
+    addEventScroll = () => {
         document.addEventListener('scroll', this.trackScrolling);
-    }
+    };
+
+    getPostFinished = () => {
+        this.addEventScroll();
+    };
+
+    getPosts = () => {
+        if (store.isLoadData) {
+            store.incPage();
+            store.getPosts(this.getPostFinished());
+        }
+    };
 
     trackScrolling = () => {
         const wrappedElement = document.getElementById('list-post');
         if (this.isBottom(wrappedElement)) {
-            console.log('header bottom reached');
+            this.getPosts();
             document.removeEventListener('scroll', this.trackScrolling);
         }
     };
@@ -33,9 +46,12 @@ class ListPost extends React.Component {
     render() {
         const {posts, isLoading} = this.props;
         return (
-            <div className={cx({
-                "layout-posts": true
-            })} id={"list-post"}>
+            <div
+                id={"list-post"}
+                className={cx({
+                    "layout-posts": true
+                })}
+            >
                 {
                     posts && posts.length > 0 ?
                         (
@@ -48,7 +64,7 @@ class ListPost extends React.Component {
                         )
                         :
                         (
-                            <Loading/>
+                            isLoading && <Loading/>
                         )
 
                 }
@@ -62,7 +78,8 @@ class ListPost extends React.Component {
 }
 
 ListPost.propTypes = {
-    posts: PropTypes.array
+    posts: PropTypes.array,
+    isLoading: PropTypes.bool,
 };
 
 export default ListPost;

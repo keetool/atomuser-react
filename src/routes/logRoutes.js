@@ -4,6 +4,6 @@ export default [
   {
     path: "/log",
     exact: true,
-    component: asyncComponent(() => import("../containers/Log"))
+    component: asyncComponent(() => import("../modules/Log"))
   }
 ];

@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {withAccount} from "../context/AccountContext";
@@ -7,44 +7,19 @@ import Avatar from "../Avatar";
 import {LOGO} from "../../constants";
 import {translate} from "react-i18next";
 import {Alert, Button, Progress} from "antd";
-import progress from '../../helpers/progress';
-import {addPost} from "../../actions/postActions";
+import store from './store';
+import {observer} from "mobx-react";
 
 let cx = classNamesBind.bind(styles);
 
-
+@observer
 class EditorPost extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        this.setData = this.setState.bind(this);
-    }
-
-    state = {
-        isFocus: false,
-        percentUpload: 0,
-        isUploading: false,
-        error: null,
-    };
-
-
-    componentDidMount() {
-        progress.init(this.setData, 'percentUpload', {
-            trickleRate: 0.1,
-            trickleSpeed: 500,
-        });
-        progress.start();
-        setTimeout(function () {
-            progress.done();
-        }, 5000);
-    }
-
     _onFocus = () => {
-        this.setState({isFocus: true});
-        console.log("focus");
+        store.setFocusEditor(true);
     };
 
     _onBlur = () => {
-        this.setState({isFocus: false});
+        store.setFocusEditor(false);
     };
 
     //empty editor when current content has <br>
@@ -66,14 +41,13 @@ class EditorPost extends React.Component {
     };
 
     uploadPostSuccess = (data) => {
-        console.log("success");
         this.props.addPost(data);
         this._ref.innerHTML = '';
         this._onBlur();
     };
 
     submitPost = () => {
-        addPost(this.setData, {
+        store.addPost({
             title: "title",
             body: this._ref.innerHTML
         }, this.uploadPostSuccess);
@@ -81,8 +55,9 @@ class EditorPost extends React.Component {
 
     render() {
         const {account, t} = this.props;
-        const {isFocus, percentUpload, error, isUploading} = this.state;
+        const {isFocus, percentUpload, error, isUploading} = store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
+        console.log("Render editor");
         return (
             <div
                 className={cx({
@@ -143,6 +118,8 @@ class EditorPost extends React.Component {
     }
 }
 
-EditorPost.propTypes = {};
+EditorPost.propTypes = {
+    addPost: PropTypes.func.isRequired
+};
 
 export default translate(props => props.namespaces)(withAccount(EditorPost));
