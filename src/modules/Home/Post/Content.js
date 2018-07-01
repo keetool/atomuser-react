@@ -11,7 +11,6 @@ let cx = classNamesBind.bind(styles);
 @observer
 class Content extends React.Component {
     render() {
-        console.log("render content");
         const {post} = this.props;
         return (<div className={cx({
             "content": true

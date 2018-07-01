@@ -18,3 +18,13 @@ export function getPostsApi(page = 1) {
         }
     );
 }
+
+export function upVoteApi(postID) {
+    let url = MERCHANT_API_URL + `v1/post/${postID}/vote/up`;
+    return axios.post(url);
+}
+
+export function downVoteApi(postID) {
+    let url = MERCHANT_API_URL + `v1/post/${postID}/vote/down`;
+    return axios.post(url);
+}

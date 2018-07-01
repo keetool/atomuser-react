@@ -1,6 +1,7 @@
 import asyncComponent from "../helpers/AsyncFunc";
 import React from "react";
 import queryString from "query-string";
+import {message} from "antd";
 
 
 export function getPathComponent(path) {
@@ -138,3 +139,9 @@ export function splitHostname() {
     return result;
 }
 
+export function messageSuccess(text, top = 24, duration = 2.5) {
+    message.config({
+        top: top
+    });
+    message.success(text, duration);
+}

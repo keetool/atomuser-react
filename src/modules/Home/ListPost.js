@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Post from "./post/Post";
-import Loading from "./post/Loading";
+import Post from "./Post/Post";
+import Loading from "./Post/Loading";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
 import store from "./store";
+import {Divider} from "antd";
 
 let cx = classNamesBind.bind(styles);
 
@@ -38,9 +39,9 @@ class ListPost extends React.Component {
         }
     };
 
-    isBottom(el) {
+    isBottom = (el) => {
         return el.getBoundingClientRect().bottom - 500 <= window.innerHeight;
-    }
+    };
 
 
     render() {
@@ -57,14 +58,22 @@ class ListPost extends React.Component {
                         (
                             posts.map((post, index) => {
                                     return (
-                                        <Post post={post} key={index}/>
+                                        <div>
+                                            <Post post={post} key={index}/>
+                                            <Divider/>
+                                        </div>
+
                                     );
                                 }
                             )
                         )
                         :
                         (
-                            isLoading && <Loading/>
+                            isLoading &&
+                            <div>
+                                <Loading/>
+                                <Loading/>
+                            </div>
                         )
 
                 }

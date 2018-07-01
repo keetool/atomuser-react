@@ -7,6 +7,8 @@ import EditorPost from "../../components/EditorPost";
 import Posts from "./ListPost";
 import {observer} from "mobx-react";
 import store from "./store";
+import {Divider} from "antd";
+// import {message} from "antd";
 
 let cx = classNamesBind.bind(styles);
 
@@ -16,7 +18,15 @@ class Home extends React.Component {
 
     componentDidMount() {
         store.getPosts();
+
     }
+
+    // message = ()=>{
+    //     // let t = message.info(<div>21321</div>, 0);
+    //     // setTimeout(() => {
+    //     //     message.destroy();
+    //     // }, 5000);
+    // }
 
     render() {
         console.log("render index");
@@ -29,6 +39,7 @@ class Home extends React.Component {
                     // "header-fixed-top": HEADER_FIXED_TOP
                 })}>
                     <EditorPost addPost={store.addPost}/>
+                    <Divider/>
                     <Posts posts={posts} isLoading={isLoading}/>
                 </div>
             </div>

@@ -6,6 +6,7 @@ import Header from "./Header";
 import Content from "./Content";
 import Footer from "./Footer";
 import Action from "./Action";
+import EditorComment from "../../../components/EditorComment";
 // import _ from "lodash";
 // import store from "../store";
 import {observer} from "mobx-react";
@@ -23,6 +24,7 @@ class Post extends React.Component {
                 <Content post={post}/>
                 <Action post={post}/>
                 <Footer createdAt={post.created_at}/>
+                <EditorComment style={{marginTop: '10px'}}/>
             </div>
         );
     }

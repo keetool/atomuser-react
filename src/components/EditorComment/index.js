@@ -6,15 +6,14 @@ import {withAccount} from "../context/AccountContext";
 import Avatar from "../Avatar";
 import {LOGO} from "../../constants";
 import {translate} from "react-i18next";
-import {Alert, Button, Progress} from "antd";
+import {Alert} from "antd";
 import Store from './Store';
 import {observer} from "mobx-react";
 
 let cx = classNamesBind.bind(styles);
 
 @observer
-class EditorPost extends React.Component {
-
+class EditorComment extends React.Component {
     store = new Store();
 
     _onFocus = () => {
@@ -32,6 +31,13 @@ class EditorPost extends React.Component {
         }
     };
 
+    onKeyPress = (e) => {
+        console.log(e.which);
+        if (e.which === 13 && !e.shiftKey) {
+            e.preventDefault();
+        }
+    };
+
     renderMessageError = content => {
         return (
             <Alert
@@ -43,38 +49,25 @@ class EditorPost extends React.Component {
         );
     };
 
-    uploadPostSuccess = (data) => {
-        this.props.addPost(data);
-        this._ref.innerHTML = '';
-        this._onBlur();
-    };
-
-    submitPost = () => {
-        this.store.addPost({
-            title: "title",
-            body: this._ref.innerHTML
-        }, this.uploadPostSuccess);
-    };
 
     render() {
-        const {account, t} = this.props;
-        const {isFocus, percentUpload, error, isUploading} = this.store;
+        const {account, t, style} = this.props;
+        const {isFocus, error, isUploading} = this.store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
-        console.log("Render editor");
         return (
             <div
                 className={cx({
                     "layout-editor": true,
                     "disable": isUploading
                 })}
-                onBlur={() => console.log("blur")}
+                style={style}
             >
                 <div
                     className={cx({
                         "container": true
                     })}
                 >
-                    <Avatar url={avatarUrl} size={40}/>
+                    <Avatar url={avatarUrl}/>
                     <div
                         className={cx({
                             "editor": true,
@@ -82,47 +75,25 @@ class EditorPost extends React.Component {
                         })}
                         contentEditable={!isUploading}
                         onFocus={this._onFocus}
+                        onBlur={this._onBlur}
                         ref={(ref) => {
                             this._ref = ref;
                         }}
-                        placeholder={t('social.editor.form.placeholder')}
+                        placeholder={t('social.editor_comment.form.placeholder')}
                         onKeyUp={this._checkEmpty}
+                        onKeyPress={this.onKeyPress}
                     >
                     </div>
                 </div>
                 {error && this.renderMessageError(error)}
-
-                {
-                    isFocus &&
-                    (
-                        <div className={cx({
-                            "container-action": true
-                        })}>
-                            {isUploading ?
-                                (
-                                    <Progress percent={percentUpload * 100} status="active" showInfo={false}/>
-                                )
-                                :
-                                (
-                                    <Button
-                                        type="primary"
-                                        onClick={this.submitPost}
-                                        style={{width: '100%'}}
-                                    >
-                                        {t('social.editor.form.button_post')}
-                                    </Button>
-                                )
-                            }
-                        </div>
-                    )
-                }
             </div>
         );
     }
 }
 
-EditorPost.propTypes = {
-    addPost: PropTypes.func.isRequired
+EditorComment.propTypes = {
+    addPost: PropTypes.func,
+    style: PropTypes.object
 };
 
-export default translate(props => props.namespaces)(withAccount(EditorPost));
+export default translate(props => props.namespaces)(withAccount(EditorComment));

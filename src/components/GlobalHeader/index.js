@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-    Layout,
+    Icon,
+    Layout, Tooltip,
 } from "antd";
 import styles from "./styles.less";
 import classNamesBind from "classnames/bind";
@@ -9,6 +10,8 @@ import {URL_add_parameter, reload_url} from "../../helpers/utility";
 import {withAccount} from "../context/AccountContext";
 import Logo from "../static/Logo";
 import LogoText from "../static/LogoText";
+import {signout} from "../../helpers/auth";
+import {translate} from "react-i18next";
 // import classNames from 'classnames';
 
 let cx = classNamesBind.bind(styles);
@@ -22,9 +25,18 @@ class GlobalHeader extends React.Component {
         reload_url(URL_add_parameter("lang", value));
     }
 
+    handleSignOut = () => {
+        signout();
+    };
+
+    handleClickLogo = () => {
+        window.open('/', '_blank');
+    };
+
     render() {
         const {
             fixed,
+            t
         } = this.props;
         return (
             <Layout.Header
@@ -38,11 +50,21 @@ class GlobalHeader extends React.Component {
                         "header": true,
                     })}
                 >
+                    <div
+                        className={cx({
+                            "logo": true,
+                        })}
+                        onClick={this.handleClickLogo}
+                    >
+                        <Logo size={25} isContrast/>
+                        <LogoText size={20} bold={false} isContrast style={{paddingLeft: '2px'}}/>
+                    </div>
                     <div className={cx({
-                        "logo": true,
+                        "right": true,
                     })}>
-                        <Logo size={18} isContrast/>
-                        <LogoText size={15} isContrast style={{paddingLeft: '2px'}}/>
+                        <Tooltip placement="bottomRight" title={t('social.tooltip.header.signout')}>
+                            <Icon type="logout" style={{fontSize: '18px'}} onClick={this.handleSignOut}/>
+                        </Tooltip>
                     </div>
                 </div>
             </Layout.Header>
@@ -58,4 +80,4 @@ GlobalHeader.propTypes = {
     fixed: PropTypes.bool
 };
 
-export default withAccount(GlobalHeader);
+export default translate(props => props.namespaces)(withAccount(GlobalHeader));

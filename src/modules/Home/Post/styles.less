@@ -3,6 +3,7 @@
 @margin-icon-action: 10px;
 
 .layout-post {
+  padding: 0 @atomuser-padding-content-horizontal;
 }
 
 .header {
@@ -14,6 +15,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    cursor: pointer;
     .name {
       margin-left: 10px;
       font-weight: bold;
@@ -21,6 +23,7 @@
     }
   }
   .action {
+    cursor: pointer;
     .action-icon {
       font-size: 25px;
       color: @atomuser-grey-color;
@@ -44,8 +47,12 @@
     color: @atomuser-grey-color;
   }
 
-  .active {
+  .voted {
     color: @atomuser-primary-color;
+  }
+
+  .active-mark {
+    color: @atomuser-mark-active-color
   }
 
   .action-left {
@@ -54,12 +61,12 @@
     align-items: center;
     i {
       margin-right: @margin-icon-action;
-
     }
     .action-vote {
       display: flex;
       flex-direction: row;
       align-items: center;
+      cursor: pointer;
       .text-vote {
         font-weight: bold;
         margin-right: @margin-icon-action;
@@ -70,6 +77,8 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+      cursor: pointer;
+
       .text-comment {
         font-weight: bold;
         margin-right: @margin-icon-action;
@@ -79,10 +88,10 @@
 }
 
 .divider {
-  background-color: @atomuser-grey-color;
+  background-color: @atomuser-divider-color;
   margin-right: @margin-icon-action;
   &.vertical {
-    width: 2px;
+    width: 1px;
     height: 18px;
   }
 }
@@ -90,7 +99,17 @@
 .footer {
   margin-top: 15px;
   color: @atomuser-grey-color;
+  .text-comment {
+    cursor: pointer;
+    &:hover {
+      color: black;
+    }
+  }
   .text-time {
+    &:hover {
+      text-decoration: underline;
+    }
+    cursor: pointer;
     margin-top: 5px;
   }
 }
