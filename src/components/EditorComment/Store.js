@@ -1,35 +1,30 @@
 import {observable, action} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
-import {addPostApi} from "../../apis/postApis";
-import progress from "../../helpers/progress";
-import {messageSuccess} from "../../helpers/utility";
-import {translateI18n} from "../../languages/i18n";
+import {addCommentApi} from "../../apis/commentApis";
 import {DISTANCE_TOP_MESSAGE_HOME} from "../../constants";
+import {messageError} from "../../helpers/utility";
 
 class Store {
-    @observable percentUpload = 0;
+    post = null;
     @observable isUploading = false;
     @observable error = null;
     @observable isFocus = false;
 
+    constructor(post) {
+        this.post = post;
+    }
+
     @action
-    async addPost(post, callback = null) {
+    async addComment(comment, callback = null) {
+        const postID = this.post.id;
+
         this.isUploading = true;
         this.error = null;
 
-        progress.init((value) => {
-            this.percentUpload = value;
-        }, {
-            trickleRate: 0.1,
-            trickleSpeed: 500,
-        });
-        progress.set(0);
-        progress.start();
         try {
-            const res = await addPostApi(post);
+            const res = await addCommentApi(postID, comment);
             const data = res.data;
             if (httpSuccess(res.status)) {
-                messageSuccess(translateI18n('social.home.post.upload_success'), DISTANCE_TOP_MESSAGE_HOME);
                 if (callback) {
                     callback(data.data);
                 }
@@ -39,8 +34,10 @@ class Store {
         } catch (error) {
             this.error = messageHttpRequest(error);
         } finally {
-            progress.done();
             this.isUploading = false;
+            if (this.error) {
+                messageError(this.error, DISTANCE_TOP_MESSAGE_HOME);
+            }
         }
     }
 

@@ -88,7 +88,7 @@ export function signInFB(callback) {
 export function redirectSignedIn(merchantSubDomain) {
     if (IS_PRODUCTION) {
         const domainMerchant = `${PROTOCOL}${merchantSubDomain}.${DOMAIN}`;
-        redirectURL(domainMerchant + 'manage');
+        redirectURL(domainMerchant);
     } else {
         history.push('/');
     }

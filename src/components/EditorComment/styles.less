@@ -1,20 +1,19 @@
 @import "../../styles/variables";
 
 .layout-editor {
-  &.disable {
-    cursor: not-allowed;
-  }
   .container {
     display: flex;
     flex-direction: row;
+    position: relative;
     .editor {
       margin-left: 10px;
-      padding-top: 5px;
+      padding: 6px 15px;
       flex: 1;
       outline: none;
       color: black;
       word-break: break-all;
-      //width: 100px;
+      border-radius: 20px;
+      border: solid @atomuser-divider-color 1px;
       &:empty:before {
         cursor: text;
         content: attr(placeholder);
@@ -23,6 +22,21 @@
       }
       &.focus {
       }
+      &.border {
+        border: solid @atomuser-grey-color 1px;
+      }
+      &.uploading-comment {
+        color: @atomuser-grey-color;
+      }
+      &.disable {
+        cursor: not-allowed;
+      }
+    }
+    > .uploading {
+      position: absolute;
+      cursor: not-allowed;
+      bottom: 4px;
+      right: 10px;
     }
   }
 }

@@ -1,0 +1,74 @@
+@import "../../../../styles/variables";
+
+.container-comment {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.layout-content {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  .content {
+    padding-left: 10px;
+    padding-top: 4px;
+    flex: 1;
+    .comment {
+      word-break: break-all;
+
+      .name {
+        display: inline;
+        padding-right: 5px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .content-comment {
+        display: inline;
+      }
+    }
+  }
+}
+
+.layout-action {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  i {
+    cursor: pointer;
+    font-size: 18px;
+    color: @atomuser-grey-color;
+  }
+
+  .action-left, .action-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .action-reply {
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .action-right {
+    .text-time {
+      color: @atomuser-grey-color;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+
+    }
+  }
+}
+
+.divider {
+  background-color: @atomuser-divider-color;
+  margin-right: @margin-icon-action-post;
+  &.vertical {
+    width: 1px;
+    height: 18px;
+  }
+}

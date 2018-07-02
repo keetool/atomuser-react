@@ -6,15 +6,17 @@ import {withAccount} from "../context/AccountContext";
 import Avatar from "../Avatar";
 import {LOGO} from "../../constants";
 import {translate} from "react-i18next";
-import {Alert} from "antd";
+import {Alert, Icon, Spin} from "antd";
 import Store from './Store';
 import {observer} from "mobx-react";
 
 let cx = classNamesBind.bind(styles);
 
+const IconUpLoading = <Icon type="loading" style={{fontSize: 24}} spin/>;
+
 @observer
 class EditorComment extends React.Component {
-    store = new Store();
+    store = new Store(this.props.post);
 
     _onFocus = () => {
         this.store.setFocusEditor(true);
@@ -31,9 +33,19 @@ class EditorComment extends React.Component {
         }
     };
 
+    uploadSuccess = (data) => {
+        this._onBlur();
+        this._ref.innerHTML = "";
+        this.props.addComment(data);
+    };
+
     onKeyPress = (e) => {
-        console.log(e.which);
         if (e.which === 13 && !e.shiftKey) {
+            this.store.addComment(
+                {
+                    value: this._ref.innerHTML
+                }
+                , this.uploadSuccess);
             e.preventDefault();
         }
     };
@@ -52,13 +64,12 @@ class EditorComment extends React.Component {
 
     render() {
         const {account, t, style} = this.props;
-        const {isFocus, error, isUploading} = this.store;
+        const {isFocus, isUploading} = this.store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
         return (
             <div
                 className={cx({
                     "layout-editor": true,
-                    "disable": isUploading
                 })}
                 style={style}
             >
@@ -67,11 +78,14 @@ class EditorComment extends React.Component {
                         "container": true
                     })}
                 >
-                    <Avatar url={avatarUrl}/>
+                    <Avatar url={avatarUrl} style={{cursor: "pointer"}}/>
                     <div
                         className={cx({
                             "editor": true,
                             "focus": isFocus,
+                            "border": isFocus || isUploading,
+                            "uploading-comment": isUploading,
+                            "disable": isUploading
                         })}
                         contentEditable={!isUploading}
                         onFocus={this._onFocus}
@@ -84,15 +98,22 @@ class EditorComment extends React.Component {
                         onKeyPress={this.onKeyPress}
                     >
                     </div>
+                    {
+                        isUploading &&
+                        <div className={cx("uploading")}>
+                            <Spin indicator={IconUpLoading}/>
+                        </div>
+                    }
+
                 </div>
-                {error && this.renderMessageError(error)}
             </div>
         );
     }
 }
 
 EditorComment.propTypes = {
-    addPost: PropTypes.func,
+    addComment: PropTypes.func,
+    post: PropTypes.object.isRequired,
     style: PropTypes.object
 };
 

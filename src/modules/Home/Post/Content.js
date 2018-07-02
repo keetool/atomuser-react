@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Avatar from "../../../components/Avatar";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
-// import {Icon} from "antd";
 import {observer} from "mobx-react";
 
 let cx = classNamesBind.bind(styles);

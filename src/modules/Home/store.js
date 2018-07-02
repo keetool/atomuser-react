@@ -12,7 +12,7 @@ class Store {
     @observable error = null;
 
     @action
-    async getPosts(callback = null) {
+    async getPosts(callbackFinished = null) {
 
         this.isLoading = true;
         this.error = null;
@@ -29,8 +29,8 @@ class Store {
         } catch (error) {
             this.error = messageHttpRequest(error);
         } finally {
-            if (callback) {
-                callback();
+            if (callbackFinished) {
+                callbackFinished();
             }
             this.isLoading = false;
         }
@@ -139,6 +139,11 @@ class Store {
 
     @action incPage() {
         this.pagination.current_page++;
+    }
+
+    @action incComment(postID, amount = 1) {
+        let post = this.getPostById(postID);
+        post.num_comments += amount;
     }
 
     getPostById = (postID) => {

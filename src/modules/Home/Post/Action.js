@@ -2,43 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
-import {Icon, Tooltip} from "antd";
+import {Icon} from "antd";
 import {observer} from "mobx-react";
 import store from "../store";
 import {translateI18n} from "../../../languages/i18n";
+import ActionVote from "../../../components/ActionVote";
 
 let cx = classNamesBind.bind(styles);
-
-const ActionVote = ({upvote, downvote, vote, actionUpVote, actionDownVote}) => {
-    return (
-        <div className={cx({
-            "action-vote": true
-        })}>
-            <Tooltip placement="topLeft" title={translateI18n('social.home.post_item.upvote')}>
-                <Icon
-                    type="caret-up"
-                    className={cx({
-                        "voted": vote === 1
-                    })}
-                    onClick={actionUpVote}
-                />
-            </Tooltip>
-            <div className={cx({
-                "text-vote": true
-            })}>
-                {upvote - downvote}
-            </div>
-            <Tooltip placement="top" title={translateI18n('social.home.post_item.downvote')}>
-                <Icon type="caret-down"
-                      className={cx({
-                          "voted": vote === -1
-                      })}
-                      onClick={actionDownVote}
-                />
-            </Tooltip>
-        </div>
-    );
-};
 
 const ActionComment = ({totalComments = 0}) => {
     return (

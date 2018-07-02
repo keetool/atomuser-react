@@ -1,7 +1,5 @@
 @import "../../../styles/variables";
 
-@margin-icon-action: 10px;
-
 .layout-post {
   padding: 0 @atomuser-padding-content-horizontal;
 }
@@ -47,9 +45,7 @@
     color: @atomuser-grey-color;
   }
 
-  .voted {
-    color: @atomuser-primary-color;
-  }
+
 
   .active-mark {
     color: @atomuser-mark-active-color
@@ -59,19 +55,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    i {
-      margin-right: @margin-icon-action;
-    }
-    .action-vote {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      cursor: pointer;
-      .text-vote {
-        font-weight: bold;
-        margin-right: @margin-icon-action;
-      }
-    }
+
 
     .action-comment {
       display: flex;
@@ -81,7 +65,7 @@
 
       .text-comment {
         font-weight: bold;
-        margin-right: @margin-icon-action;
+        margin-right: @margin-icon-action-post;
       }
     }
   }
@@ -89,7 +73,7 @@
 
 .divider {
   background-color: @atomuser-divider-color;
-  margin-right: @margin-icon-action;
+  margin-right: @margin-icon-action-post;
   &.vertical {
     width: 1px;
     height: 18px;
@@ -101,6 +85,7 @@
   color: @atomuser-grey-color;
   .text-comment {
     cursor: pointer;
+    margin-top: 5px;
     &:hover {
       color: black;
     }
@@ -110,7 +95,7 @@
       text-decoration: underline;
     }
     cursor: pointer;
-    margin-top: 5px;
+
   }
 }
 

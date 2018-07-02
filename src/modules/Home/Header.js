@@ -8,14 +8,6 @@ let cx = classNamesBind.bind(styles);
 
 
 class Header extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-
-    }
-
-    componentDidMount() {
-    }
-
     render() {
         return (
             <div className={cx({

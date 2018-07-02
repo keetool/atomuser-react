@@ -14,10 +14,12 @@ export function convertTime(time) {
 
 export function relativeTime(time) {
     const currentTimestamp = moment().unix();
-    console.log({currentTimestamp, time});
     if (currentTimestamp - time > 24 * 60 * 60) {
         return formatTime(time);
     }
     return capitalizeFirstLetter(convertTime(time).startOf('minute').fromNow());
+}
 
+export function fullRelativeTime(time) {
+    return capitalizeFirstLetter(convertTime(time).startOf('minute').fromNow());
 }

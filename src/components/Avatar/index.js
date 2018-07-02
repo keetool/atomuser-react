@@ -5,7 +5,7 @@ import classNamesBind from "classnames/bind";
 
 let cx = classNamesBind.bind(styles);
 
-const Avatar = ({url = '', size = 30}) => {
+const Avatar = ({url = '', size = 30, style = {}}) => {
     return (
         <div className={cx({
             "avatar": true
@@ -14,6 +14,7 @@ const Avatar = ({url = '', size = 30}) => {
                  backgroundImage: `url(${url})`,
                  width: size,
                  height: size,
+                 ...style
              }}
         />
     );
@@ -22,7 +23,8 @@ const Avatar = ({url = '', size = 30}) => {
 
 Avatar.propTypes = {
     url: PropTypes.string.isRequired,
-    size: PropTypes.number
+    size: PropTypes.number,
+    style: PropTypes.object,
 };
 
 export default Avatar;

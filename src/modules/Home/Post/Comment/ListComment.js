@@ -1,0 +1,69 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import styles from './styles.less';
+import classNamesBind from "classnames/bind";
+import {observer} from "mobx-react";
+import Comment from "./Comment";
+import Loading from "./Loading";
+import {translate} from "react-i18next";
+
+let cx = classNamesBind.bind(styles);
+
+@observer
+class ListComment extends React.Component {
+
+
+    componentDidMount() {
+        this.props.store.getComments();
+    }
+
+    loadMore = () => {
+        if (this.props.store.isLoadMore) {
+            this.props.store.incPage();
+            this.props.store.getComments();
+        }
+    };
+
+    render() {
+        const {comments, isLoading, isLoadMore} = this.props.store;
+        const {t} = this.props;
+        return (
+            <div>
+                <div className={cx("container-comment")}>
+                    {
+                        isLoadMore &&
+                        <div className={cx("text-load-more")}
+                             onClick={this.loadMore}
+                        >{t("social.home.post.comment_load_more")}</div>
+                    }
+
+                    {isLoading && <Loading/>}
+
+                    {comments && comments.length > 0 ?
+                        comments.map((comment, index) => {
+                            return (
+                                <Comment comment={comment} key={index} store={this.props.store}/>
+                            );
+                        })
+                        :
+                        (
+                            isLoading &&
+                            <div>
+                                <Loading/>
+                                <Loading/>
+                            </div>
+                        )
+
+                    }
+                </div>
+            </div>
+
+        );
+    }
+}
+
+ListComment.propTypes = {
+    store: PropTypes.object.isRequired,
+};
+
+export default translate(props => props.namespaces)(ListComment);

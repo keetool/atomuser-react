@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 // import Header from "./Header";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
@@ -8,7 +7,6 @@ import Posts from "./ListPost";
 import {observer} from "mobx-react";
 import store from "./store";
 import {Divider} from "antd";
-// import {message} from "antd";
 
 let cx = classNamesBind.bind(styles);
 
@@ -20,13 +18,6 @@ class Home extends React.Component {
         store.getPosts();
 
     }
-
-    // message = ()=>{
-    //     // let t = message.info(<div>21321</div>, 0);
-    //     // setTimeout(() => {
-    //     //     message.destroy();
-    //     // }, 5000);
-    // }
 
     render() {
         console.log("render index");
@@ -47,7 +38,5 @@ class Home extends React.Component {
         );
     }
 }
-
-Home.propTypes = {};
 
 export default Home;

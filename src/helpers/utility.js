@@ -145,3 +145,10 @@ export function messageSuccess(text, top = 24, duration = 2.5) {
     });
     message.success(text, duration);
 }
+
+export function messageError(text, top = 24, duration = 2.5) {
+    message.config({
+        top: top
+    });
+    message.error(text, duration);
+}

@@ -58,7 +58,7 @@ class ListPost extends React.Component {
                         (
                             posts.map((post, index) => {
                                     return (
-                                        <div>
+                                        <div key={index}>
                                             <Post post={post} key={index}/>
                                             <Divider/>
                                         </div>
