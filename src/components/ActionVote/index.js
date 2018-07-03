@@ -1,8 +1,9 @@
 import React from 'react';
 import {translateI18n} from "../../languages/i18n";
-import {Icon, Tooltip} from "antd";
+import {Icon} from "antd";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
+import Tooltip from "../common/Tooltip";
 
 let cx = classNamesBind.bind(styles);
 
@@ -16,7 +17,7 @@ const ActionVote = ({upvote, downvote, vote, actionUpVote, actionDownVote}) => {
                 <Icon
                     type="caret-up"
                     className={cx({
-                        "voted": vote === 1
+                        "voted": vote == 1
                     })}
                     onClick={actionUpVote}
                 />
@@ -29,7 +30,7 @@ const ActionVote = ({upvote, downvote, vote, actionUpVote, actionDownVote}) => {
             <Tooltip placement="top" title={translateI18n('social.home.post_item.downvote')}>
                 <Icon type="caret-down"
                       className={cx({
-                          "voted": vote === -1
+                          "voted": vote == -1
                       })}
                       onClick={actionDownVote}
                 />

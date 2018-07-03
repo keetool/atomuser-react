@@ -152,3 +152,29 @@ export function messageError(text, top = 24, duration = 2.5) {
     });
     message.error(text, duration);
 }
+
+export function getLastArr(arr) {
+    if (!isEmptyArr(arr)) {
+        return arr[arr.length - 1];
+    }
+    return null;
+}
+
+export function getFirstArr(arr) {
+    if (!isEmptyArr(arr)) {
+        return arr[0];
+    }
+    return null;
+}
+
+export function isEmptyArr(arr) {
+    if (arr && arr.length > 0) {
+        return false;
+    }
+    return true;
+}
+
+export function isMobile() {
+    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+
+}

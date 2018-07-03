@@ -1,28 +1,35 @@
-import {observable, action, computed, toJS} from "mobx";
+import {observable, action} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {downVoteApi, getPostsApi, upVoteApi} from "../../apis/postApis";
+import {getLastArr, isEmpty, isEmptyArr} from "../../helpers/utility";
+import StoreEditorComment from "../../components/EditorComment/Store";
+import StoreComment from "./Post/Comment/Store";
 
 class Store {
     @observable posts = [];
     @observable isLoading = false;
-    @observable pagination = {
-        current_page: 1,
-        last_page: 1
-    };
     @observable error = null;
+    @observable isLoadMore = true;
 
     @action
     async getPosts(callbackFinished = null) {
 
         this.isLoading = true;
         this.error = null;
+        const lastPost = getLastArr(this.posts);
+        const lastPostID = lastPost ? lastPost.id : '';
         try {
-            const res = await getPostsApi(this.pagination.current_page);
+            const res = await getPostsApi(lastPostID);
             const data = res.data;
 
             if (httpSuccess(res.status)) {
-                this.posts = [...this.posts, ...data.data];
-                this.pagination = data.meta;
+                const posts = data.data;
+                if (!isEmptyArr(posts)) {
+                    const posts = this.addDataPosts(data.data);
+                    this.posts = [...this.posts, ...posts];
+                } else {
+                    this.isLoadMore = false;
+                }
             } else {
                 this.error = messageHttpRequest();
             }
@@ -41,9 +48,9 @@ class Store {
     async upVote(post) {
         const postID = post.id;
 
-        let oldPost = toJS(post);
+        let oldPost = {...post};
 
-        if (post.vote === 1) {
+        if (post.vote == 1) {
             this.removeVotePost(postID);
         } else {
             this.addUpVotePost(postID);
@@ -69,9 +76,9 @@ class Store {
 
         const postID = post.id;
 
-        let oldPost = toJS(post);
+        let oldPost = {...post};
 
-        if (post.vote === -1) {
+        if (post.vote == -1) {
             this.removeVotePost(postID);
         } else {
             this.addDownVotePost(postID);
@@ -105,9 +112,9 @@ class Store {
 
     @action addDownVotePost = (postID) => {
         let oldPost = this.getPostById(postID);
-        if (oldPost.vote === 0) {
+        if (oldPost.vote == 0) {
             oldPost.downvote++;
-        } else if (oldPost.vote === 1) {
+        } else if (oldPost.vote == 1) {
             oldPost.upvote--;
             oldPost.downvote++;
         }
@@ -116,9 +123,9 @@ class Store {
 
     @action removeVotePost = (postID) => {
         let oldPost = this.getPostById(postID);
-        if (oldPost.vote === 1) {
+        if (oldPost.vote == 1) {
             oldPost.upvote--;
-        } else if (oldPost.vote === -1) {
+        } else if (oldPost.vote == -1) {
             oldPost.downvote--;
         }
         oldPost.vote = 0;
@@ -126,20 +133,17 @@ class Store {
 
     @action changeDataPost = (postID, newPost) => {
         let indexPost = this.getIndexPostById(postID);
-        this.posts[indexPost] = newPost;
+        console.log({newPost});
+        this.posts[indexPost] = {
+            ...this.posts[indexPost],
+            ...newPost
+        };
     };
 
     @action addPost = (post) => {
-        this.posts = [post, ...this.posts.slice(0, this.posts.length - 1)];
+        const dataPost = this.addDataPost(post);
+        this.posts = [dataPost, ...this.posts];
     };
-
-    @computed get isLoadData() {
-        return this.pagination.current_page < this.pagination.last_page;
-    }
-
-    @action incPage() {
-        this.pagination.current_page++;
-    }
 
     @action incComment(postID, amount = 1) {
         let post = this.getPostById(postID);
@@ -153,6 +157,50 @@ class Store {
     getIndexPostById = (postID) => {
         return this.posts.indexOf(this.getPostById(postID));
     };
+
+    addStoreComment(post) {
+        let store = new StoreComment({...post});
+        return {
+            ...post,
+            storeComment: store
+        };
+    }
+
+    addStoreEditorComment(post) {
+        let store = new StoreEditorComment({...post});
+        return {
+            ...post,
+            storeEditorComment: store
+        };
+    }
+
+    /**
+     * add data such as store,... before add to mobx
+     * @param post
+     * @returns {*}
+     */
+    addDataPost(post) {
+        if (isEmpty(post.storeComment)) {
+            post = this.addStoreComment(post);
+        }
+
+        if (isEmpty(post.storeEditorComment)) {
+            post = this.addStoreEditorComment(post);
+        }
+        return post;
+    }
+
+    /**
+     * add data such as store,... before add to mobx
+     * @param posts
+     * @returns {*}
+     */
+    addDataPosts(posts) {
+        return posts.map((post) => {
+            post = this.addDataPost(post);
+            return post;
+        });
+    }
 }
 
 const store = new Store();

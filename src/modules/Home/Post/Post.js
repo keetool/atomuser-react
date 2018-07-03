@@ -7,20 +7,23 @@ import Content from "./Content";
 import Footer from "./Footer";
 import Action from "./Action";
 import {observer} from "mobx-react";
-import {toJS} from "mobx";
 import store from "../store";
+
 import Comments from "./Comment/Comments";
 
 let cx = classNamesBind.bind(styles);
 
 @observer
 class Post extends React.Component {
-    state = {
-        isShowComments: false
-    };
+    constructor(props) {
+        super(props);
+    }
 
-    showComments = () => {
-        this.setState({isShowComments: true});
+    loadComments = () => {
+        const {post} = this.props;
+        const {storeComment} = post;
+        storeComment.getComments();
+        console.log("get");
     };
 
     incNumberComment = () => {
@@ -30,7 +33,6 @@ class Post extends React.Component {
 
     render() {
         const {post} = this.props;
-        const {isShowComments} = this.state;
         return (
             <div className={cx("layout-post")}>
                 <Header creator={post.creator}/>
@@ -38,14 +40,15 @@ class Post extends React.Component {
                 <Action post={post}/>
                 <Footer
                     post={post}
-                    showComments={this.showComments}
-                    isShowComments={isShowComments}
+                    loadComments={this.loadComments}
                 />
-                <Comments
-                    post={toJS(post)}
-                    incNumberComment={this.incNumberComment}
-                    isShowComments={isShowComments}
-                />
+                {
+                    <Comments
+                        incNumberComment={this.incNumberComment}
+                        storeComment={post.storeComment}
+                        storeEditorComment={post.storeEditorComment}
+                    />
+                }
             </div>
         );
     }

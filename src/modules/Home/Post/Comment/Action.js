@@ -29,9 +29,9 @@ class Action extends React.Component {
             <div className={cx("layout-action")}>
                 <div className={cx("action-left")}>
                     <ActionVote
-                        upvote={0}
-                        downvote={0}
-                        vote={0}
+                        upvote={comment.upvote}
+                        downvote={comment.downvote}
+                        vote={comment.vote}
                         actionUpVote={this.handleUpVote}
                         actionDownVote={this.handleDownVote}
                     />

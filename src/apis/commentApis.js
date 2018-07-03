@@ -3,18 +3,28 @@ import {MERCHANT_API_URL} from "../constants/env";
 
 export function addCommentApi(postID, data = {}) {
     let url = MERCHANT_API_URL + `v1/post/${postID}/comment`;
-    console.log(data);
     return axios.post(url, {
         value: data.value
     });
 }
 
-export function getCommentsApi(postID, page) {
-    let url = MERCHANT_API_URL + `v1/post/${postID}/comment`;
+export function getCommentsApi(postID, commentID = '') {
+    let url = MERCHANT_API_URL + `v1/post/${postID}/load-comment`;
     return axios.get(url, {
             params: {
-                page: page
+                comment_id: commentID,
+                limit: 10
             }
         }
     );
+}
+
+export function upVoteApi(postID) {
+    let url = MERCHANT_API_URL + `v1/comment/${postID}/vote/up`;
+    return axios.post(url);
+}
+
+export function downVoteApi(postID) {
+    let url = MERCHANT_API_URL + `v1/comment/${postID}/vote/down`;
+    return axios.post(url);
 }

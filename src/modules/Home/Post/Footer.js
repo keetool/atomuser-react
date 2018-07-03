@@ -5,19 +5,20 @@ import classNamesBind from "classnames/bind";
 import {relativeTime} from "../../../helpers/time";
 import {translate} from "react-i18next";
 import {observer} from "mobx-react";
+import {isEmptyArr} from "../../../helpers/utility";
 
 let cx = classNamesBind.bind(styles);
 
 @observer
 class Footer extends React.Component {
     render() {
-        const {post, t, showComments, isShowComments} = this.props;
+        const {post, t, loadComments} = this.props;
         return (
             <div className={cx("footer")}>
                 <div className={cx("text-time")}>{relativeTime(post.created_at)}</div>
                 {
-                    !isShowComments &&
-                    <div className={cx("text-comment")} onClick={showComments}>
+                    isEmptyArr(post.storeComment.comments) &&
+                    <div className={cx("text-comment")} onClick={loadComments}>
                         {t('social.home.post_item.view_all_comment')}
                     </div>
                 }
@@ -28,8 +29,7 @@ class Footer extends React.Component {
 
 Footer.propTypes = {
     post: PropTypes.object.isRequired,
-    isShowComments: PropTypes.bool,
-    showComments: PropTypes.func,
+    loadComments: PropTypes.func,
 };
 
 export default translate(props => props.namespaces)(Footer);

@@ -1,7 +1,7 @@
 import {capitalizeFirstLetter} from "./utility";
 import moment from "moment";
 
-export function formatTime(time, format = "LLLL") {
+export function formatTime(time, format = "llll") {
     return capitalizeFirstLetter(convertTime(time).format(format));
 }
 

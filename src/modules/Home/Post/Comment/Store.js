@@ -1,16 +1,14 @@
-import {observable, action, computed} from "mobx";
-import {getCommentsApi} from "../../../../apis/commentApis";
+import {observable, action} from "mobx";
+import {getCommentsApi, downVoteApi, upVoteApi} from "../../../../apis/commentApis";
 import {httpSuccess, messageHttpRequest} from "../../../../helpers/httpRequest";
+import {getFirstArr, isEmptyArr} from "../../../../helpers/utility";
 
 class Store {
     post = null;
     @observable comments = [];
     @observable isLoading = false;
-    @observable pagination = {
-        current_page: 1,
-        last_page: 1
-    };
     @observable error = null;
+    @observable isLoadMore = true;
 
     constructor(post) {
         this.post = post;
@@ -24,11 +22,17 @@ class Store {
         this.error = null;
 
         try {
-            const res = await getCommentsApi(postID, this.pagination.current_page);
+            const lastComment = getFirstArr(this.comments);
+            const lastCommentID = lastComment ? lastComment.id : '';
+            const res = await getCommentsApi(postID, lastCommentID);
             const data = res.data;
             if (httpSuccess(res.status)) {
-                this.comments = [...data.data, ...this.comments];
-                this.pagination = data.meta;
+                const comments = data.data;
+                if (!isEmptyArr(comments)) {
+                    this.comments = [...comments.reverse(), ...this.comments];
+                } else {
+                    this.isLoadMore = false;
+                }
             } else {
                 this.error = messageHttpRequest();
             }
@@ -39,20 +43,113 @@ class Store {
         }
     }
 
+    @action
+    async upVote(comment) {
+        const commentID = comment.id;
+
+        let oldComment = {...comment};
+
+        if (comment.vote == 1) {
+            this.removeVoteComment(commentID);
+        } else {
+            this.addUpVoteComment(commentID);
+        }
+
+        try {
+            const res = await upVoteApi(commentID);
+            const data = res.data;
+
+            if (httpSuccess(res.status)) {
+                this.changeDataComment(commentID, data.data);
+            } else {
+                this.changeDataComment(commentID, oldComment);
+            }
+        } catch (error) {
+            console.log(error);
+            this.changeDataComment(commentID, oldComment);
+        }
+    }
+
+    @action
+    async downVote(comment) {
+
+        const commentID = comment.id;
+
+        let oldComment = {...comment};
+
+        if (comment.vote == -1) {
+            this.removeVoteComment(commentID);
+        } else {
+            this.addDownVoteComment(commentID);
+        }
+
+        try {
+            const res = await downVoteApi(commentID);
+            const data = res.data;
+
+            if (httpSuccess(res.status)) {
+                this.changeDataComment(commentID, data.data);
+            } else {
+                this.changeDataComment(commentID, oldComment);
+            }
+        } catch (error) {
+            console.log(error);
+            this.changeDataComment(commentID, oldComment);
+        }
+    }
+
+    @action addUpVoteComment = (commentID) => {
+        let oldComment = this.getCommentById(commentID);
+        if (oldComment.vote === 0) {
+            oldComment.upvote++;
+        } else if (oldComment.vote === -1) {
+            oldComment.upvote++;
+            oldComment.downvote--;
+        }
+        oldComment.vote = 1;
+    };
+
+    @action addDownVoteComment = (commentID) => {
+        let oldComment = this.getCommentById(commentID);
+        if (oldComment.vote == 0) {
+            oldComment.downvote++;
+        } else if (oldComment.vote == 1) {
+            oldComment.upvote--;
+            oldComment.downvote++;
+        }
+        oldComment.vote = -1;
+    };
+
+    @action removeVoteComment = (commentID) => {
+        let oldComment = this.getCommentById(commentID);
+        if (oldComment.vote == 1) {
+            oldComment.upvote--;
+        } else if (oldComment.vote == -1) {
+            oldComment.downvote--;
+        }
+        oldComment.vote = 0;
+    };
+
+    @action changeDataComment = (commentID, newComment) => {
+        let indexComment = this.getIndexCommentById(commentID);
+        console.log({newComment});
+        this.comments[indexComment] = {
+            ...this.comments[indexComment],
+            ...newComment
+        };
+    };
+
     @action addComment = (comment) => {
-        this.pagination.total++;
-        this.comments.shift();
         this.comments = [...this.comments, comment];
     };
 
-    @action incPage() {
-        this.pagination.current_page++;
-    }
+    getCommentById = (commentID) => {
+        return this.comments.filter((comment) => commentID === comment.id)[0];
+    };
 
-    @computed
-    get isLoadMore() {
-        return this.pagination.current_page < this.pagination.last_page;
-    }
+    getIndexCommentById = (commentID) => {
+        return this.comments.indexOf(this.getCommentById(commentID));
+    };
 }
 
 

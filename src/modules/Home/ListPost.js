@@ -17,6 +17,7 @@ class ListPost extends React.Component {
     }
 
     addEventScroll = () => {
+        console.log("add");
         document.addEventListener('scroll', this.trackScrolling);
     };
 
@@ -25,9 +26,8 @@ class ListPost extends React.Component {
     };
 
     getPosts = () => {
-        if (store.isLoadData) {
-            store.incPage();
-            store.getPosts(this.getPostFinished());
+        if (store.isLoadMore) {
+            store.getPosts(this.getPostFinished);
         }
     };
 
@@ -36,6 +36,7 @@ class ListPost extends React.Component {
         if (this.isBottom(wrappedElement)) {
             this.getPosts();
             document.removeEventListener('scroll', this.trackScrolling);
+
         }
     };
 

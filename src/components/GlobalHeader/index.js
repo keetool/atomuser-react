@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
     Icon,
-    Layout, Tooltip,
+    Layout,
 } from "antd";
 import styles from "./styles.less";
 import classNamesBind from "classnames/bind";
@@ -12,6 +12,7 @@ import Logo from "../static/Logo";
 import LogoText from "../static/LogoText";
 import {signout} from "../../helpers/auth";
 import {translate} from "react-i18next";
+import Tooltip from "../common/Tooltip";
 // import classNames from 'classnames';
 
 let cx = classNamesBind.bind(styles);

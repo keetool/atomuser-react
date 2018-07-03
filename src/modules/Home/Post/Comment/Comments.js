@@ -1,26 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from "mobx-react";
-import Store from "./Store";
 import EditorComment from "../../../../components/EditorComment";
 import ListComment from "./ListComment";
 
 @observer
 class Comments extends React.Component {
-
-    store = new Store(this.props.post);
-
     addComment = (comment) => {
-        this.store.addComment(comment);
+        const {storeComment} = this.props;
+        storeComment.addComment(comment);
         this.props.incNumberComment();
     };
 
     render() {
-        const {post, isShowComments} = this.props;
+        const {storeComment, storeEditorComment} = this.props;
         return (
             <div>
-                {isShowComments && <ListComment store={this.store}/>}
-                <EditorComment style={{marginTop: '10px'}} post={post} addComment={this.addComment}/>
+                <ListComment store={storeComment}/>
+                <EditorComment
+                    style={{marginTop: '10px'}}
+                    store={storeEditorComment}
+                    addComment={this.addComment}
+                />
             </div>
 
         );
@@ -28,8 +29,8 @@ class Comments extends React.Component {
 }
 
 Comments.propTypes = {
-    post: PropTypes.object.isRequired,
-    isShowComments: PropTypes.bool,
+    storeComment: PropTypes.object.isRequired,
+    storeEditorComment: PropTypes.object.isRequired,
 };
 
 export default Comments;

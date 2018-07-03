@@ -7,7 +7,6 @@ import Avatar from "../Avatar";
 import {LOGO} from "../../constants";
 import {translate} from "react-i18next";
 import {Alert, Icon, Spin} from "antd";
-import Store from './Store';
 import {observer} from "mobx-react";
 
 let cx = classNamesBind.bind(styles);
@@ -16,14 +15,15 @@ const IconUpLoading = <Icon type="loading" style={{fontSize: 24}} spin/>;
 
 @observer
 class EditorComment extends React.Component {
-    store = new Store(this.props.post);
 
     _onFocus = () => {
-        this.store.setFocusEditor(true);
+        const {store} = this.props;
+        store.setFocusEditor(true);
     };
 
     _onBlur = () => {
-        this.store.setFocusEditor(false);
+        const {store} = this.props;
+        store.setFocusEditor(false);
     };
 
     //empty editor when current content has <br>
@@ -40,8 +40,9 @@ class EditorComment extends React.Component {
     };
 
     onKeyPress = (e) => {
+        const {store} = this.props;
         if (e.which === 13 && !e.shiftKey) {
-            this.store.addComment(
+            store.addComment(
                 {
                     value: this._ref.innerHTML
                 }
@@ -63,8 +64,8 @@ class EditorComment extends React.Component {
 
 
     render() {
-        const {account, t, style} = this.props;
-        const {isFocus, isUploading} = this.store;
+        const {account, t, style, store} = this.props;
+        const {isFocus, isUploading} = store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
         return (
             <div
@@ -113,7 +114,7 @@ class EditorComment extends React.Component {
 
 EditorComment.propTypes = {
     addComment: PropTypes.func,
-    post: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
     style: PropTypes.object
 };
 

@@ -6,20 +6,14 @@ import {observer} from "mobx-react";
 import Comment from "./Comment";
 import Loading from "./Loading";
 import {translate} from "react-i18next";
+import {isEmptyArr} from "../../../../helpers/utility";
 
 let cx = classNamesBind.bind(styles);
 
 @observer
 class ListComment extends React.Component {
-
-
-    componentDidMount() {
-        this.props.store.getComments();
-    }
-
     loadMore = () => {
         if (this.props.store.isLoadMore) {
-            this.props.store.incPage();
             this.props.store.getComments();
         }
     };
@@ -31,7 +25,7 @@ class ListComment extends React.Component {
             <div>
                 <div className={cx("container-comment")}>
                     {
-                        isLoadMore &&
+                        isLoadMore && !isEmptyArr(comments) &&
                         <div className={cx("text-load-more")}
                              onClick={this.loadMore}
                         >{t("social.home.post.comment_load_more")}</div>
@@ -39,7 +33,7 @@ class ListComment extends React.Component {
 
                     {isLoading && <Loading/>}
 
-                    {comments && comments.length > 0 ?
+                    {!isEmptyArr(comments) ?
                         comments.map((comment, index) => {
                             return (
                                 <Comment comment={comment} key={index} store={this.props.store}/>
