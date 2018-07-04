@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import Header from "./Header";
-import Content from "./Content";
+import Content from "./content/Content";
 import Footer from "./Footer";
 import Action from "./Action";
 import {observer} from "mobx-react";

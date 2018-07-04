@@ -133,7 +133,6 @@ class Store {
 
     @action changeDataPost = (postID, newPost) => {
         let indexPost = this.getIndexPostById(postID);
-        console.log({newPost});
         this.posts[indexPost] = {
             ...this.posts[indexPost],
             ...newPost

@@ -12,7 +12,6 @@ class Comments extends React.Component {
     componentDidMount() {
         const {post} = this.props;
         const channel = `${post.merchant.sub_domain}:${CREATE_COMMENT}`;
-        console.log(channel);
         socket.on(channel, (data) => {
             const {comment} = data;
             if (comment.post_id == post.id) {

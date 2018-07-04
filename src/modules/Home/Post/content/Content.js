@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.less';
+import styles from '../styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
+import Image from "./Image";
 
 let cx = classNamesBind.bind(styles);
 
@@ -14,6 +15,7 @@ class Content extends React.Component {
             "content": true
         })}>
             <div dangerouslySetInnerHTML={{__html: post.body}}/>
+            <Image images={post.images}/>
         </div>);
     }
 }

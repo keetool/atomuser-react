@@ -185,3 +185,13 @@ export function isExistArray(array, item, key) {
 
     return false;
 }
+
+export function convertUrlImageBackground(url) {
+    return `url(${url}) center center / cover`;
+}
+
+export function clearArray(arr) {
+    while (arr.length) {
+        arr.pop();
+    }
+}

@@ -17,7 +17,6 @@ class ListPost extends React.Component {
     }
 
     addEventScroll = () => {
-        console.log("add");
         document.addEventListener('scroll', this.trackScrolling);
     };
 

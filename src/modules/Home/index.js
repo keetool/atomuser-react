@@ -20,7 +20,6 @@ class Home extends React.Component {
     }
 
     render() {
-        console.log("render index");
         const {posts, isLoading} = store;
         return (
             <div>

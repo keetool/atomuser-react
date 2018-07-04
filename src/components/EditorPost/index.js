@@ -9,6 +9,9 @@ import {translate} from "react-i18next";
 import {Alert, Button, Progress} from "antd";
 import Store from './Store';
 import {observer} from "mobx-react";
+import Action from "./Action";
+import LayoutImage from "./upload/LayoutImage";
+import {isEmptyArr} from "../../helpers/utility";
 
 let cx = classNamesBind.bind(styles);
 
@@ -43,24 +46,39 @@ class EditorPost extends React.Component {
         );
     };
 
+    clearData = () => {
+        this._ref.innerHTML = '';
+        this.store.reset();
+    };
+
     uploadPostSuccess = (data) => {
         this.props.addPost(data);
-        this._ref.innerHTML = '';
+        this.clearData();
         this._onBlur();
     };
 
     submitPost = () => {
         this.store.addPost({
-            title: "title",
-            body: this._ref.innerHTML
-        }, this.uploadPostSuccess);
+                body: this._ref.innerHTML,
+                image_ids: this.store.getIdImages()
+            },
+            this.uploadPostSuccess
+        );
+    };
+
+    onSelectImageToUpload = (files) => {
+        let images = Array.from(files);
+        images = images.map((image) => {
+                return {file: image};
+            }
+        );
+        this.store.addImages(images);
     };
 
     render() {
         const {account, t} = this.props;
-        const {isFocus, percentUpload, error, isUploading} = this.store;
+        const {isFocus, percentUpload, error, isUploading, images} = this.store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
-        console.log("Render editor");
         return (
             <div
                 className={cx({
@@ -90,6 +108,15 @@ class EditorPost extends React.Component {
                     >
                     </div>
                 </div>
+
+                {
+                    !isEmptyArr(images) &&
+                    <LayoutImage images={images} store={this.store}/>
+                }
+
+                <div className={cx("divider", "horizontal")}/>
+                <Action onSelectImageToUpload={this.onSelectImageToUpload}/>
+
                 {error && this.renderMessageError(error)}
 
                 {

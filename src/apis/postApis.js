@@ -4,7 +4,8 @@ import {MERCHANT_API_URL} from "../constants/env";
 export function addPostApi(data = {}) {
     let url = MERCHANT_API_URL + `v1/post`;
     return axios.post(url, {
-        body: data.body
+        body: data.body,
+        image_ids: data.image_ids
     });
 }
 

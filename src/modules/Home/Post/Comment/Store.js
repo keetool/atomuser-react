@@ -154,9 +154,6 @@ class Store {
 
     @computed
     get isLoadMore() {
-        console.log({length: this.comments.length});
-        console.log({number: this.post.num_comments});
-
         return this.comments.length < this.post.num_comments;
     }
 }

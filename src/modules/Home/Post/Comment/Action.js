@@ -24,7 +24,7 @@ class Action extends React.Component {
     };
 
     render() {
-        const {comment, t} = this.props;
+        const {comment} = this.props;
         return (
             <div className={cx("layout-action")}>
                 <div className={cx("action-left")}>
@@ -35,8 +35,8 @@ class Action extends React.Component {
                         actionUpVote={this.handleUpVote}
                         actionDownVote={this.handleDownVote}
                     />
-                    <div className={cx("divider", "vertical")}/>
-                    <div className={cx("action-reply")}>{t('social.home.comment_item.reply')}</div>
+                    {/*<div className={cx("divider", "vertical")}/>*/}
+                    {/*<div className={cx("action-reply")}>{t('social.home.comment_item.reply')}</div>*/}
                 </div>
                 <div className={cx("action-right")}>
                     <div className={cx("text-time")}>{fullRelativeTime(comment.created_at)}</div>

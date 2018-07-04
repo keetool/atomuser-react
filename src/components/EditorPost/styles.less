@@ -8,6 +8,8 @@
   .container {
     display: flex;
     flex-direction: row;
+    margin-bottom: 10px;
+
     .editor {
       margin-left: 10px;
       padding-top: 10px;
@@ -31,5 +33,82 @@
   }
   .container-action {
     margin-top: 20px;
+  }
+}
+
+.layout-action {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  .action-photo {
+    * {
+      cursor: pointer !important;
+    }
+  }
+  > * {
+    margin-right: 10px;
+  }
+}
+
+.divider {
+  background-color: @atomuser-divider-color;
+  margin-right: @margin-icon-action-post;
+  &.horizontal {
+    height: 1px;
+    width: 100%;
+  }
+}
+
+.layout-image {
+  width: 100%;
+  overflow: hidden;
+  .scrollable {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    > * {
+      margin-right: 5px;
+      display: inline-block;
+    }
+  }
+
+  margin-bottom: 10px;
+
+}
+
+.container-image {
+  height: 80px;
+  width: 80px;
+  border-radius: 8px;
+  background-color: @atomuser-background-color-image;
+  position: relative;
+  > .image {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: @atomuser-background-color-image center center / cover;
+  }
+  > .background-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #009efb;
+  }
+  > .loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.6;
+    > * {
+
+    }
   }
 }
