@@ -29,18 +29,22 @@ class Store {
             const res = await addPostApi(post);
             const data = res.data;
             if (httpSuccess(res.status)) {
-                messageSuccess(translateI18n('social.home.post.upload_success'), DISTANCE_TOP_MESSAGE_HOME);
-                if (callback) {
-                    callback(data.data);
-                }
+                setTimeout(() => {
+                    this.isUploading = false;
+                    messageSuccess(translateI18n('social.home.post.upload_success'), DISTANCE_TOP_MESSAGE_HOME);
+                    if (callback) {
+                        callback(data.data);
+                    }
+                }, 400);
             } else {
                 this.error = messageHttpRequest();
+                this.isUploading = false;
             }
         } catch (error) {
             this.error = messageHttpRequest(error);
+            this.isUploading = false;
         } finally {
             progress.done();
-            this.isUploading = false;
         }
     }
 

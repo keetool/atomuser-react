@@ -33,4 +33,3 @@ export const API_URL = PROTOCOL_DOMAIN + 'api/';                        // https
 export const MERCHANT_API_URL = PROTOCOL_DOMAIN_FULL + 'client-api/';   // https://test.atomuser.com/client-api/
 export const SOCKET_HOST = 'https://atomuser.com';                      // https://atomuser.com/
 export const SOCKET_PORT = '9000';                                      // 9000
-export const SOCKET_ = '9000';                                      // 9000

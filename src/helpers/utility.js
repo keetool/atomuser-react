@@ -176,5 +176,12 @@ export function isEmptyArr(arr) {
 
 export function isMobile() {
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+}
 
+export function isExistArray(array, item, key) {
+    if (!isEmptyArr(array) && !isEmpty(item) && !isEmpty(key)) {
+        return array.filter((dataItem) => dataItem[key] == item[key]).length > 0;
+    }
+
+    return false;
 }

@@ -44,6 +44,7 @@ class Post extends React.Component {
                 />
                 {
                     <Comments
+                        post={post}
                         incNumberComment={this.incNumberComment}
                         storeComment={post.storeComment}
                         storeEditorComment={post.storeEditorComment}

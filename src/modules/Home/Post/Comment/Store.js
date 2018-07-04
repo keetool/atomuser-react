@@ -1,21 +1,20 @@
-import {observable, action} from "mobx";
+import {observable, action, computed} from "mobx";
 import {getCommentsApi, downVoteApi, upVoteApi} from "../../../../apis/commentApis";
 import {httpSuccess, messageHttpRequest} from "../../../../helpers/httpRequest";
-import {getFirstArr, isEmptyArr} from "../../../../helpers/utility";
+import {getFirstArr, isEmptyArr, isExistArray} from "../../../../helpers/utility";
 
 class Store {
     post = null;
     @observable comments = [];
     @observable isLoading = false;
     @observable error = null;
-    @observable isLoadMore = true;
 
     constructor(post) {
         this.post = post;
     }
 
     @action
-    async getComments() {
+    async getComments(limit) {
         const postID = this.post.id;
 
         this.isLoading = true;
@@ -24,14 +23,12 @@ class Store {
         try {
             const lastComment = getFirstArr(this.comments);
             const lastCommentID = lastComment ? lastComment.id : '';
-            const res = await getCommentsApi(postID, lastCommentID);
+            const res = await getCommentsApi(postID, lastCommentID, limit);
             const data = res.data;
             if (httpSuccess(res.status)) {
                 const comments = data.data;
                 if (!isEmptyArr(comments)) {
                     this.comments = [...comments.reverse(), ...this.comments];
-                } else {
-                    this.isLoadMore = false;
                 }
             } else {
                 this.error = messageHttpRequest();
@@ -150,6 +147,18 @@ class Store {
     getIndexCommentById = (commentID) => {
         return this.comments.indexOf(this.getCommentById(commentID));
     };
+
+    isExistedComment = (comment) => {
+        return isExistArray(this.comments, comment, 'id');
+    };
+
+    @computed
+    get isLoadMore() {
+        console.log({length: this.comments.length});
+        console.log({number: this.post.num_comments});
+
+        return this.comments.length < this.post.num_comments;
+    }
 }
 
 

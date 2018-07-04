@@ -8,12 +8,12 @@ export function addCommentApi(postID, data = {}) {
     });
 }
 
-export function getCommentsApi(postID, commentID = '') {
+export function getCommentsApi(postID, commentID = '', limit = '') {
     let url = MERCHANT_API_URL + `v1/post/${postID}/load-comment`;
     return axios.get(url, {
             params: {
                 comment_id: commentID,
-                limit: 10
+                limit: limit
             }
         }
     );

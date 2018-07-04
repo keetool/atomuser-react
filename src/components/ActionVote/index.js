@@ -13,7 +13,7 @@ const ActionVote = ({upvote, downvote, vote, actionUpVote, actionDownVote}) => {
         <div className={cx({
             "action-vote": true
         })}>
-            <Tooltip placement="topLeft" title={translateI18n('social.home.post_item.upvote')}>
+            <Tooltip placement="topLeft" title={`${upvote} ` + translateI18n('social.home.post_item.upvote')}>
                 <Icon
                     type="caret-up"
                     className={cx({
@@ -27,7 +27,7 @@ const ActionVote = ({upvote, downvote, vote, actionUpVote, actionDownVote}) => {
             })}>
                 {upvote - downvote}
             </div>
-            <Tooltip placement="top" title={translateI18n('social.home.post_item.downvote')}>
+            <Tooltip placement="top" title={`${downvote} ` + translateI18n('social.home.post_item.downvote')}>
                 <Icon type="caret-down"
                       className={cx({
                           "voted": vote == -1

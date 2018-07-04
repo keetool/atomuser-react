@@ -12,6 +12,11 @@ let cx = classNamesBind.bind(styles);
 
 @observer
 class ListComment extends React.Component {
+
+    componentDidMount() {
+        this.props.store.getComments(2);
+    }
+
     loadMore = () => {
         if (this.props.store.isLoadMore) {
             this.props.store.getComments();
@@ -43,7 +48,6 @@ class ListComment extends React.Component {
                         (
                             isLoading &&
                             <div>
-                                <Loading/>
                                 <Loading/>
                             </div>
                         )
