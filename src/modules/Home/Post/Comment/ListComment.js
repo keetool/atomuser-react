@@ -29,14 +29,6 @@ class ListComment extends React.Component {
         return (
             <div>
                 <div className={cx("container-comment")}>
-                    {
-                        isLoadMore && !isEmptyArr(comments) &&
-                        <div className={cx("text-load-more")}
-                             onClick={this.loadMore}
-                        >{t("social.home.post.comment_load_more")}</div>
-                    }
-
-                    {isLoading && <Loading/>}
 
                     {!isEmptyArr(comments) ?
                         comments.map((comment, index) => {
@@ -52,6 +44,15 @@ class ListComment extends React.Component {
                             </div>
                         )
 
+                    }
+
+                    {isLoading && <Loading/>}
+
+                    {
+                        isLoadMore && !isEmptyArr(comments) &&
+                        <div className={cx("text-load-more")}
+                             onClick={this.loadMore}
+                        >{t("social.home.post.comment_load_more")}</div>
                     }
                 </div>
             </div>

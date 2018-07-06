@@ -11,12 +11,14 @@ let cx = classNamesBind.bind(styles);
 class Content extends React.Component {
     render() {
         const {post} = this.props;
-        return (<div className={cx({
-            "content": true
-        })}>
-            <div dangerouslySetInnerHTML={{__html: post.body}}/>
-            <Image images={post.images}/>
-        </div>);
+        return (
+            <div className={cx({
+                "content": true
+            })}>
+                <div dangerouslySetInnerHTML={{__html: post.body}} className={cx("content-body")}/>
+                <Image images={post.images}/>
+            </div>
+        );
     }
 }
 

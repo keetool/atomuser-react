@@ -11,7 +11,7 @@ import Store from './Store';
 import {observer} from "mobx-react";
 import Action from "./Action";
 import LayoutImage from "./upload/LayoutImage";
-import {isEmptyArr} from "../../helpers/utility";
+import {isEmptyArr, messageWarning} from "../../helpers/utility";
 
 let cx = classNamesBind.bind(styles);
 
@@ -60,14 +60,19 @@ class EditorPost extends React.Component {
     submitPost = () => {
         this.store.addPost({
                 body: this._ref.innerHTML,
-                image_ids: this.store.getIdImages()
+                image_ids: JSON.stringify(this.store.getIdImages())
             },
             this.uploadPostSuccess
         );
     };
 
     onSelectImageToUpload = (files) => {
+        const {t} = this.props;
         let images = Array.from(files);
+        if (images.length > 10) {
+            messageWarning(t('social.editor.noti.limit_file_upload'));
+            images = images.slice(0, 10);
+        }
         images = images.map((image) => {
                 return {file: image};
             }

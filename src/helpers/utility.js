@@ -153,6 +153,13 @@ export function messageError(text, top = 24, duration = 2.5) {
     message.error(text, duration);
 }
 
+export function messageWarning(text, top = 24, duration = 2.5) {
+    message.config({
+        top: top
+    });
+    message.warning(text, duration);
+}
+
 export function getLastArr(arr) {
     if (!isEmptyArr(arr)) {
         return arr[arr.length - 1];

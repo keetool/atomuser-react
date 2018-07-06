@@ -32,12 +32,12 @@ class Comments extends React.Component {
         const {storeComment, storeEditorComment} = this.props;
         return (
             <div>
-                <ListComment store={storeComment}/>
                 <EditorComment
                     style={{marginTop: '10px'}}
                     store={storeEditorComment}
                     addComment={this.addComment}
                 />
+                <ListComment store={storeComment}/>
             </div>
 
         );

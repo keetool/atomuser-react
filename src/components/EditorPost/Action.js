@@ -22,13 +22,14 @@ class Action extends React.Component {
         return (
             <div className={cx('layout-action')}>
                 <div className={cx('action-photo')}>
-                    <Button icon="picture">
-                        {t('social.editor.action.photo')}
-                        <InputFile type={".jpg,.png,.gif"} multiple onChange={this.onSelectImage}/>
-                    </Button>
+                    <InputFile type={".jpg,.png,.gif"} multiple onChange={this.onSelectImage}>
+                        <Button icon="upload">
+                            {t('social.editor.action.photo')}
+                        </Button>
+                    </InputFile>
                 </div>
                 <div className={cx('action-file')}>
-                    <Button icon="paper-clip">{t('social.editor.action.file')}</Button>
+                        <Button icon="paper-clip">{t('social.editor.action.file')}</Button>
                 </div>
             </div>
         );

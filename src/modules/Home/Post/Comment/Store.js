@@ -1,7 +1,7 @@
 import {observable, action, computed} from "mobx";
 import {getCommentsApi, downVoteApi, upVoteApi} from "../../../../apis/commentApis";
 import {httpSuccess, messageHttpRequest} from "../../../../helpers/httpRequest";
-import {getFirstArr, isEmptyArr, isExistArray} from "../../../../helpers/utility";
+import {getLastArr, isEmptyArr, isExistArray} from "../../../../helpers/utility";
 
 class Store {
     post = null;
@@ -21,14 +21,14 @@ class Store {
         this.error = null;
 
         try {
-            const lastComment = getFirstArr(this.comments);
+            const lastComment = getLastArr(this.comments);
             const lastCommentID = lastComment ? lastComment.id : '';
             const res = await getCommentsApi(postID, lastCommentID, limit);
             const data = res.data;
             if (httpSuccess(res.status)) {
                 const comments = data.data;
                 if (!isEmptyArr(comments)) {
-                    this.comments = [...comments.reverse(), ...this.comments];
+                    this.comments = [...this.comments, ...comments];
                 }
             } else {
                 this.error = messageHttpRequest();
@@ -137,7 +137,7 @@ class Store {
     };
 
     @action addComment = (comment) => {
-        this.comments = [...this.comments, comment];
+        this.comments = [comment, ...this.comments];
     };
 
     getCommentById = (commentID) => {

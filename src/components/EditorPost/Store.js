@@ -2,7 +2,7 @@ import {observable, action} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {addPostApi} from "../../apis/postApis";
 import progress from "../../helpers/progress";
-import {messageSuccess} from "../../helpers/utility";
+import {messageSuccess, messageWarning} from "../../helpers/utility";
 import {translateI18n} from "../../languages/i18n";
 import {DISTANCE_TOP_MESSAGE_HOME} from "../../constants";
 import {uploadImageApi} from "../../apis/imageApis";
@@ -56,19 +56,30 @@ class Store {
 
 
     @action uploadImage(image) {
+
         const oldImage = {...image};
+
         this.changeDataImages(oldImage, {isUploading: true});
+
         const error = () => {
+
             this.changeDataImages(image, {isUploading: false});
+
+            const imageName = image.file ? image.file.name : '';
+
+            messageWarning(translateI18n('social.editor.noti.upload_image_error', {image_name: imageName}), DISTANCE_TOP_MESSAGE_HOME);
+
+            this.removeImage(image);
+
         };
+
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
-            console.log(data.data);
             this.changeDataImages(oldImage, {isUploading: false, ...data.data});
         };
+
         const progressHandler = (event) => {
             const percentComplete = Math.round((100 * event.loaded) / event.total);
-            console.log(percentComplete);
             this.changeDataImages(image, {percentComplete});
         };
 
@@ -100,6 +111,12 @@ class Store {
     getIdImages = () => {
         return this.images.map((image) => image.id);
     };
+
+    @action removeImage(image) {
+        console.log(this.getIndexImagesByFile(image.file));
+        this.images.splice(this.getIndexImagesByFile(image.file), 1);
+
+    }
 
     @action reset() {
         this.percentUpload = 0;

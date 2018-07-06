@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import Header from "./Header";
-import Content from "./content/Content";
+import Content from "./Post/Content";
 import Footer from "./Footer";
 import Action from "./Action";
 import {observer} from "mobx-react";
@@ -35,21 +35,24 @@ class Post extends React.Component {
         const {post} = this.props;
         return (
             <div className={cx("layout-post")}>
-                <Header creator={post.creator}/>
+                <Header post={post}/>
                 <Content post={post}/>
                 <Action post={post}/>
+                {
+                    <div className={cx("layout-comment")}>
+                        <Comments
+                            post={post}
+                            incNumberComment={this.incNumberComment}
+                            storeComment={post.storeComment}
+                            storeEditorComment={post.storeEditorComment}
+                        />
+                    </div>
+                }
                 <Footer
                     post={post}
                     loadComments={this.loadComments}
                 />
-                {
-                    <Comments
-                        post={post}
-                        incNumberComment={this.incNumberComment}
-                        storeComment={post.storeComment}
-                        storeEditorComment={post.storeEditorComment}
-                    />
-                }
+
             </div>
         );
     }

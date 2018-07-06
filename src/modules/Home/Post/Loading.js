@@ -22,12 +22,16 @@ const Loading = () => {
                          style={{width: '100%'}}
                     >
                         <RoundShape color='#E0E0E0' style={{width: 30, height: 30}}/>
-                        <div
-                            className={cx({
-                                "name": true
-                            })}
-                        >
-                            <TextBlock rows={1} color='#E0E0E0'/>
+                        <div className={cx({
+                            "creator-content": true
+                        })}>
+                            <div
+                                className={cx({
+                                    "name": true
+                                })}
+                            >
+                                <TextBlock rows={1} color='#E0E0E0'/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -36,7 +40,9 @@ const Loading = () => {
                 })}
                      style={{paddingBottom: '100px'}}
                 >
-                    <TextBlock rows={3} color='#E0E0E0'/>
+                    <div className={cx("content-body")}>
+                        <TextBlock rows={3} color='#E0E0E0'/>
+                    </div>
                 </div>
 
             </div>

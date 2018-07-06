@@ -1,7 +1,6 @@
 @import "../../../styles/variables";
 
 .layout-post {
-  padding: 0 @atomuser-padding-content-horizontal;
 }
 
 .header {
@@ -9,15 +8,29 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 0 @atomuser-padding-content-horizontal;
   .creator {
     display: flex;
     flex-direction: row;
     align-items: center;
     cursor: pointer;
-    .name {
+    .creator-content {
       margin-left: 10px;
-      font-weight: bold;
+      display: flex;
+      flex-direction: column;
       flex: 1;
+      .name {
+        font-weight: bold;
+        flex: 1;
+      }
+      .text-time {
+        color: @atomuser-grey-color;
+        &:hover {
+          text-decoration: underline;
+        }
+        cursor: pointer;
+
+      }
     }
   }
   .action {
@@ -32,9 +45,13 @@
 .content {
   margin-top: 5px;
   margin-bottom: 15px;
+  > .content-body {
+    padding: 0 @atomuser-padding-content-horizontal;
+  }
 }
 
 .layout-action {
+  padding: 0 @atomuser-padding-content-horizontal;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -68,9 +85,20 @@
   }
 }
 
+.layout-comment {
+  padding: 0 @atomuser-padding-content-horizontal;
+}
 
-.layout-image{
+.layout-image {
   margin-top: 10px;
+  .image {
+    cursor: pointer;
+    display: flex;
+    flex: 1;
+    width: 100%;
+    height: 300px;
+    background: @atomuser-background-color-image center center / cover;
+  }
 }
 
 .divider {
@@ -92,12 +120,6 @@
       color: black;
     }
   }
-  .text-time {
-    &:hover {
-      text-decoration: underline;
-    }
-    cursor: pointer;
 
-  }
 }
 

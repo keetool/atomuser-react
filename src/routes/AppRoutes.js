@@ -20,12 +20,13 @@ const renderRoutes = (routes, parentPath = "") => {
                         />
                     );
                 } else {
+                    const Component = route.component;
                     return (
                         <Route
                             key={`key_${parentPath}${route.path}`}
                             exact={route.exact}
                             path={parentPath + route.path}
-                            component={route.component}
+                            render={({props}) => (<Component title={route.title} {...props}/>)}
                         />
                     );
                 }

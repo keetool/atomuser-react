@@ -7,6 +7,7 @@ import Posts from "./ListPost";
 import {observer} from "mobx-react";
 import store from "./store";
 import {Divider} from "antd";
+import withTitle from "../../components/HOC/withTItle";
 
 let cx = classNamesBind.bind(styles);
 
@@ -38,4 +39,4 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+export default withTitle()(Home);

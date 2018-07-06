@@ -2,25 +2,30 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 
 export default class InputFile extends Component {
+    _onClick = () => {
+        this._ref.click();
+        this._ref.value = '';
+    };
+
+
     render() {
         const {type, multiple, onChange} = this.props;
         return (
-            <input type="file"
-                   accept={type}
-                   onChange={onChange}
-                   multiple={multiple}
-                   style={{
-                       cursor: 'pointer',
-                       opacity: "0.0",
-                       position: "absolute",
-                       top: 0,
-                       left: 0,
-                       bottom: 0,
-                       right: 0,
-                       width: "100%",
-                       height: "100%"
-                   }}
-            />
+            <span ref="file" onClick={this._onClick}>
+                    <input
+                        type="file"
+                        accept={type}
+                        ref={(ref) => {
+                            this._ref = ref;
+                        }}
+                        onChange={onChange}
+                        multiple={multiple}
+                        style={{
+                            display: 'none'
+                        }}
+                    />
+                {this.props.children}
+            </span>
         );
     }
 }

@@ -95,6 +95,6 @@ const i18n = use(Backend)
 
 export default i18n;
 
-export function translateI18n(key = '') {
-    return i18n.t(key);
+export function translateI18n(key = '', data) {
+    return i18n.t(key, data);
 }
