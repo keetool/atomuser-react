@@ -4,16 +4,12 @@ import Slider from "react-slick";
 import './slick.css';
 import './slick-theme.css';
 import {Icon} from "antd";
-import styles from './styles.less';
-import classNamesBind from "classnames/bind";
-
-let cx = classNamesBind.bind(styles);
 
 const NextArrow = (props) => {
     const {onClick} = props;
     return (
-        <div className={cx("container-next")} onClick={onClick}>
-            <div className={cx("next")}>
+        <div className={"container-next"} >
+            <div className={"next"} onClick={onClick}>
                 <Icon type="right" style={{fontSize: '40px'}}/>
             </div>
         </div>
@@ -23,8 +19,8 @@ const NextArrow = (props) => {
 const PrevArrow = (props) => {
     const {onClick} = props;
     return (
-        <div className={cx("container-prev")} onClick={onClick}>
-            <div className={cx("prev")}>
+        <div className={"container-prev"}>
+            <div className={"prev"}  onClick={onClick}>
                 <Icon type="left" style={{fontSize: '40px'}}/>
             </div>
         </div>

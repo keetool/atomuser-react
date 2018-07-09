@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import Header from "./Header";
-import Content from "./Post/Content";
-import Footer from "./Footer";
+import Content from "./Body/Content";
+// import Footer from "./Footer";
 import Action from "./Action";
 import {observer} from "mobx-react";
-import store from "../store";
 
 import Comments from "./Comment/Comments";
+import {linkRoute} from "../../helpers/utility";
 
 let cx = classNamesBind.bind(styles);
 
@@ -19,39 +19,33 @@ class Post extends React.Component {
         super(props);
     }
 
-    loadComments = () => {
-        const {post} = this.props;
-        const {storeComment} = post;
-        storeComment.getComments();
-        console.log("get");
-    };
-
     incNumberComment = () => {
-        const post = this.props.post;
-        store.incComment(post.id);
+        const {store} = this.props;
+        store.incComment();
     };
 
     render() {
-        const {post} = this.props;
+        const {store} = this.props;
+        const {post, storeComment, storeEditorComment} = store;
+        const linkDetailPost = linkRoute("/post/:postID", {postID: post.id});
         return (
             <div className={cx("layout-post")}>
-                <Header post={post}/>
+                <Header post={post} linkDetail={linkDetailPost}/>
                 <Content post={post}/>
-                <Action post={post}/>
+                <Action post={post} store={store}/>
                 {
                     <div className={cx("layout-comment")}>
                         <Comments
                             post={post}
                             incNumberComment={this.incNumberComment}
-                            storeComment={post.storeComment}
-                            storeEditorComment={post.storeEditorComment}
+                            storeComment={storeComment}
+                            storeEditorComment={storeEditorComment}
                         />
                     </div>
                 }
-                <Footer
-                    post={post}
-                    loadComments={this.loadComments}
-                />
+                {/*<Footer*/}
+                    {/*post={post}*/}
+                {/*/>*/}
 
             </div>
         );
@@ -59,7 +53,7 @@ class Post extends React.Component {
 }
 
 Post.propTypes = {
-    post: PropTypes.object
+    store: PropTypes.object
 };
 
 export default Post;

@@ -202,3 +202,13 @@ export function clearArray(arr) {
         arr.pop();
     }
 }
+
+export function linkRoute(rootLink, data) {
+    let link = rootLink;
+    Object.keys(data).forEach((key) => {
+        const re = new RegExp(`:${key}`, 'g');
+        link = link.replace(re, data[key]);
+    });
+
+    return link;
+}

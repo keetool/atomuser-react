@@ -1,10 +1,29 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
 import homeRoutes from "./homeRoutes";
+import {isLoggedIn, redirectSignIn} from "../helpers/auth";
+import PropTypes from "prop-types";
 
 const routes = [...homeRoutes];
 
+
+const RestrictedRoute = ({component: Component, ...rest}) => (
+    <Route
+        {...rest}
+        render={props =>
+            isLoggedIn() ? <Component {...props} title={rest.title}/> : redirectSignIn()
+        }
+    />
+);
+
+RestrictedRoute.propTypes = {
+    component: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
+        .isRequired,
+    path: PropTypes.string.isRequired
+};
+
 const renderRoutes = (routes, parentPath = "") => {
+    console.log(routes);
     return (
         <Switch>
             {routes.map(route => {
@@ -21,14 +40,25 @@ const renderRoutes = (routes, parentPath = "") => {
                     );
                 } else {
                     const Component = route.component;
-                    return (
-                        <Route
-                            key={`key_${parentPath}${route.path}`}
-                            exact={route.exact}
-                            path={parentPath + route.path}
-                            render={({props}) => (<Component title={route.title} {...props}/>)}
-                        />
-                    );
+                    if (route.needSignIn) {
+                        return (
+                            <RestrictedRoute key={`key_${parentPath}${route.path}`}
+                                             exact={route.exact}
+                                             path={parentPath + route.path}
+                                             title={route.title}
+                                             component={Component}
+                            />
+                        );
+                    } else {
+                        return (
+                            <Route
+                                key={`key_${parentPath}${route.path}`}
+                                exact={route.exact}
+                                path={parentPath + route.path}
+                                render={({props}) => (<Component title={route.title} {...props}/>)}
+                            />
+                        );
+                    }
                 }
             })}
         </Switch>
@@ -41,6 +71,7 @@ class AppRoutes extends React.Component {
     }
 
     render() {
+        console.log(renderRoutes(routes));
         return renderRoutes(routes);
     }
 }

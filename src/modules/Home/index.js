@@ -6,8 +6,7 @@ import EditorPost from "../../components/EditorPost";
 import Posts from "./ListPost";
 import {observer} from "mobx-react";
 import store from "./store";
-import {Divider} from "antd";
-import withTitle from "../../components/HOC/withTItle";
+import withTitle from "../../components/HOC/withTitle";
 
 let cx = classNamesBind.bind(styles);
 
@@ -30,11 +29,9 @@ class Home extends React.Component {
                     // "header-fixed-top": HEADER_FIXED_TOP
                 })}>
                     <EditorPost addPost={store.addPost}/>
-                    <Divider/>
                     <Posts posts={posts} isLoading={isLoading}/>
                 </div>
             </div>
-
         );
     }
 }

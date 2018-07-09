@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styles from '../styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
-import {convertUrlImageBackground, isEmptyArr} from "../../../../helpers/utility";
-import Slider from "../../../../components/common/Slider/Slider";
+import {convertUrlImageBackground, isEmptyArr} from "../../../helpers/utility";
+import Slider from "../../common/Slider/Slider";
 import {Modal} from "antd";
 
 let cx = classNamesBind.bind(styles);
@@ -61,7 +61,6 @@ class Content extends React.Component {
                     <Slider settings={settings}>
                         {
                             images.map((image, index) => {
-                                // console.log(image);
                                 return (
                                     <div key={index}>
                                         <div className={cx('image')}
@@ -75,6 +74,7 @@ class Content extends React.Component {
                         }
                     </Slider>
                     <Modal visible={isReview} footer={null} onCancel={this.handleCancel} bodyStyle={{padding: 0}}
+                           width={800}
                            cancelText={<div>1234</div>}>
                         <img style={{width: '100%'}} src={reviewImage}/>
                     </Modal>

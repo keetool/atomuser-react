@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+    Button,
     Icon,
     Layout,
 } from "antd";
@@ -10,7 +11,7 @@ import {URL_add_parameter, reload_url} from "../../helpers/utility";
 import {withAccount} from "../context/AccountContext";
 import Logo from "../static/Logo";
 import LogoText from "../static/LogoText";
-import {signout} from "../../helpers/auth";
+import {isLoggedIn, redirectSignIn, signout} from "../../helpers/auth";
 import {translate} from "react-i18next";
 import Tooltip from "../common/Tooltip";
 // import classNames from 'classnames';
@@ -33,6 +34,8 @@ class GlobalHeader extends React.Component {
     handleClickLogo = () => {
         window.open('/', '_blank');
     };
+
+    ren;
 
     render() {
         const {
@@ -63,9 +66,24 @@ class GlobalHeader extends React.Component {
                     <div className={cx({
                         "right": true,
                     })}>
-                        <Tooltip placement="bottomRight" title={t('social.tooltip.header.signout')}>
-                            <Icon type="logout" style={{fontSize: '18px'}} onClick={this.handleSignOut}/>
-                        </Tooltip>
+                        {
+                            isLoggedIn() ?
+                                (
+                                    <Tooltip placement="bottomRight" title={t('social.tooltip.header.signout')}>
+                                        <Icon type="logout" style={{fontSize: '18px'}} onClick={this.handleSignOut}/>
+                                    </Tooltip>
+                                )
+                                :
+                                (
+                                    <Button ghost onClick={() => {
+                                        redirectSignIn();
+                                    }}
+                                    >
+                                        {t('social.global.signin')}
+                                    </Button>
+                                )
+                        }
+
                     </div>
                 </div>
             </Layout.Header>

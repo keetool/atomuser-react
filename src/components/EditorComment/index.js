@@ -8,6 +8,7 @@ import {LOGO} from "../../constants";
 import {translate} from "react-i18next";
 import {Alert, Icon, Spin} from "antd";
 import {observer} from "mobx-react";
+import {isLoggedIn, redirectSignIn} from "../../helpers/auth";
 
 let cx = classNamesBind.bind(styles);
 
@@ -62,10 +63,45 @@ class EditorComment extends React.Component {
         );
     };
 
+    renderEditor = () => {
+        const {t, store} = this.props;
+        if (isLoggedIn()) {
+            const {isFocus, isUploading} = store;
+            return (
+                <div
+                    className={cx({
+                        "editor": true,
+                        "focus": isFocus,
+                        "border": isFocus || isUploading,
+                        "uploading-comment": isUploading,
+                        "disable": isUploading
+                    })}
+                    contentEditable={!isUploading}
+                    onFocus={this._onFocus}
+                    onBlur={this._onBlur}
+                    ref={(ref) => {
+                        this._ref = ref;
+                    }}
+                    placeholder={t('social.editor_comment.form.placeholder')}
+                    onKeyUp={this._checkEmpty}
+                    onKeyPress={this.onKeyPress}
+                />
+            );
+        } else {
+            return (
+                <div className={cx('signin-to-comment')} onClick={() => {
+                    redirectSignIn();
+                }}>
+                    {t('social.editor_comment.form.button_signin_to_comment')}
+                </div>
+            );
+        }
+    };
+
 
     render() {
-        const {account, t, style, store} = this.props;
-        const {isFocus, isUploading} = store;
+        const {account, style, store} = this.props;
+        const {isUploading} = store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
         return (
             <div
@@ -80,25 +116,9 @@ class EditorComment extends React.Component {
                     })}
                 >
                     <Avatar url={avatarUrl} style={{cursor: "pointer"}}/>
-                    <div
-                        className={cx({
-                            "editor": true,
-                            "focus": isFocus,
-                            "border": isFocus || isUploading,
-                            "uploading-comment": isUploading,
-                            "disable": isUploading
-                        })}
-                        contentEditable={!isUploading}
-                        onFocus={this._onFocus}
-                        onBlur={this._onBlur}
-                        ref={(ref) => {
-                            this._ref = ref;
-                        }}
-                        placeholder={t('social.editor_comment.form.placeholder')}
-                        onKeyUp={this._checkEmpty}
-                        onKeyPress={this.onKeyPress}
-                    >
-                    </div>
+                    {
+                        this.renderEditor()
+                    }
                     {
                         isUploading &&
                         <div className={cx("uploading")}>

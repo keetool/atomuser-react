@@ -23,7 +23,7 @@ class Action extends React.Component {
             <div className={cx('layout-action')}>
                 <div className={cx('action-photo')}>
                     <InputFile type={".jpg,.png,.gif"} multiple onChange={this.onSelectImage}>
-                        <Button icon="upload">
+                        <Button icon="picture">
                             {t('social.editor.action.photo')}
                         </Button>
                     </InputFile>

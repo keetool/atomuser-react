@@ -31,5 +31,6 @@ export const PROTOCOL_DOMAIN = PROTOCOL + DOMAIN;                       // https
 export const PROTOCOL_DOMAIN_FULL = PROTOCOL + DOMAIN_FULl;             // https://test.atomuser.com/
 export const API_URL = PROTOCOL_DOMAIN + 'api/';                        // https://atomuser.com/api/
 export const MERCHANT_API_URL = PROTOCOL_DOMAIN_FULL + 'client-api/';   // https://test.atomuser.com/client-api/
+export const PUBLIC_MERCHANT_API_URL = PROTOCOL_DOMAIN_FULL + 'open-api/';   // https://test.atomuser.com/open-api/
 export const SOCKET_HOST = 'https://atomuser.com';                      // https://atomuser.com/
 export const SOCKET_PORT = '9000';                                      // 9000

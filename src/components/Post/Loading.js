@@ -1,9 +1,8 @@
 import React from 'react';
 import classNamesBind from "classnames/bind";
-import loadingComponent from "../../../components/HOC/loadingComponent";
+import loadingComponent from "../HOC/loadingComponent";
 import {RoundShape, TextBlock} from "react-placeholder/lib/placeholders";
 import styles from './styles.less';
-import {Divider} from "antd";
 
 let cx = classNamesBind.bind(styles);
 
@@ -30,7 +29,7 @@ const Loading = () => {
                                     "name": true
                                 })}
                             >
-                                <TextBlock rows={1} color='#E0E0E0'/>
+                                <TextBlock rows={2} color='#E0E0E0'/>
                             </div>
                         </div>
                     </div>
@@ -38,15 +37,14 @@ const Loading = () => {
                 <div className={cx({
                     "content": true
                 })}
-                     style={{paddingBottom: '100px'}}
+                     style={{paddingBottom: '100px', marginTop: '20px'}}
                 >
                     <div className={cx("content-body")}>
-                        <TextBlock rows={3} color='#E0E0E0'/>
+                        <TextBlock rows={5} color='#E0E0E0'/>
                     </div>
                 </div>
 
             </div>
-            <Divider/>
         </div>
 
 

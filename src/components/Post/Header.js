@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Avatar from "../../../components/Avatar";
+import Avatar from "../Avatar/index";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {Icon} from "antd";
-import {relativeTime} from "../../../helpers/time";
+import {relativeTime} from "../../helpers/time";
+import {Link} from "react-router-dom";
 
 let cx = classNamesBind.bind(styles);
 
-const Header = ({post}) => {
+const Header = ({post, linkDetail}) => {
     const {creator} = post;
+
     return (
         <div className={cx({
             "header": true
@@ -28,7 +30,11 @@ const Header = ({post}) => {
                     >
                         {creator.name}
                     </div>
-                    <div className={cx("text-time")}>{relativeTime(post.created_at)}</div>
+                    <Link to={linkDetail}>
+                        <div className={cx("text-time")}>
+                            {relativeTime(post.created_at)}
+                        </div>
+                    </Link>
                 </div>
 
             </div>
@@ -47,7 +53,8 @@ const Header = ({post}) => {
 };
 
 Header.propTypes = {
-    post: PropTypes.object.isRequired
+    post: PropTypes.object.isRequired,
+    linkDetail: PropTypes.string.isRequired,
 };
 
 export default Header;

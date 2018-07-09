@@ -1,6 +1,6 @@
 import React from 'react';
 import classNamesBind from "classnames/bind";
-import loadingComponent from "../../../../components/HOC/loadingComponent";
+import loadingComponent from "../../HOC/loadingComponent";
 import {RoundShape, TextBlock} from "react-placeholder/lib/placeholders";
 import styles from './styles.less';
 

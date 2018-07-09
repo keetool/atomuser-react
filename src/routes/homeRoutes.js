@@ -6,5 +6,11 @@ export default [
         path: "/",
         exact: true,
         component: asyncComponent(() => import("../modules/Home"))
-    }
-];
+    },
+    // {
+    //     title: 'social.post.title',
+    //     path: '/post/:postID',
+    //     component: asyncComponent(() => import("../modules/Post"))
+    // }
+]
+;

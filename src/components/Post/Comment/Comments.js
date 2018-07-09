@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from "mobx-react";
-import EditorComment from "../../../../components/EditorComment";
+import EditorComment from "../../EditorComment/index";
 import ListComment from "./ListComment";
-import socket from "../../../../services/socketio";
-import {CREATE_COMMENT} from "../../../../services/socketEvent";
+import socket from "../../../services/socketio";
+import {CREATE_COMMENT} from "../../../services/socketEvent";
 
 @observer
 class Comments extends React.Component {
@@ -32,12 +32,13 @@ class Comments extends React.Component {
         const {storeComment, storeEditorComment} = this.props;
         return (
             <div>
+                <ListComment store={storeComment}/>
+
                 <EditorComment
                     style={{marginTop: '10px'}}
                     store={storeEditorComment}
                     addComment={this.addComment}
                 />
-                <ListComment store={storeComment}/>
             </div>
 
         );

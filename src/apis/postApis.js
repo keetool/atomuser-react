@@ -1,5 +1,6 @@
 import axios from "axios";
-import {MERCHANT_API_URL} from "../constants/env";
+import {MERCHANT_API_URL, PUBLIC_MERCHANT_API_URL} from "../constants/env";
+import {isLoggedIn} from "../helpers/auth";
 
 export function addPostApi(data = {}) {
     let url = MERCHANT_API_URL + `v1/post`;
@@ -10,13 +11,23 @@ export function addPostApi(data = {}) {
 }
 
 export function getPostsApi(postID) {
-    let url = MERCHANT_API_URL + `v1/load-post`;
+    let url;
+    if (isLoggedIn()) {
+        url = MERCHANT_API_URL + `v1/load-post`;
+    } else {
+        url = PUBLIC_MERCHANT_API_URL + `v1/load-post`;
+    }
     return axios.get(url, {
             params: {
                 post_id: postID
             }
         }
     );
+}
+
+export function getPostApi(postID) {
+    let url = MERCHANT_API_URL + `v1/post/${postID}`;
+    return axios.get(url);
 }
 
 export function upVoteApi(postID) {

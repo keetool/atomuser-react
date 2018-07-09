@@ -12,6 +12,7 @@ import {observer} from "mobx-react";
 import Action from "./Action";
 import LayoutImage from "./upload/LayoutImage";
 import {isEmptyArr, messageWarning} from "../../helpers/utility";
+import {isLoggedIn, redirectSignIn} from "../../helpers/auth";
 
 let cx = classNamesBind.bind(styles);
 
@@ -80,10 +81,38 @@ class EditorPost extends React.Component {
         this.store.addImages(images);
     };
 
+    renderSubmit = () => {
+        const {t} = this.props;
+        if (isLoggedIn()) {
+            return (
+                <Button
+                    type="primary"
+                    onClick={this.submitPost}
+                    style={{width: '100%'}}
+                >
+                    {t('social.editor.form.button_post')}
+                </Button>
+            );
+        } else {
+            return (
+                <Button
+                    type="primary"
+                    onClick={() => {
+                        redirectSignIn();
+                    }}
+                    style={{width: '100%'}}
+                >
+                    {t('social.editor.form.button_signin_to_post')}
+                </Button>
+            );
+        }
+    };
+
     render() {
         const {account, t} = this.props;
         const {isFocus, percentUpload, error, isUploading, images} = this.store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
+        const placeHolderEditor = isLoggedIn() ? t('social.editor.form.placeholder') : t('social.editor.form.placeholder_need_signin');
         return (
             <div
                 className={cx({
@@ -108,7 +137,7 @@ class EditorPost extends React.Component {
                         ref={(ref) => {
                             this._ref = ref;
                         }}
-                        placeholder={t('social.editor.form.placeholder')}
+                        placeholder={placeHolderEditor}
                         onKeyUp={this._checkEmpty}
                     >
                     </div>
@@ -118,9 +147,14 @@ class EditorPost extends React.Component {
                     !isEmptyArr(images) &&
                     <LayoutImage images={images} store={this.store}/>
                 }
+                {
+                    isFocus && isLoggedIn() &&
+                    <div>
+                        <div className={cx("divider", "horizontal")}/>
+                        < Action onSelectImageToUpload={this.onSelectImageToUpload}/>
+                    </div>
 
-                <div className={cx("divider", "horizontal")}/>
-                <Action onSelectImageToUpload={this.onSelectImageToUpload}/>
+                }
 
                 {error && this.renderMessageError(error)}
 
@@ -136,13 +170,7 @@ class EditorPost extends React.Component {
                                 )
                                 :
                                 (
-                                    <Button
-                                        type="primary"
-                                        onClick={this.submitPost}
-                                        style={{width: '100%'}}
-                                    >
-                                        {t('social.editor.form.button_post')}
-                                    </Button>
+                                    this.renderSubmit()
                                 )
                             }
                         </div>

@@ -1,9 +1,8 @@
 import {observable, action} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
-import {downVoteApi, getPostsApi, upVoteApi} from "../../apis/postApis";
-import {getLastArr, isEmpty, isEmptyArr} from "../../helpers/utility";
-import StoreEditorComment from "../../components/EditorComment/Store";
-import StoreComment from "./Post/Comment/Store";
+import {getPostsApi} from "../../apis/postApis";
+import {getLastArr, isEmptyArr, messageError} from "../../helpers/utility";
+import StorePost from "../../components/Post/Store";
 
 class Store {
     @observable posts = [];
@@ -25,8 +24,7 @@ class Store {
             if (httpSuccess(res.status)) {
                 const posts = data.data;
                 if (!isEmptyArr(posts)) {
-                    const posts = this.addDataPosts(data.data);
-                    this.posts = [...this.posts, ...posts];
+                    this.posts = [...this.posts, ...this.createStorePosts(posts)];
                 } else {
                     this.isLoadMore = false;
                 }
@@ -40,165 +38,25 @@ class Store {
                 callbackFinished();
             }
             this.isLoading = false;
-        }
-    }
-
-
-    @action
-    async upVote(post) {
-        const postID = post.id;
-
-        let oldPost = {...post};
-
-        if (post.vote == 1) {
-            this.removeVotePost(postID);
-        } else {
-            this.addUpVotePost(postID);
-        }
-
-        try {
-            const res = await upVoteApi(postID);
-            const data = res.data;
-
-            if (httpSuccess(res.status)) {
-                this.changeDataPost(postID, data.data);
-            } else {
-                this.changeDataPost(postID, oldPost);
+            if (!isEmptyArr(this.error)) {
+                messageError(this.error);
             }
-        } catch (error) {
-            console.log(error);
-            this.changeDataPost(postID, oldPost);
         }
     }
-
-    @action
-    async downVote(post) {
-
-        const postID = post.id;
-
-        let oldPost = {...post};
-
-        if (post.vote == -1) {
-            this.removeVotePost(postID);
-        } else {
-            this.addDownVotePost(postID);
-        }
-
-        try {
-            const res = await downVoteApi(postID);
-            const data = res.data;
-
-            if (httpSuccess(res.status)) {
-                this.changeDataPost(postID, data.data);
-            } else {
-                this.changeDataPost(postID, oldPost);
-            }
-        } catch (error) {
-            console.log(error);
-            this.changeDataPost(postID, oldPost);
-        }
-    }
-
-    @action addUpVotePost = (postID) => {
-        let oldPost = this.getPostById(postID);
-        if (oldPost.vote === 0) {
-            oldPost.upvote++;
-        } else if (oldPost.vote === -1) {
-            oldPost.upvote++;
-            oldPost.downvote--;
-        }
-        oldPost.vote = 1;
-    };
-
-    @action addDownVotePost = (postID) => {
-        let oldPost = this.getPostById(postID);
-        if (oldPost.vote == 0) {
-            oldPost.downvote++;
-        } else if (oldPost.vote == 1) {
-            oldPost.upvote--;
-            oldPost.downvote++;
-        }
-        oldPost.vote = -1;
-    };
-
-    @action removeVotePost = (postID) => {
-        let oldPost = this.getPostById(postID);
-        if (oldPost.vote == 1) {
-            oldPost.upvote--;
-        } else if (oldPost.vote == -1) {
-            oldPost.downvote--;
-        }
-        oldPost.vote = 0;
-    };
-
-    @action changeDataPost = (postID, newPost) => {
-        let indexPost = this.getIndexPostById(postID);
-        this.posts[indexPost] = {
-            ...this.posts[indexPost],
-            ...newPost
-        };
-    };
 
     @action addPost = (post) => {
-        const dataPost = this.addDataPost(post);
-        this.posts = [dataPost, ...this.posts];
+        const newPost = this.createStorePost(post);
+        this.posts = [newPost, ...this.posts];
     };
 
-    @action incComment(postID, amount = 1) {
-        let post = this.getPostById(postID);
-        post.num_comments += amount;
-    }
-
-    getPostById = (postID) => {
-        return this.posts.filter((post) => postID === post.id)[0];
-    };
-
-    getIndexPostById = (postID) => {
-        return this.posts.indexOf(this.getPostById(postID));
-    };
-
-    addStoreComment(post) {
-        let store = new StoreComment({...post});
-        return {
-            ...post,
-            storeComment: store
-        };
-    }
-
-    addStoreEditorComment(post) {
-        let store = new StoreEditorComment({...post});
-        return {
-            ...post,
-            storeEditorComment: store
-        };
-    }
-
-    /**
-     * add data such as store,... before add to mobx
-     * @param post
-     * @returns {*}
-     */
-    addDataPost(post) {
-        if (isEmpty(post.storeComment)) {
-            post = this.addStoreComment(post);
-        }
-
-        if (isEmpty(post.storeEditorComment)) {
-            post = this.addStoreEditorComment(post);
-        }
-        return post;
-    }
-
-    /**
-     * add data such as store,... before add to mobx
-     * @param posts
-     * @returns {*}
-     */
-    addDataPosts(posts) {
+    createStorePosts(posts) {
         return posts.map((post) => {
-            post = this.addDataPost(post);
-            return post;
+            return this.createStorePost(post);
         });
+    }
+
+    createStorePost(post) {
+        return new StorePost(post);
     }
 }
 

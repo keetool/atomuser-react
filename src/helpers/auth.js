@@ -102,3 +102,7 @@ export function redirectSignedOut() {
         redirectURL("/signin?merchant=" + SUBDOMAIN);
     }
 }
+
+export function redirectSignIn() {
+    redirectSignedOut();
+};

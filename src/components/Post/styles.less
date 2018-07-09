@@ -1,6 +1,11 @@
-@import "../../../styles/variables";
+@import "../../styles/variables";
 
 .layout-post {
+  background: white;
+  margin: @atomuser-margin-posts 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: solid 1px @atomuser-divider-color;
 }
 
 .header {
@@ -85,8 +90,15 @@
   }
 }
 
+.disabled {
+  cursor: not-allowed !important;
+  * {
+    cursor: not-allowed !important;
+  }
+}
+
 .layout-comment {
-  padding: 0 @atomuser-padding-content-horizontal;
+  padding: 5px @atomuser-padding-content-horizontal;
 }
 
 .layout-image {

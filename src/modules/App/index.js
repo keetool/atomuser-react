@@ -12,6 +12,7 @@ import {setHeaderToken} from "../../helpers/axios";
 import {getAccount} from "../../actions/accoutActions";
 import {AccountProvider} from "../../components/context/AccountContext";
 import GlobalTab from "../../components/GlobalTab";
+import {isLoggedIn} from "../../helpers/auth";
 
 let cx = classNamesBind.bind(styles);
 
@@ -35,8 +36,11 @@ class AppContainer extends React.Component {
     };
 
     componentDidMount() {
-        setHeaderToken();
-        getAccount(this.setData);
+
+        if (isLoggedIn()) {
+            setHeaderToken();
+            getAccount(this.setData);
+        }
 
         this.enquireHandler = enquireScreen(mobile => {
             if (mobile) {

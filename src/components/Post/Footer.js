@@ -20,7 +20,6 @@ class Footer extends React.Component {
 
 Footer.propTypes = {
     post: PropTypes.object.isRequired,
-    loadComments: PropTypes.func,
 };
 
 export default translate(props => props.namespaces)(Footer);

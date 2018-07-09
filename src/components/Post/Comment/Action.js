@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
-import ActionVote from "../../../../components/ActionVote";
-import {fullRelativeTime} from "../../../../helpers/time";
+import ActionVote from "../../ActionVote/index";
+import {fullRelativeTime} from "../../../helpers/time";
 import {translate} from "react-i18next";
 
 let cx = classNamesBind.bind(styles);
@@ -25,6 +25,7 @@ class Action extends React.Component {
 
     render() {
         const {comment} = this.props;
+        const disabled = true;
         return (
             <div className={cx("layout-action")}>
                 <div className={cx("action-left")}>
@@ -34,6 +35,7 @@ class Action extends React.Component {
                         vote={comment.vote}
                         actionUpVote={this.handleUpVote}
                         actionDownVote={this.handleDownVote}
+                        disabled={disabled}
                     />
                     {/*<div className={cx("divider", "vertical")}/>*/}
                     {/*<div className={cx("action-reply")}>{t('social.home.comment_item.reply')}</div>*/}
@@ -51,4 +53,4 @@ Action.propTypes = {
     store: PropTypes.object.isRequired,
 };
 
-export default  translate(props => props.namespaces)(Action);
+export default translate(props => props.namespaces)(Action);

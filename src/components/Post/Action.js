@@ -4,16 +4,17 @@ import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {Icon} from "antd";
 import {observer} from "mobx-react";
-import store from "../store";
-import {translateI18n} from "../../../languages/i18n";
-import ActionVote from "../../../components/ActionVote";
+import {translateI18n} from "../../languages/i18n";
+import ActionVote from "../ActionVote/index";
+import {isLoggedIn} from "../../helpers/auth";
 
 let cx = classNamesBind.bind(styles);
 
-const ActionComment = ({totalComments = 0}) => {
+const ActionComment = ({totalComments = 0, disabled}) => {
     return (
         <div className={cx({
-            "action-comment": true
+            "action-comment": true,
+            "disabled": disabled
         })}>
             <div className={cx({
                 "text-comment": true
@@ -31,18 +32,19 @@ const ActionComment = ({totalComments = 0}) => {
 class Action extends React.Component {
 
     handleUpVote = () => {
-        const {post} = this.props;
-        store.upVote(post);
+        const {store} = this.props;
+        store.upVote();
 
     };
 
     handleDownVote = () => {
-        const {post} = this.props;
-        store.downVote(post);
+        const {store} = this.props;
+        store.downVote();
     };
 
     render() {
         const {post} = this.props;
+        const disabled = !isLoggedIn();
         return (
             <div className={cx("layout-action")}>
                 <div className={cx("action-left")}>
@@ -52,13 +54,15 @@ class Action extends React.Component {
                         vote={post.vote}
                         actionUpVote={this.handleUpVote}
                         actionDownVote={this.handleDownVote}
+                        disabled={disabled}
                     />
                     <div className={cx("divider", "vertical")}/>
                     <ActionComment
                         totalComments={post.num_comments}
+                        disabled={disabled}
                     />
                 </div>
-                <div className={cx("action-right")}>
+                <div className={cx("action-right", {"disabled": disabled})}>
                     <Icon type="star" className={cx({
                         "active-mark": true
                     })}/>
@@ -70,6 +74,7 @@ class Action extends React.Component {
 
 Action.propTypes = {
     post: PropTypes.object,
+    store: PropTypes.object,
 };
 
 ActionVote.propTypes = {

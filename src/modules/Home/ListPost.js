@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Post from "./Post/Post";
-import Loading from "./Post/Loading";
+import Post from "../../components/Post/Post";
+import Loading from "../../components/Post/Loading";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
 import store from "./store";
-import {Divider} from "antd";
 
 let cx = classNamesBind.bind(styles);
 
@@ -56,11 +55,10 @@ class ListPost extends React.Component {
                 {
                     posts && posts.length > 0 ?
                         (
-                            posts.map((post, index) => {
+                            posts.map((storePost, index) => {
                                     return (
                                         <div key={index}>
-                                            <Post post={post} key={index}/>
-                                            <Divider/>
+                                            <Post store={storePost} key={index}/>
                                         </div>
 
                                     );
