@@ -12,11 +12,11 @@ import profileRoutes from "./profileRoutes";
 const routes = [...homeRoutes, ...searchRoutes, ...markRoutes, ...notificationRoutes, ...profileRoutes];
 
 
-const RestrictedRoute = ({component: Component, ...rest}) => (
+const RestrictedRoute = ({component: Component, title, ...rest}) => (
     <Route
         {...rest}
         render={props =>
-            isLoggedIn() ? <Component {...props} title={rest.title}/> : redirectSignIn()
+            isLoggedIn() ? <Component {...props} title={title}/> : redirectSignIn()
         }
     />
 );
@@ -59,7 +59,7 @@ const renderRoutes = (routes, parentPath = "") => {
                                 key={`key_${parentPath}${route.path}`}
                                 exact={route.exact}
                                 path={parentPath + route.path}
-                                render={(props) => (<Component title={route.title} {...props}/>)}
+                                render={(props) => (<Component {...props} title={route.title} />)}
                             />
                         );
                     }

@@ -5,6 +5,7 @@ import classNamesBind from "classnames/bind";
 import styles from './styles.less';
 import Store from "./Store";
 import Loading from "./Noti/Loading";
+import withTitle from "../../components/HOC/withTitle";
 
 let cx = classNamesBind.bind(styles);
 
@@ -39,4 +40,4 @@ Notification.defaultProps = {
 
 Notification.propTypes = {};
 
-export default translate(props => props.namespaces)(Notification);
+export default translate(props => props.namespaces)(withTitle()(Notification));

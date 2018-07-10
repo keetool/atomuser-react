@@ -1,6 +1,7 @@
 import React from "react";
 //import PropTypes from 'prop-types';
 import {translate} from "react-i18next";
+import withTitle from "../../components/HOC/withTitle";
 
 class Search extends React.Component {
     componentDidMount() {
@@ -14,4 +15,4 @@ class Search extends React.Component {
 
 Search.propTypes = {};
 
-export default translate(props => props.namespaces)(Search);
+export default translate(props => props.namespaces)(withTitle()(Search));

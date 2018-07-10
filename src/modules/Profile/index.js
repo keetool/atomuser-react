@@ -1,6 +1,7 @@
 import React from "react";
 //import PropTypes from 'prop-types';
 import {translate} from "react-i18next";
+import withTitle from "../../components/HOC/withTitle";
 
 class profile extends React.Component {
     componentDidMount() {
@@ -14,4 +15,4 @@ class profile extends React.Component {
 
 profile.propTypes = {};
 
-export default translate(props => props.namespaces)(profile);
+export default translate(props => props.namespaces)(withTitle()(profile));
