@@ -1,5 +1,6 @@
 import axios from "axios";
-import {MERCHANT_API_URL} from "../constants/env";
+import {MERCHANT_API_URL, PUBLIC_MERCHANT_API_URL} from "../constants/env";
+import {isLoggedIn} from "../helpers/auth";
 
 export function addCommentApi(postID, data = {}) {
     let url = MERCHANT_API_URL + `v1/post/${postID}/comment`;
@@ -9,7 +10,13 @@ export function addCommentApi(postID, data = {}) {
 }
 
 export function getCommentsApi(postID, commentID = '', limit = '') {
-    let url = MERCHANT_API_URL + `v1/post/${postID}/load-comment`;
+    let url;
+    if (isLoggedIn()) {
+        url = MERCHANT_API_URL + `v1/post/${postID}/load-comment`;
+    } else {
+        url = PUBLIC_MERCHANT_API_URL + `v1/post/${postID}/load-comment`;
+    }
+
     return axios.get(url, {
             params: {
                 comment_id: commentID,

@@ -151,7 +151,7 @@ class EditorPost extends React.Component {
                     isFocus && isLoggedIn() &&
                     <div>
                         <div className={cx("divider", "horizontal")}/>
-                        < Action onSelectImageToUpload={this.onSelectImageToUpload}/>
+                        <Action onSelectImageToUpload={this.onSelectImageToUpload}/>
                     </div>
 
                 }

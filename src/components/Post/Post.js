@@ -8,7 +8,7 @@ import Content from "./Body/Content";
 import Action from "./Action";
 import {observer} from "mobx-react";
 
-import Comments from "./Comment/Comments";
+import Comments from "./Comments";
 import {linkRoute} from "../../helpers/utility";
 
 let cx = classNamesBind.bind(styles);

@@ -2,10 +2,11 @@ import {observable, action} from "mobx";
 import {httpSuccess} from "../../helpers/httpRequest";
 import {downVoteApi, upVoteApi} from "../../apis/postApis";
 import StoreEditorComment from "../../components/EditorComment/Store";
-import StoreComment from "../../components/Post/Comment/Store";
+import StoreComment from "./ListComment/Store";
 
 class Store {
     @observable post = {};
+    @observable isVoting = false;
     @observable storeEditorComment = {};
     @observable storeComment = {};
 
@@ -17,6 +18,10 @@ class Store {
 
     @action
     async upVote() {
+        if (this.isVoting) return;
+
+        this.isVoting = true;
+
         const post = this.post;
         const postID = post.id;
 
@@ -40,11 +45,17 @@ class Store {
         } catch (error) {
             console.log(error);
             this.changeDataPost(oldPost);
+        } finally {
+            this.isVoting = false;
         }
     }
 
     @action
     async downVote() {
+
+        if (this.isVoting) return;
+
+        this.isVoting = true;
 
         const post = this.post;
 
@@ -70,6 +81,8 @@ class Store {
         } catch (error) {
             console.log(error);
             this.changeDataPost(oldPost);
+        } finally {
+            this.isVoting = false;
         }
     }
 

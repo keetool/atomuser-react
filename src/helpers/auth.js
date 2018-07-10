@@ -1,4 +1,3 @@
-import history from "./history";
 import {redirectURL} from "./utility";
 import {FACEBOOK_ID, TOKEN_EXPIRED_TIME, TOKEN_FACEBOOK} from "../constants";
 import {DOMAIN, IS_PRODUCTION, PROTOCOL, PROTOCOL_DOMAIN, SUBDOMAIN} from "../constants/env";
@@ -61,10 +60,14 @@ export function clearRefreshToken() {
     }
 }
 
-export function signout() {
+export function signout(isRefresh) {
     clearToken();
     clearRefreshToken();
-    redirectSignedOut();
+    if (isRefresh) {
+        redirectSignedIn(SUBDOMAIN);
+    } else {
+        redirectSignedOut();
+    }
 }
 
 export function signInFB(callback) {
@@ -90,7 +93,7 @@ export function redirectSignedIn(merchantSubDomain) {
         const domainMerchant = `${PROTOCOL}${merchantSubDomain}.${DOMAIN}`;
         redirectURL(domainMerchant);
     } else {
-        history.push('/');
+        redirectURL("/");
     }
 }
 

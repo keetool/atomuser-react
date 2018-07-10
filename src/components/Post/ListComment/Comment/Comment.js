@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.less';
+import styles from '../styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
-import Avatar from "../../Avatar/index";
-import {LOGO} from "../../../constants/index";
+import Avatar from "../../../Avatar/index";
+import {LOGO} from "../../../../constants/index";
 import Action from "./Action";
 
 let cx = classNamesBind.bind(styles);
@@ -12,7 +12,8 @@ let cx = classNamesBind.bind(styles);
 @observer
 class Comment extends React.Component {
     render() {
-        const {comment, store} = this.props;
+        const {store} = this.props;
+        const {comment} = store;
         const creator = comment.user ? comment.user : {avatar_url: LOGO};
         return (
             <div className={cx({
@@ -37,7 +38,6 @@ class Comment extends React.Component {
 
 Comment.propTypes = {
     store: PropTypes.object.isRequired,
-    comment: PropTypes.object.isRequired,
 };
 
 export default Comment;

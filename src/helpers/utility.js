@@ -185,9 +185,21 @@ export function isMobile() {
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 }
 
-export function isExistArray(array, item, key) {
+/**
+ *
+ * @param array array need to check
+ * @param item empty if use filter custom
+ * @param key empty if use filter custom
+ * @param filter filter custom
+ * @returns {boolean}
+ */
+export function isExistArray(array, item, key, filter) {
     if (!isEmptyArr(array) && !isEmpty(item) && !isEmpty(key)) {
-        return array.filter((dataItem) => dataItem[key] == item[key]).length > 0;
+        if (filter) {
+            return array.filter(filter).length > 0;
+        } else {
+            return array.filter((dataItem) => dataItem[key] == item[key]).length > 0;
+        }
     }
 
     return false;

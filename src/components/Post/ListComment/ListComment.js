@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
-import Comment from "./Comment";
+import Comment from "./Comment/Comment";
 import Loading from "./Loading";
 import {translate} from "react-i18next";
 import {isEmptyArr} from "../../../helpers/utility";
@@ -39,9 +39,9 @@ class ListComment extends React.Component {
                     {isLoading && <Loading/>}
 
                     {!isEmptyArr(comments) ?
-                        comments.map((comment, index) => {
+                        comments.map((storeComment, index) => {
                             return (
-                                <Comment comment={comment} key={index} store={this.props.store}/>
+                                <Comment store={storeComment} key={index}/>
                             );
                         })
                         :

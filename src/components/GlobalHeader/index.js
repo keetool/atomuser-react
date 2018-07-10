@@ -28,7 +28,7 @@ class GlobalHeader extends React.Component {
     }
 
     handleSignOut = () => {
-        signout();
+        signout(true);
     };
 
     handleClickLogo = () => {

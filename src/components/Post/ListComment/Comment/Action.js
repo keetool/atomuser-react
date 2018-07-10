@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.less';
+import styles from '../styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
-import ActionVote from "../../ActionVote/index";
-import {fullRelativeTime} from "../../../helpers/time";
+import ActionVote from "../../../ActionVote/index";
+import {fullRelativeTime} from "../../../../helpers/time";
 import {translate} from "react-i18next";
+import {isLoggedIn} from "../../../../helpers/auth";
 
 let cx = classNamesBind.bind(styles);
 
@@ -13,19 +14,19 @@ let cx = classNamesBind.bind(styles);
 class Action extends React.Component {
 
     handleUpVote = () => {
-        const {comment, store} = this.props;
-        store.upVote(comment);
+        const {store} = this.props;
+        store.upVote();
 
     };
 
     handleDownVote = () => {
-        const {comment, store} = this.props;
-        store.downVote(comment);
+        const {store} = this.props;
+        store.downVote();
     };
 
     render() {
         const {comment} = this.props;
-        const disabled = true;
+        const disabled = !isLoggedIn();
         return (
             <div className={cx("layout-action")}>
                 <div className={cx("action-left")}>

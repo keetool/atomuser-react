@@ -26,7 +26,12 @@ export function getPostsApi(postID) {
 }
 
 export function getPostApi(postID) {
-    let url = MERCHANT_API_URL + `v1/post/${postID}`;
+    let url;
+    if (isLoggedIn()) {
+        url = MERCHANT_API_URL + `v1/post/${postID}`;
+    } else {
+        url = PUBLIC_MERCHANT_API_URL + `v1/post/${postID}`;
+    }
     return axios.get(url);
 }
 

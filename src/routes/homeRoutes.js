@@ -7,10 +7,10 @@ export default [
         exact: true,
         component: asyncComponent(() => import("../modules/Home"))
     },
-    // {
-    //     title: 'social.post.title',
-    //     path: '/post/:postID',
-    //     component: asyncComponent(() => import("../modules/Post"))
-    // }
+    {
+        title: 'social.post.title',
+        path: '/post/:postID',
+        component: asyncComponent(() => import("../modules/Post"))
+    }
 ]
 ;

@@ -55,7 +55,7 @@ const renderRoutes = (routes, parentPath = "") => {
                                 key={`key_${parentPath}${route.path}`}
                                 exact={route.exact}
                                 path={parentPath + route.path}
-                                render={({props}) => (<Component title={route.title} {...props}/>)}
+                                render={(props) => (<Component title={route.title} {...props}/>)}
                             />
                         );
                     }
