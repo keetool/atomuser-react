@@ -67,7 +67,7 @@ class Store {
 
             const imageName = image.file ? image.file.name : '';
 
-            messageWarning(translateI18n('social.editor.noti.upload_image_error', {image_name: imageName}), DISTANCE_TOP_MESSAGE_HOME);
+            messageWarning(translateI18n('social.editor.Noti.upload_image_error', {image_name: imageName}), DISTANCE_TOP_MESSAGE_HOME);
 
             this.removeImage(image);
 

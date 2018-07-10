@@ -28,7 +28,6 @@ RestrictedRoute.propTypes = {
 };
 
 const renderRoutes = (routes, parentPath = "") => {
-    console.log(routes);
     return (
         <Switch>
             {routes.map(route => {
@@ -76,7 +75,6 @@ class AppRoutes extends React.Component {
     }
 
     render() {
-        console.log(renderRoutes(routes));
         return renderRoutes(routes);
     }
 }

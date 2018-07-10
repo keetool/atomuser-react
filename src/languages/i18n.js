@@ -5,7 +5,6 @@ import XHR from "i18next-xhr-backend";
 import Backend from "i18next-chained-backend";
 import LocalStorageBackend from "i18next-localstorage-backend";
 import {i18nApi} from "../apis/i18nApis";
-import {capitalizeFirstLetter} from "../helpers/utility";
 
 let keyLanguage;
 let keyVersionLanguage;
@@ -27,8 +26,8 @@ function parseDataI18nServer(data) {
 }
 
 function loadLocales(lang, options, callback) {
-    keyLanguage = `keetool_i18n_res_${lang}-translation`;
-    keyVersionLanguage = `keetool_i18n_version_${lang}`;
+    keyLanguage = `atomuser_i18n_res_${lang}-translation`;
+    keyVersionLanguage = `atomuser_i18n_version_${lang}`;
 
     const versionLang = localStorage.getItem(keyVersionLanguage);
     i18nApi(lang, versionLang)
@@ -59,7 +58,7 @@ const i18n = use(Backend)
                     ajax: loadLocales
                 },
                 {
-                    prefix: "keetool_i18n_res_",
+                    prefix: "atomuser_i18n_res_",
                     // expiration
                     expirationTime: 10000 * 24 * 60 * 60 * 1000
                 }
@@ -72,7 +71,7 @@ const i18n = use(Backend)
         // debug: true,
         detection: {
             lookupQuerystring: "lang",
-            lookupLocalStorage: "keetool_i18n_lang"
+            lookupLocalStorage: "atomuser_i18n_lang"
         },
         keySeparator: false,
 
@@ -83,14 +82,6 @@ const i18n = use(Backend)
             bindStore: "added removed",
             nsMode: "default"
         },
-        interpolation: {
-            format: function (value, format) {
-                console.log(value);
-                if (format === "uppercase") return value.toUpperCase();
-                if (format === "lowercase") return value.toLowerCase();
-                return capitalizeFirstLetter(value);
-            }
-        }
     });
 
 export default i18n;

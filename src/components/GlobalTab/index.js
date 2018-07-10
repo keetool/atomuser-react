@@ -55,7 +55,6 @@ class GlobalTab extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
     }
 
 
@@ -72,10 +71,17 @@ class GlobalTab extends React.Component {
                     "tabbar": true
                 })}>
                     {
-                        TABS.map((tab) => {
+                        TABS.map((tab, index) => {
                             return (
-                                <TooltipCustom placement={"top"} title={t(tab.name)}>
-                                    <Link to={tab.path} style={{width: tabbarItemWidth}}>
+                                <TooltipCustom
+                                    placement={"top"}
+                                    title={t(tab.name)}
+                                    key={index}
+                                >
+                                    <Link
+                                        to={tab.path}
+                                        style={{width: tabbarItemWidth}}
+                                    >
                                         <div className={cx({
                                             "tabbar-item": true,
                                             "active": checkLink(pathname, tab.path)

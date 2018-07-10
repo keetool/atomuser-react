@@ -71,7 +71,7 @@ class EditorPost extends React.Component {
         const {t} = this.props;
         let images = Array.from(files);
         if (images.length > 10) {
-            messageWarning(t('social.editor.noti.limit_file_upload'));
+            messageWarning(t('social.editor.Noti.limit_file_upload'));
             images = images.slice(0, 10);
         }
         images = images.map((image) => {

@@ -13,7 +13,6 @@ import {getAccount} from "../../actions/accoutActions";
 import {AccountProvider} from "../../components/context/AccountContext";
 import GlobalTab from "../../components/GlobalTab";
 import {isLoggedIn} from "../../helpers/auth";
-import GlobalLoading from "../../components/GlobalLoading";
 
 let cx = classNamesBind.bind(styles);
 

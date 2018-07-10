@@ -16,7 +16,7 @@ class Store {
         this.isLoading = true;
         this.error = null;
         const lastPost = getLastArr(this.posts);
-        const lastPostID = lastPost ? lastPost.id : '';
+        const lastPostID = lastPost ? lastPost.post.id : '';
         try {
             const res = await getPostsApi(lastPostID);
             const data = res.data;
