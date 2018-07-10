@@ -5,7 +5,7 @@ import classNamesBind from "classnames/bind";
 import EditorPost from "../../components/EditorPost";
 import Posts from "./ListPost";
 import {observer} from "mobx-react";
-import store from "./store";
+import Store from "./Store";
 import withTitle from "../../components/HOC/withTitle";
 
 let cx = classNamesBind.bind(styles);
@@ -14,13 +14,20 @@ let cx = classNamesBind.bind(styles);
 @observer
 class Home extends React.Component {
 
+    store = new Store();
+
+    constructor(props) {
+        super(props);
+
+    }
+
     componentDidMount() {
-        store.getPosts();
+        this.store.getPosts();
 
     }
 
     render() {
-        const {posts, isLoading} = store;
+        const {posts, isLoading} = this.store;
         return (
             <div>
                 {/*<Header fixed={HEADER_FIXED_TOP}/>*/}
@@ -28,7 +35,7 @@ class Home extends React.Component {
                     "container": true,
                     // "header-fixed-top": HEADER_FIXED_TOP
                 })}>
-                    <EditorPost addPost={store.addPost}/>
+                    <EditorPost addPost={this.store.addPost}/>
                     <Posts posts={posts} isLoading={isLoading}/>
                 </div>
             </div>

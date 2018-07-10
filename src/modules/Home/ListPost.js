@@ -5,7 +5,7 @@ import Loading from "../../components/Post/Loading";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
-import store from "./store";
+import store from "./Store";
 
 let cx = classNamesBind.bind(styles);
 
@@ -60,7 +60,6 @@ class ListPost extends React.Component {
                                         <div key={index}>
                                             <Post store={storePost} key={index}/>
                                         </div>
-
                                     );
                                 }
                             )

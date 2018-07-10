@@ -3,6 +3,41 @@ import React from 'react';
 import {Icon, Layout} from "antd";
 import classNamesBind from "classnames/bind";
 import styles from './styles.less';
+import TooltipCustom from "../common/Tooltip";
+import {translate} from "react-i18next";
+import {Link} from "react-router-dom";
+import {withRouter} from "react-router";
+import {checkLink} from "../../helpers/utility";
+
+const TABS = [
+    {
+        name: 'social.tooltip.tabbar.search',
+        path: '/search',
+        icon: 'search'
+    },
+    {
+        name: 'social.tooltip.tabbar.mark',
+        path: '/mark',
+        icon: 'star-o'
+    },
+    {
+        name: 'social.tooltip.tabbar.home',
+        path: '/',
+        icon: 'appstore-o'
+    },
+    {
+        name: 'social.tooltip.tabbar.notification',
+        path: '/notification',
+        icon: 'heart-o'
+    },
+    {
+        name: 'social.tooltip.tabbar.profile',
+        path: '/profile',
+        icon: 'user'
+    },
+
+];
+
 
 let cx = classNamesBind.bind(styles);
 const IconTab = ({type}) => {
@@ -20,10 +55,14 @@ class GlobalTab extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props);
     }
 
 
     render() {
+        const {t} = this.props;
+        const {location} = this.props;
+        const {pathname} = location;
         return (
             <Layout.Footer className={cx({
                 "layout-tabbar": true,
@@ -32,32 +71,23 @@ class GlobalTab extends React.Component {
                 <div className={cx({
                     "tabbar": true
                 })}>
-                    <div className={cx({
-                        "tabbar-item": true
-                    })} style={{width: tabbarItemWidth}}>
-                        <IconTab type='search'/>
-                    </div>
-                    <div className={cx({
-                        "tabbar-item": true
-                    })} style={{width: tabbarItemWidth}}>
-                        <IconTab type='star-o'/>
-                    </div>
-                    <div className={cx({
-                        "tabbar-item": true,
-                        "active": true
-                    })} style={{width: tabbarItemWidth}}>
-                        <IconTab type='appstore-o'/>
-                    </div>
-                    <div className={cx({
-                        "tabbar-item": true
-                    })} style={{width: tabbarItemWidth}}>
-                        <IconTab type="heart-o"/>
-                    </div>
-                    <div className={cx({
-                        "tabbar-item": true
-                    })} style={{width: tabbarItemWidth}}>
-                        <IconTab type="user"/>
-                    </div>
+                    {
+                        TABS.map((tab) => {
+                            return (
+                                <TooltipCustom placement={"top"} title={t(tab.name)}>
+                                    <Link to={tab.path} style={{width: tabbarItemWidth}}>
+                                        <div className={cx({
+                                            "tabbar-item": true,
+                                            "active": checkLink(pathname, tab.path)
+                                        })}
+                                        >
+                                            <IconTab type={tab.icon}/>
+                                        </div>
+                                    </Link>
+                                </TooltipCustom>
+                            );
+                        })
+                    }
                 </div>
             </Layout.Footer>
         );
@@ -66,4 +96,4 @@ class GlobalTab extends React.Component {
 
 GlobalTab.propTypes = {};
 
-export default GlobalTab;
+export default withRouter(translate(props => props.namespaces)(GlobalTab));

@@ -224,3 +224,7 @@ export function linkRoute(rootLink, data) {
 
     return link;
 }
+
+export function checkLink(routeLink, link) {
+    return routeLink == link;
+}

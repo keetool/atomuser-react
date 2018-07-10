@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
-import store from "./store";
+import Store from "./Store";
 import withTitle from "../../components/HOC/withTitle";
 import Loading from "../../components/Post/Loading";
 import Post from "../../components/Post/Post";
@@ -14,13 +14,15 @@ let cx = classNamesBind.bind(styles);
 @observer
 class SinglePost extends React.Component {
 
+    store = new Store();
+
     componentDidMount() {
         const {postID} = this.props.match.params;
-        store.getPost(postID);
+        this.store.getPost(postID);
     }
 
     render() {
-        const {storePost, isLoading} = store;
+        const {storePost, isLoading} = this.store;
         const {prefixCls} = this.props;
         if (isLoading) {
             return (
