@@ -1,8 +1,9 @@
 import {observable, action} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {getPostsApi} from "../../apis/postApis";
-import {getLastArr, isEmptyArr, messageError} from "../../helpers/utility";
+import {getLastArr, isEmptyArr} from "../../helpers/utility";
 import StorePost from "../../components/Post/Store";
+import {messageError} from "../../helpers/message";
 
 class Store {
     @observable posts = [];

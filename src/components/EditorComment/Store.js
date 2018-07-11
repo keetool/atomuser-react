@@ -1,8 +1,7 @@
 import {observable, action} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {addCommentApi} from "../../apis/commentApis";
-import {DISTANCE_TOP_MESSAGE_HOME} from "../../constants";
-import {messageError} from "../../helpers/utility";
+import {messageError} from "../../helpers/message";
 
 class Store {
     post = null;
@@ -36,7 +35,7 @@ class Store {
         } finally {
             this.isUploading = false;
             if (this.error) {
-                messageError(this.error, DISTANCE_TOP_MESSAGE_HOME);
+                messageError(this.error);
             }
         }
     }

@@ -11,8 +11,9 @@ import Store from './Store';
 import {observer} from "mobx-react";
 import Action from "./Action";
 import LayoutImage from "./upload/LayoutImage";
-import {isEmptyArr, messageWarning} from "../../helpers/utility";
+import {isEmptyArr} from "../../helpers/utility";
 import {isLoggedIn, redirectSignIn} from "../../helpers/auth";
+import {messageWarning} from "../../helpers/message";
 
 let cx = classNamesBind.bind(styles);
 

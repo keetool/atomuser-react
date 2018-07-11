@@ -1,17 +1,20 @@
 import {observable} from "mobx";
-import {convertTypeNotiToKey, getContentNotiWithoutData, splitKeyData} from "../../../helpers/notification";
+import {
+    getDataNotification
+} from "../../../helpers/notification/notification";
 
 class Store {
     @observable notification = null;
 
     constructor(notification) {
+
+        notification.data = getDataNotification(notification.detail, notification.type);
+
         this.notification = notification;
-        const key = convertTypeNotiToKey(notification.type);
-        console.log({key});
-        const data = getContentNotiWithoutData(key);
-        const keyData = splitKeyData(data);
-        console.log({data});
-        console.log({keyData});
+    }
+
+    isUnseen() {
+        return this.notification && this.notification.status == 'unseen';
     }
 }
 

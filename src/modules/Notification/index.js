@@ -1,15 +1,17 @@
 import React from "react";
-//import PropTypes from 'prop-types';
+import {observer} from "mobx-react";
 import {translate} from "react-i18next";
 import classNamesBind from "classnames/bind";
 import styles from './styles.less';
 import Store from "./Store";
 import Loading from "./Noti/Loading";
 import withTitle from "../../components/HOC/withTitle";
+import Notification from "./Noti/Notification";
 
 let cx = classNamesBind.bind(styles);
 
-class Notification extends React.Component {
+@observer
+class ListNotification extends React.Component {
 
     store = new Store();
 
@@ -17,11 +19,9 @@ class Notification extends React.Component {
         this.store.getNotifications();
     }
 
-    render() {
-        const {prefixCls} = this.props;
+    renderLoading = () => {
         return (
-            <div className={cx(`${prefixCls}-layout`)}>
-                <Loading/>
+            <div>
                 <Loading/>
                 <Loading/>
                 <Loading/>
@@ -31,13 +31,43 @@ class Notification extends React.Component {
                 <Loading/>
             </div>
         );
+    };
+
+    render() {
+        const {prefixCls} = this.props;
+        const {notifications, isLoading} = this.store;
+        return (
+            <div className={cx(`${prefixCls}-layout`)}>
+                {
+                    notifications && notifications.length > 0 ?
+                        (
+                            notifications.map((storeNoti, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <Notification store={storeNoti} key={index}/>
+                                        </div>
+                                    );
+                                }
+                            )
+                        )
+                        :
+                        (
+                            isLoading && this.renderLoading()
+                        )
+
+                }
+                {
+                    isLoading && <Loading/>
+                }
+            </div>
+        );
     }
 }
 
-Notification.defaultProps = {
+ListNotification.defaultProps = {
     prefixCls: 'module-notification'
 };
 
-Notification.propTypes = {};
+ListNotification.propTypes = {};
 
-export default translate(props => props.namespaces)(withTitle()(Notification));
+export default translate(props => props.namespaces)(withTitle()(ListNotification));

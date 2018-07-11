@@ -1,8 +1,9 @@
 import {observable, action} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
-import {getLastArr, isEmptyArr, messageError} from "../../helpers/utility";
+import {getLastArr, isEmptyArr} from "../../helpers/utility";
 import StoreNotification from "./Noti/Store";
 import {getNotificationsApi} from "../../apis/notificationApis";
+import {messageError} from "../../helpers/message";
 
 class Store {
     @observable notifications = [];

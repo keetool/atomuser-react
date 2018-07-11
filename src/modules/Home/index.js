@@ -28,6 +28,7 @@ class Home extends React.Component {
 
     render() {
         const {posts, isLoading} = this.store;
+
         return (
             <div>
                 {/*<Header fixed={HEADER_FIXED_TOP}/>*/}

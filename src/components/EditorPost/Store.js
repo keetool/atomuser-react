@@ -2,10 +2,9 @@ import {observable, action} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {addPostApi} from "../../apis/postApis";
 import progress from "../../helpers/progress";
-import {messageSuccess, messageWarning} from "../../helpers/utility";
 import {translateI18n} from "../../languages/i18n";
-import {DISTANCE_TOP_MESSAGE_HOME} from "../../constants";
 import {uploadImageApi} from "../../apis/imageApis";
+import {messageSuccess, messageWarning} from "../../helpers/message";
 
 class Store {
     @observable percentUpload = 0;
@@ -33,7 +32,7 @@ class Store {
             if (httpSuccess(res.status)) {
                 setTimeout(() => {
                     this.isUploading = false;
-                    messageSuccess(translateI18n('social.home.post.upload_success'), DISTANCE_TOP_MESSAGE_HOME);
+                    messageSuccess(translateI18n('social.home.post.upload_success'));
                     if (callback) {
                         callback(data.data);
                     }
@@ -67,7 +66,7 @@ class Store {
 
             const imageName = image.file ? image.file.name : '';
 
-            messageWarning(translateI18n('social.editor.Noti.upload_image_error', {image_name: imageName}), DISTANCE_TOP_MESSAGE_HOME);
+            messageWarning(translateI18n('social.editor.Noti.upload_image_error', {image_name: imageName}));
 
             this.removeImage(image);
 

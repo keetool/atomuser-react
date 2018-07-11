@@ -1,7 +1,7 @@
 import asyncComponent from "../helpers/AsyncFunc";
 import React from "react";
 import queryString from "query-string";
-import {message} from "antd";
+
 
 
 export function getPathComponent(path) {
@@ -139,27 +139,6 @@ export function splitHostname() {
     return result;
 }
 
-export function messageSuccess(text, top = 24, duration = 2.5) {
-    message.config({
-        top: top
-    });
-    message.success(text, duration);
-}
-
-export function messageError(text, top = 24, duration = 2.5) {
-    message.config({
-        top: top
-    });
-    message.error(text, duration);
-}
-
-export function messageWarning(text, top = 24, duration = 2.5) {
-    message.config({
-        top: top
-    });
-    message.warning(text, duration);
-}
-
 export function getLastArr(arr) {
     if (!isEmptyArr(arr)) {
         return arr[arr.length - 1];
@@ -227,4 +206,22 @@ export function linkRoute(rootLink, data) {
 
 export function checkLink(routeLink, link) {
     return routeLink == link;
+}
+
+/**
+ * get value of object with string key
+ * @param object example: {post: {creator: 'A'}}
+ * @param strKey example: "post.creator"
+ * @returns {*} example: A
+ */
+
+export function getValueObjectFromStringKey(object, strKey) {
+    let arrKey = strKey.split('.');
+    let objectData = {...object};
+    arrKey.forEach((key) => {
+        if (isEmpty(objectData)) return;
+
+        objectData = objectData[key];
+    });
+    return objectData;
 }

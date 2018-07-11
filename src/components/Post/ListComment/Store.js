@@ -1,8 +1,9 @@
 import {observable, action} from "mobx";
 import {getCommentsApi} from "../../../apis/commentApis";
 import {httpSuccess, messageHttpRequest} from "../../../helpers/httpRequest";
-import {getFirstArr, isEmpty, isEmptyArr, isExistArray, messageError} from "../../../helpers/utility";
+import {getFirstArr, isEmpty, isEmptyArr, isExistArray} from "../../../helpers/utility";
 import StoreComment from "./Comment/Store";
+import {messageError} from "../../../helpers/message";
 
 class Store {
     post = null;

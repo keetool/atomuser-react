@@ -1,10 +1,11 @@
 import React from "react";
-import classNamesBind from "classnames/bind";
+import loadingComponent from "../../../components/HOC/loadingComponent";
 import {RoundShape, TextBlock} from "react-placeholder/lib/placeholders";
 import styles from './styles.less';
+import classNamesBind from "classnames/bind";
 
 let cx = classNamesBind.bind(styles);
-import loadingComponent from "../../../components/HOC/loadingComponent";
+
 
 class Loading extends React.Component {
     componentDidMount() {

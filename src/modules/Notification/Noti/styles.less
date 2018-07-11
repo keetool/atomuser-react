@@ -4,6 +4,11 @@
 
 .@{prefixCls} {
   &-container {
+    color: @atomuser-text-color;
+    a {
+      color: @atomuser-text-color;
+      font-weight: bold;
+    }
     padding: 10px;
     display: flex;
     flex-direction: row;
@@ -14,7 +19,15 @@
       flex-direction: column;
       flex: 1;
     }
+    &:hover {
+      background-color: @atomuser-background-grey-light-color;
+    }
   }
+
+  &-unseen {
+    background-color: @atomuser-background-grey-dark-color;
+  }
+
   &-avatar {
 
   }
@@ -24,6 +37,7 @@
 
     }
     &-time {
+      color: @atomuser-grey-color;
       padding-top: 10px;
     }
   }
