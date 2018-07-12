@@ -30,16 +30,18 @@ class Comments extends React.Component {
     };
 
     render() {
-        const {storeComment, storeEditorComment} = this.props;
+        const {storeComment, storeEditorComment, hideListComment, hideEditorComment} = this.props;
         return (
             <div>
-                <ListComment store={storeComment}/>
 
-                <EditorComment
+                {!hideListComment && <ListComment store={storeComment}/>}
+
+                {!hideEditorComment && <EditorComment
                     style={{marginTop: '10px'}}
                     store={storeEditorComment}
                     addComment={this.addComment}
-                />
+                />}
+
             </div>
 
         );
@@ -49,7 +51,9 @@ class Comments extends React.Component {
 Comments.propTypes = {
     storeComment: PropTypes.object.isRequired,
     storeEditorComment: PropTypes.object.isRequired,
-    post: PropTypes.object.isRequired
+    post: PropTypes.object.isRequired,
+    hideListComment: PropTypes.bool,
+    hideEditorComment: PropTypes.bool
 };
 
 export default Comments;

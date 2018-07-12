@@ -4,6 +4,7 @@ import {getPostsApi} from "../../apis/postApis";
 import {getLastArr, isEmptyArr} from "../../helpers/utility";
 import StorePost from "../../components/Post/Store";
 import {messageError} from "../../helpers/message";
+import {computed} from "mobx/lib/mobx";
 
 class Store {
     @observable posts = [];
@@ -58,6 +59,10 @@ class Store {
 
     createStorePost(post) {
         return new StorePost(post);
+    }
+
+    @computed get isEmpty() {
+        return !this.isLoading && !this.error && isEmptyArr(this.posts);
     }
 }
 

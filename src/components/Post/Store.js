@@ -11,12 +11,18 @@ class Store {
     @observable isMarking = false;
     @observable storeEditorComment = {};
     @observable storeComment = {};
-    @observable config = {};
+    @observable config = {
+        hideListComment: false,
+        hideEditorComment: false
+    };
 
-    constructor(post) {
+    constructor(post, config) {
         this.post = post;
         this.storeComment = new StoreComment(post);
         this.storeEditorComment = new StoreEditorComment(post);
+        if (config) {
+            this.config = {...this.config, ...config};
+        }
     }
 
     @action

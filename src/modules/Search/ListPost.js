@@ -5,41 +5,42 @@ import Loading from "../../components/Post/Loading";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
-import ScrollView from "../../helpers/scrollView";
+// import ScrollView from "../../helpers/scrollView";
 import {translate} from "react-i18next";
+import {isEmpty as isEmptyStr} from "../../helpers/utility";
 
 let cx = classNamesBind.bind(styles);
 
-const listId = "list-mark";
+const listId = "list-search-post";
 
 @observer
-class ListMark extends React.Component {
+class ListPost extends React.Component {
 
     componentDidMount() {
-        this.scrollView = new ScrollView(listId, this.getPosts);
+        // this.scrollView = new ScrollView(listId, this.getPosts);
         // this.scrollView.addEventScroll();
     }
 
 
-    getPostFinished = () => {
-        this.scrollView.addEventScroll();
-    };
-
-    getPosts = () => {
-        const {store} = this.props;
-        if (store.isLoadMore) {
-            store.getBookmarks(this.getPostFinished);
-        }
-    };
+    // getPostFinished = () => {
+    //     this.scrollView.addEventScroll();
+    // };
+    //
+    // getPosts = () => {
+    //     const {store} = this.props;
+    //     if (store.isLoadMore) {
+    //         store.search(store.textSearch, this.getPostFinished);
+    //     }
+    // };
 
     renderEmpty = () => {
         const {store, prefixCls, t} = this.props;
         const {isEmpty} = store;
-        if (isEmpty) {
+        if (isEmpty && !isEmptyStr(store.textSearch)) {
             return (
                 <div className={cx(`${prefixCls}-empty`)}>
                     <div className={cx(`${prefixCls}-empty-text`)}>
-                        {t('social.mark.noti.empty')}
+                        {t('social.search.noti.empty', {text_search: store.textSearch})}
                     </div>
                 </div>
             );
@@ -52,16 +53,16 @@ class ListMark extends React.Component {
 
     render() {
         const {store, prefixCls} = this.props;
-        const {marks, isLoading} = store;
+        const {posts, isLoading} = store;
         return (
             <div
                 id={listId}
                 className={cx(`${prefixCls}-layout-posts`)}
             >
                 {
-                    marks && marks.length > 0 ?
+                    posts && posts.length > 0 ?
                         (
-                            marks.map((storePost, index) => {
+                            posts.map((storePost, index) => {
                                     return (
                                         <div key={index}>
                                             <Post store={storePost} key={index}/>
@@ -92,13 +93,12 @@ class ListMark extends React.Component {
     }
 }
 
-
-ListMark.defaultProps = {
-    prefixCls: 'module-mark'
+ListPost.defaultProps = {
+    prefixCls: 'module-search'
 };
 
-ListMark.propTypes = {
+ListPost.propTypes = {
     store: PropTypes.object.isRequired,
 };
 
-export default translate(props => props.namespaces)(ListMark);
+export default translate(props => props.namespaces)(ListPost);

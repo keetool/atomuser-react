@@ -6,6 +6,7 @@ import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
 import ScrollView from "../../helpers/scrollView";
+import {translate} from "react-i18next";
 
 let cx = classNamesBind.bind(styles);
 
@@ -28,6 +29,24 @@ class ListPost extends React.Component {
         const {store} = this.props;
         if (store.isLoadMore) {
             store.getPosts(this.getPostFinished);
+        }
+    };
+
+    renderEmpty = () => {
+        const {store, prefixCls, t} = this.props;
+        const {isEmpty} = store;
+        if (isEmpty) {
+            return (
+                <div className={cx(`${prefixCls}-empty`)}>
+                    <div className={cx(`${prefixCls}-empty-text`)}>
+                        {t('social.home.noti.empty')}
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <div/>
+            );
         }
     };
 
@@ -66,14 +85,23 @@ class ListPost extends React.Component {
                 {
                     isLoading && <Loading/>
                 }
+                {
+                    this.renderEmpty()
+                }
             </div>
 
         );
     }
 }
 
+ListPost.defaultProps = {
+    prefixCls: 'module-home'
+};
+
 ListPost.propTypes = {
     store: PropTypes.object.isRequired,
 };
 
-export default ListPost;
+
+
+export default translate(props => props.namespaces)(ListPost);

@@ -1,31 +1,41 @@
 import {observable, action, computed} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
-import {getLastArr, isEmptyArr} from "../../helpers/utility";
+import {getLastArr, isEmpty, isEmptyArr} from "../../helpers/utility";
 import {messageError} from "../../helpers/message";
-import {getMarkPostsBySubdomain} from "../../apis/markApis";
 import StorePost from "../../components/Post/Store";
+import {searchApi} from "../../apis/searchApis";
 
 class Store {
-    @observable marks = [];
+    @observable posts = [];
     @observable isLoading = false;
     @observable error = null;
     @observable isLoadMore = true;
+    @observable textSearch = null;
 
     @action
-    async getBookmarks(callbackFinished = null) {
+    async searchPosts(value) {
 
         this.isLoading = true;
         this.error = null;
-        const lastMark = getLastArr(this.marks);
-        const lastPostID = lastMark ? lastMark.post.id : '';
+
+        if (this.textSearch != value) {
+            this.posts = [];
+        }
+
+        this.textSearch = value;
+
+        if (isEmpty(this.textSearch)) return;
+
+        const lastPost = getLastArr(this.posts);
+        const lastPostID = lastPost ? lastPost.post.id : '';
         try {
-            const res = await getMarkPostsBySubdomain(lastPostID);
+            const res = await searchApi(this.textSearch, lastPostID);
             const data = res.data;
 
             if (httpSuccess(res.status)) {
-                const posts = data.data;
+                const posts = data.posts;
                 if (!isEmptyArr(posts)) {
-                    this.marks = [...this.marks, ...this.createStorePosts(posts)];
+                    this.posts = [...this.posts, ...this.createStorePosts(posts)];
                 } else {
                     this.isLoadMore = false;
                 }
@@ -36,9 +46,6 @@ class Store {
             this.error = messageHttpRequest(error);
         } finally {
             this.isLoading = false;
-            if (callbackFinished) {
-                callbackFinished();
-            }
             if (!isEmptyArr(this.error)) {
                 messageError(this.error);
             }
@@ -46,7 +53,7 @@ class Store {
     }
 
     @computed get isEmpty() {
-        return !this.isLoading && !this.error && isEmptyArr(this.marks);
+        return !this.isLoading && !this.error && isEmptyArr(this.posts);
     }
 
     createStorePosts(posts) {
@@ -56,7 +63,17 @@ class Store {
     }
 
     createStorePost(post) {
-        return new StorePost(post);
+        return new StorePost(post, {
+            hideListComment: true,
+            hideEditorComment: true
+        });
+    }
+
+    @computed get numberResult() {
+        if (!isEmptyArr(this.posts)) {
+            return this.posts.length;
+        }
+        return 0;
     }
 }
 

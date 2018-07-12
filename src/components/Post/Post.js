@@ -26,25 +26,27 @@ class Post extends React.Component {
 
     render() {
         const {store} = this.props;
-        const {post, storeComment, storeEditorComment} = store;
+        const {post, storeComment, storeEditorComment, config} = store;
         const linkDetailPost = linkRoute("/post/:postID", {postID: post.id});
+
         return (
             <div className={cx("layout-post")}>
                 <Header post={post} linkDetail={linkDetailPost}/>
                 <Content post={post}/>
                 <Action post={post} store={store}/>
-                {
-                    <div className={cx("layout-comment")}>
-                        <Comments
-                            post={post}
-                            incNumberComment={this.incNumberComment}
-                            storeComment={storeComment}
-                            storeEditorComment={storeEditorComment}
-                        />
-                    </div>
-                }
+
+                <div className={cx("layout-comment")}>
+                    <Comments
+                        hideComment={config.hideListComment}
+                        hideEditorComment={config.hideEditorComment}
+                        post={post}
+                        incNumberComment={this.incNumberComment}
+                        storeComment={storeComment}
+                        storeEditorComment={storeEditorComment}
+                    />
+                </div>
                 {/*<Footer*/}
-                    {/*post={post}*/}
+                {/*post={post}*/}
                 {/*/>*/}
 
             </div>

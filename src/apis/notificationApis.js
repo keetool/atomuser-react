@@ -11,3 +11,9 @@ export function getNotificationsApi(notiID) {
         }
     );
 }
+
+export function seenNotificationApi(notiID) {
+    let url = MERCHANT_API_URL + `v1/user/notification/${notiID}/seen`;
+
+    return axios.put(url);
+}

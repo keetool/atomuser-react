@@ -1,5 +1,23 @@
 @import "../../styles/variables";
 
+@prefixCls: module-home;
+
+.@{prefixCls} {
+  &-empty {
+    margin-top: 10px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: solid 1px @atomuser-divider-color;
+    border-radius: @atomuser-card-border-radius;
+    &-text {
+      color: @atomuser-text-color;
+    }
+  }
+}
+
 @header-height: 30px;
 
 .header {
