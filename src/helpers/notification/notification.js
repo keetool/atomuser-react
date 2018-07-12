@@ -60,8 +60,6 @@ export function getContentNotiWithData(key, data) {
 
     const dataLang = {...data, ...config};
 
-    console.log({dataLang});
-
     return translateI18n(key, dataLang);
 }
 

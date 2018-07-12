@@ -23,11 +23,10 @@ class Home extends React.Component {
 
     componentDidMount() {
         this.store.getPosts();
-
     }
 
     render() {
-        const {posts, isLoading} = this.store;
+
 
         return (
             <div>
@@ -37,7 +36,7 @@ class Home extends React.Component {
                     // "header-fixed-top": HEADER_FIXED_TOP
                 })}>
                     <EditorPost addPost={this.store.addPost}/>
-                    <Posts posts={posts} isLoading={isLoading}/>
+                    <Posts store={this.store}/>
                 </div>
             </div>
         );

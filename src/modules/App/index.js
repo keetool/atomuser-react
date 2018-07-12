@@ -69,6 +69,7 @@ class AppContainer extends React.Component {
     render() {
         const {collapsed, isMobile} = this.state;
         const FIXED_HEADER = true;
+        const hasTabbar = isLoggedIn();
         const layout = (
             <Layout>
                 <GlobalHeader
@@ -85,13 +86,16 @@ class AppContainer extends React.Component {
                         })}
                     >
                         <Layout.Content>
-                            <div className={styles.content}>
+                            <div className={cx({
+                                "content": true,
+                                "has-tabbar": hasTabbar,
+                            })}>
                                 <AppRoutes/>
                             </div>
                         </Layout.Content>
                     </div>
                 </Layout>
-                <GlobalTab/>
+                {hasTabbar && <GlobalTab/>}
             </Layout>
         );
         return (

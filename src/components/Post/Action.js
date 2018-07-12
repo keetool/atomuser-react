@@ -42,6 +42,15 @@ class Action extends React.Component {
         store.downVote();
     };
 
+    handleMark = () => {
+        const {store, post} = this.props;
+        if (post.isBookmarked) {
+            store.deleteMarkPost();
+        } else {
+            store.addMarkPost();
+        }
+    };
+
     render() {
         const {post} = this.props;
         const disabled = !isLoggedIn();
@@ -64,8 +73,8 @@ class Action extends React.Component {
                 </div>
                 <div className={cx("action-right", {"disabled": disabled})}>
                     <Icon type="star" className={cx({
-                        "active-mark": true
-                    })}/>
+                        "active-mark": post.isBookmarked
+                    })} onClick={this.handleMark}/>
                 </div>
             </div>
         );

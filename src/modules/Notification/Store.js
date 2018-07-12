@@ -1,4 +1,4 @@
-import {observable, action} from "mobx";
+import {observable, action, computed} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {getLastArr, isEmptyArr} from "../../helpers/utility";
 import StoreNotification from "./Noti/Store";
@@ -40,6 +40,18 @@ class Store {
                 messageError(this.error);
             }
         }
+    }
+
+    @action addNotification(notification) {
+        if (this.isLoading) return;
+
+        const storeNotification = this.createStoreNotification(notification);
+
+        this.notifications = [storeNotification, ...this.notifications];
+    }
+
+    @computed get isEmpty() {
+        return !this.isLoading && !this.error && isEmptyArr(this.notifications);
     }
 
     createStoreNotifications(notifications) {

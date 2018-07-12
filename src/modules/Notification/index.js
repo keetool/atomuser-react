@@ -7,6 +7,11 @@ import Store from "./Store";
 import Loading from "./Noti/Loading";
 import withTitle from "../../components/HOC/withTitle";
 import Notification from "./Noti/Notification";
+import socket from "../../services/socketio";
+import {CREATE_NOTIFICATION} from "../../services/socketEvent";
+import {withAccount} from "../../components/context/AccountContext";
+import {SUBDOMAIN} from "../../constants/env";
+import {getValueObjectFromStringKey} from "../../helpers/utility";
 
 let cx = classNamesBind.bind(styles);
 
@@ -17,6 +22,15 @@ class ListNotification extends React.Component {
 
     componentDidMount() {
         this.store.getNotifications();
+        const channel = `${SUBDOMAIN}:${CREATE_NOTIFICATION}`;
+        socket.on(channel, (data) => {
+            const notification = data;
+            const {account} = this.props;
+            const receiverID = getValueObjectFromStringKey(notification, "receiver.id");
+            if (receiverID == account.id) {
+                this.store.addNotification(notification);
+            }
+        });
     }
 
     renderLoading = () => {
@@ -32,6 +46,22 @@ class ListNotification extends React.Component {
             </div>
         );
     };
+
+    renderEmptyNoti() {
+        const {prefixCls, t} = this.props;
+        const {isEmpty} = this.store;
+        if (isEmpty) {
+            return (
+                <div className={cx(`${prefixCls}-layout-empty`)}>
+                    <div className={cx(`${prefixCls}-layout-empty-text`)}>
+                        {t('social.notification.noti.empty')}
+                    </div>
+                </div>
+            );
+        } else {
+            return (<div/>);
+        }
+    }
 
     render() {
         const {prefixCls} = this.props;
@@ -59,6 +89,9 @@ class ListNotification extends React.Component {
                 {
                     isLoading && <Loading/>
                 }
+                {
+                    this.renderEmptyNoti()
+                }
             </div>
         );
     }
@@ -70,4 +103,4 @@ ListNotification.defaultProps = {
 
 ListNotification.propTypes = {};
 
-export default translate(props => props.namespaces)(withTitle()(ListNotification));
+export default translate(props => props.namespaces)(withTitle()(withAccount(ListNotification)));

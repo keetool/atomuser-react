@@ -14,6 +14,7 @@ class Comments extends React.Component {
         const channel = `${post.merchant.sub_domain}:${CREATE_COMMENT}`;
         socket.on(channel, (data) => {
             const {comment} = data;
+            console.log(data);
             if (comment.post_id == post.id) {
                 this.addComment(comment);
             }

@@ -6,5 +6,15 @@
   &-layout {
     background-color: white;
     min-height: calc(100vh - 2 * @atomuser-layout-header-height);
+    &-empty {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 2 * @atomuser-layout-header-height);
+      &-text {
+        color: @atomuser-text-color;
+      }
+    }
   }
 }

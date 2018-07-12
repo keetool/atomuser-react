@@ -3,17 +3,80 @@ import {httpSuccess} from "../../helpers/httpRequest";
 import {downVoteApi, upVoteApi} from "../../apis/postApis";
 import StoreEditorComment from "../../components/EditorComment/Store";
 import StoreComment from "./ListComment/Store";
+import {addMarkPostApi, deleteMarkPostApi} from "../../apis/markApis";
 
 class Store {
     @observable post = {};
     @observable isVoting = false;
+    @observable isMarking = false;
     @observable storeEditorComment = {};
     @observable storeComment = {};
+    @observable config = {};
 
     constructor(post) {
         this.post = post;
         this.storeComment = new StoreComment(post);
         this.storeEditorComment = new StoreEditorComment(post);
+    }
+
+    @action
+    async addMarkPost() {
+        if (this.isMarking) return;
+
+        this.isMarking = true;
+
+        const post = this.post;
+        const postID = post.id;
+
+        let oldPost = {...post};
+
+        this.addBookmarked();
+
+        try {
+            const res = await addMarkPostApi(postID);
+            const data = res.data;
+
+            if (httpSuccess(res.status)) {
+                console.log(data);
+                this.changeDataPost(data.data);
+            } else {
+                this.changeDataPost(oldPost);
+            }
+        } catch (error) {
+            this.changeDataPost(oldPost);
+        } finally {
+            this.isMarking = false;
+        }
+    }
+
+    @action
+    async deleteMarkPost() {
+        if (this.isMarking) return;
+
+        this.isMarking = true;
+
+        const post = this.post;
+        const postID = post.id;
+
+        let oldPost = {...post};
+
+        this.deleteBookmarked();
+
+        try {
+            const res = await deleteMarkPostApi(postID);
+            const data = res.data;
+
+            if (httpSuccess(res.status)) {
+                console.log(data);
+                this.changeDataPost(data.data);
+            } else {
+                this.changeDataPost(oldPost);
+            }
+        } catch (error) {
+            this.changeDataPost(oldPost);
+        } finally {
+            this.isMarking = false;
+        }
     }
 
     @action
@@ -116,6 +179,14 @@ class Store {
             oldPost.downvote--;
         }
         oldPost.vote = 0;
+    };
+
+    @action addBookmarked = () => {
+        this.post.isBookmarked = 1;
+    };
+
+    @action deleteBookmarked = () => {
+        this.post.isBookmarked = 0;
     };
 
     @action changeDataPost = (newPost) => {

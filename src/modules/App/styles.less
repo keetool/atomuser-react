@@ -28,6 +28,9 @@
 
   .content {
     min-height: calc(100vh - @atomuser-layout-header-height) !important;
-    padding-bottom: @atomuser-layout-header-height;
+    padding-bottom: 0;
+    &.has-tabbar {
+      padding-bottom: @atomuser-layout-header-height;
+    }
   }
 }

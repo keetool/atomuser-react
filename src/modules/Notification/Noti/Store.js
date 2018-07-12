@@ -1,4 +1,4 @@
-import {observable} from "mobx";
+import {computed, observable} from "mobx";
 import {
     getDataNotification
 } from "../../../helpers/notification/notification";
@@ -13,7 +13,7 @@ class Store {
         this.notification = notification;
     }
 
-    isUnseen() {
+    @computed get isUnseen() {
         return this.notification && this.notification.status == 'unseen';
     }
 }

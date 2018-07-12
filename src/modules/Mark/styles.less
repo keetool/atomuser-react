@@ -1,0 +1,62 @@
+@import "../../styles/variables";
+
+@prefixCls: module-mark;
+
+@header-height: 45px;
+
+.@{prefixCls} {
+  &-layout {
+    &-posts {
+      padding-top: @header-height;
+    }
+  }
+  &-header {
+    border: solid 1px @atomuser-divider-color;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    height: @header-height;
+    position: fixed;
+    top: @atomuser-layout-header-height;
+    width: 100%;
+    @media screen and(min-width: @atomuser-screen-without-mobile) {
+      width: @atomuser-layout-width-without-mobile;
+      margin: 0 auto;
+    }
+    z-index: @atomuser-zindex-2;
+    border-bottom-left-radius: @atomuser-card-border-radius;
+    border-bottom-right-radius: @atomuser-card-border-radius;
+    &-icon {
+      display: flex;
+      justify-content: center;
+      width: 30px;
+      i {
+        font-size: 18px;
+      }
+    }
+    &-text {
+      margin-left: 5px;
+    }
+  }
+
+  &-empty {
+    margin-top: 10px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: solid 1px @atomuser-divider-color;
+    border-radius: @atomuser-card-border-radius;
+    &-text {
+      color: @atomuser-text-color;
+    }
+  }
+
+  &-active-mark {
+    color: @atomuser-mark-active-color
+  }
+
+}

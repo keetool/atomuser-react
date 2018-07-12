@@ -24,7 +24,7 @@ class Notification extends React.Component {
         const {notification} = store;
         const notificationContent = parseNotification(notification, account.id);
         const linkNoti = linkNotification(notification.type, notification.action_web);
-        const notificationUnseen = store.isUnseen();
+        const notificationUnseen = store.isUnseen;
         return (
             <Link to={linkNoti}>
                 <div className={cx(`${prefixCls}-container`, {[`${prefixCls}-unseen`]: notificationUnseen})}>
