@@ -15,20 +15,23 @@ const listId = "list-mark";
 @observer
 class ListMark extends React.Component {
 
-    componentDidMount() {
+    constructor(props) {
+        super(props);
         this.scrollView = new ScrollView(listId, this.getPosts);
-        // this.scrollView.addEventScroll();
     }
 
-
-    getPostFinished = () => {
-        this.scrollView.addEventScroll();
-    };
+    componentDidUpdate() {
+        const {store} = this.props;
+        const {isLoading} = store;
+        if (!isLoading) {
+            this.scrollView.addEventScroll();
+        }
+    }
 
     getPosts = () => {
         const {store} = this.props;
         if (store.isLoadMore) {
-            store.getBookmarks(this.getPostFinished);
+            store.getBookmarks();
         }
     };
 

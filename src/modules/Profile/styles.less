@@ -1,0 +1,86 @@
+@import "../../styles/variables";
+
+@prefixCls: module-profile;
+
+.@{prefixCls} {
+  &-layout-info {
+    padding-top: 10px;
+    &-container {
+      background-color: white;
+      color: @atomuser-text-color;
+      padding: 20px 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-radius: @atomuser-card-border-radius;
+      border-bottom: solid 1px @atomuser-divider-color;
+      &-info {
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+    }
+
+    &-info {
+      &-avatar {
+
+      }
+      &-name {
+        color: @atomuser-text-color;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      &-edit {
+        margin-top: 10px;
+      }
+
+      &-analytics {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 10px;
+        color: @atomuser-text-color;
+        &-post, &-vote, &-comment {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          * {
+            padding-right: 10px;
+          }
+          &-number {
+            color: @atomuser-text-color;
+            font-weight: bold;
+          }
+          &-text {
+          }
+        }
+      }
+    }
+  }
+  &-divider {
+    background-color: @atomuser-divider-color;
+    margin-right: @margin-icon-action-post;
+    &.@{prefixCls}-vertical {
+      width: 1px;
+      height: 18px;
+    }
+  }
+}
+
+.@{prefixCls} {
+  &-empty {
+    margin-top: 10px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: solid 1px @atomuser-divider-color;
+    border-radius: @atomuser-card-border-radius;
+    &-text {
+      color: @atomuser-text-color;
+    }
+  }
+}

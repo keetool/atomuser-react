@@ -9,7 +9,7 @@ import Action from "./Action";
 import {observer} from "mobx-react";
 
 import Comments from "./Comments";
-import {linkRoute} from "../../helpers/utility";
+import {getValueObjectFromStringKey, linkRoute} from "../../helpers/utility";
 
 let cx = classNamesBind.bind(styles);
 
@@ -28,10 +28,11 @@ class Post extends React.Component {
         const {store, prefixCls} = this.props;
         const {post, storeComment, storeEditorComment, config} = store;
         const linkDetailPost = linkRoute("/post/:postID", {postID: post.id});
+        const linkProfile = linkRoute("/profile/:userID", {userID: getValueObjectFromStringKey(post, 'creator.id')});
 
         return (
             <div className={cx(`${prefixCls}-layout-post`)}>
-                <Header post={post} linkDetail={linkDetailPost}/>
+                <Header post={post} linkDetail={linkDetailPost} linkProfile={linkProfile}/>
                 <Content post={post}/>
                 <Action post={post} store={store}/>
 

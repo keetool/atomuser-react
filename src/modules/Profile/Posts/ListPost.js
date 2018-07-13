@@ -1,29 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Post from "../../components/Post/Post";
-import Loading from "../../components/Post/Loading";
-import styles from './styles.less';
+import Post from "../../../components/Post/Post";
+import Loading from "../../../components/Post/Loading";
+import styles from '../styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
-import ScrollView from "../../helpers/scrollView";
+import ScrollView from "../../../helpers/scrollView";
 import {translate} from "react-i18next";
-import Store from "../Notification/Store";
 
 let cx = classNamesBind.bind(styles);
 
-const listId = "list-post";
+const listId = "list-post-user";
 
 @observer
 class ListPost extends React.Component {
 
     constructor(props) {
         super(props);
-        this.store = new Store();
         this.scrollView = new ScrollView(listId, this.getPosts);
     }
 
     componentDidUpdate() {
-        const {isLoading} = this.store;
+        const {store} = this.props;
+        const {isLoading} = store;
         if (!isLoading) {
             this.scrollView.addEventScroll();
         }
@@ -37,7 +36,7 @@ class ListPost extends React.Component {
     };
 
     renderEmpty = () => {
-        const {store, prefixCls, t} = this.props;
+        const {prefixCls, t, store} = this.props;
         const {isEmpty} = store;
         if (isEmpty) {
             return (
@@ -55,7 +54,7 @@ class ListPost extends React.Component {
     };
 
     render() {
-        const {store, prefixCls} = this.props;
+        const {prefixCls, store} = this.props;
         const {posts, isLoading} = store;
         return (
             <div
@@ -97,11 +96,11 @@ class ListPost extends React.Component {
 }
 
 ListPost.defaultProps = {
-    prefixCls: 'module-home'
+    prefixCls: 'module-profile'
 };
 
 ListPost.propTypes = {
-    store: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired
 };
 
 

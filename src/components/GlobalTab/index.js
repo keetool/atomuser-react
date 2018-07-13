@@ -8,35 +8,7 @@ import {translate} from "react-i18next";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import {checkLink} from "../../helpers/utility";
-
-const TABS = [
-    {
-        name: 'social.tooltip.tabbar.search',
-        path: '/search',
-        icon: 'search'
-    },
-    {
-        name: 'social.tooltip.tabbar.mark',
-        path: '/mark',
-        icon: 'star-o'
-    },
-    {
-        name: 'social.tooltip.tabbar.home',
-        path: '/',
-        icon: 'appstore-o'
-    },
-    {
-        name: 'social.tooltip.tabbar.notification',
-        path: '/notification',
-        icon: 'heart-o'
-    },
-    {
-        name: 'social.tooltip.tabbar.profile',
-        path: '/profile',
-        icon: 'user'
-    },
-
-];
+import {withAccount} from "../context/AccountContext";
 
 
 let cx = classNamesBind.bind(styles);
@@ -57,6 +29,37 @@ class GlobalTab extends React.Component {
     componentDidMount() {
     }
 
+    getTabs = () => {
+        const {account} = this.props;
+        return [
+            {
+                name: 'social.tooltip.tabbar.search',
+                path: '/search',
+                icon: 'search'
+            },
+            {
+                name: 'social.tooltip.tabbar.mark',
+                path: '/mark',
+                icon: 'star-o'
+            },
+            {
+                name: 'social.tooltip.tabbar.home',
+                path: '/',
+                icon: 'appstore-o'
+            },
+            {
+                name: 'social.tooltip.tabbar.notification',
+                path: '/notification',
+                icon: 'heart-o'
+            },
+            {
+                name: 'social.tooltip.tabbar.profile',
+                path: `/profile/${account.id}`,
+                icon: 'user'
+            },
+
+        ];
+    };
 
     render() {
         const {t, prefixCls} = this.props;
@@ -69,7 +72,7 @@ class GlobalTab extends React.Component {
             )}>
                 <div className={cx(`${prefixCls}-tabbar`)}>
                     {
-                        TABS.map((tab, index) => {
+                        this.getTabs().map((tab, index) => {
                             return (
                                 <TooltipCustom
                                     placement={"top"}
@@ -104,4 +107,4 @@ GlobalTab.defaultProps = {
 
 GlobalTab.propTypes = {};
 
-export default withRouter(translate(props => props.namespaces)(GlobalTab));
+export default withRouter(translate(props => props.namespaces)(withAccount(GlobalTab)));

@@ -74,7 +74,7 @@ class Action extends React.Component {
                     <Tooltip title={t('social.home.post_item.mark')}>
                         <Icon type="star" className={cx({
                             [`${prefixCls}-active-mark`]: post.isBookmarked
-                        })} onClick={disabled ? this.handleMark : null}/>
+                        })} onClick={disabled ? null : this.handleMark}/>
                     </Tooltip>
                 </div>
             </div>

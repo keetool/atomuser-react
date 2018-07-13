@@ -1,6 +1,6 @@
 import {observable, action, computed} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
-import {getLastArr, isEmptyArr} from "../../helpers/utility";
+import {getLastArr, isEmpty, isEmptyArr} from "../../helpers/utility";
 import {messageError} from "../../helpers/message";
 import {getMarkPostsBySubdomain} from "../../apis/markApis";
 import StorePost from "../../components/Post/Store";
@@ -12,7 +12,9 @@ class Store {
     @observable isLoadMore = true;
 
     @action
-    async getBookmarks(callbackFinished = null) {
+    async getBookmarks() {
+
+        if (this.isLoading) return;
 
         this.isLoading = true;
         this.error = null;
@@ -36,10 +38,7 @@ class Store {
             this.error = messageHttpRequest(error);
         } finally {
             this.isLoading = false;
-            if (callbackFinished) {
-                callbackFinished();
-            }
-            if (!isEmptyArr(this.error)) {
+            if (!isEmpty(this.error)) {
                 messageError(this.error);
             }
         }

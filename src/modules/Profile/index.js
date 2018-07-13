@@ -1,18 +1,47 @@
 import React from "react";
 //import PropTypes from 'prop-types';
-import {translate} from "react-i18next";
 import withTitle from "../../components/HOC/withTitle";
+import Information from "./Information/Information";
+import ListPost from "./Posts/ListPost";
+import InfoStore from "./Information/Store";
+import PostStore from "./Posts/Store";
+import {withRouter} from "react-router";
+import scrollTopView from "../../components/HOC/scrollTopView";
 
-class profile extends React.Component {
+class Profile extends React.Component {
+
+
+    state = {
+        storeInfo: new InfoStore(),
+        storePosts: new PostStore(),
+        userID: ''
+    };
+
+    static getDerivedStateFromProps(props, state) {
+        const {userID} = props.match.params;
+        if (state.userID != userID) {
+            state.storeInfo.addUserID(userID);
+            state.storePosts.addUserID(userID);
+            return {userID: userID};
+        }
+
+        return null;
+    }
+
     componentDidMount() {
     }
 
     render() {
-        //const { t } = this.props;
-        return <h1>Hello profile</h1>;
+        const {storeInfo, storePosts} = this.state;
+        return (
+            <div>
+                <Information store={storeInfo}/>
+                <ListPost store={storePosts}/>
+            </div>
+        );
     }
 }
 
-profile.propTypes = {};
+Profile.propTypes = {};
 
-export default translate(props => props.namespaces)(withTitle()(profile));
+export default withTitle()(withRouter(scrollTopView()(Profile)));

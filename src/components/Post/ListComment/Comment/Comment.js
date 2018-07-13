@@ -6,6 +6,8 @@ import {observer} from "mobx-react";
 import Avatar from "../../../Avatar/index";
 import {LOGO} from "../../../../constants/index";
 import Action from "./Action";
+import {getValueObjectFromStringKey, linkRoute} from "../../../../helpers/utility";
+import {Link} from "react-router-dom";
 
 let cx = classNamesBind.bind(styles);
 
@@ -15,12 +17,15 @@ class Comment extends React.Component {
         const {store, prefixCls} = this.props;
         const {comment} = store;
         const creator = comment.user ? comment.user : {avatar_url: LOGO};
+        const linkProfile = linkRoute("/profile/:userID", {userID: getValueObjectFromStringKey(comment, 'user.id')});
         return (
             <div className={cx(`${prefixCls}-layout-content`)}>
                 <Avatar url={creator.avatar_url}/>
                 <div className={cx(`${prefixCls}-content`)}>
                     <div className={cx(`${prefixCls}-comment`)}>
-                        <div className={cx(`${prefixCls}-name`)}>{creator.name}</div>
+                        <Link to={linkProfile}>
+                            <div className={cx(`${prefixCls}-name`)}>{creator.name}</div>
+                        </Link>
                         <div className={cx(`${prefixCls}-content-comment`)}
                              dangerouslySetInnerHTML={{__html: comment.value}}/>
                     </div>

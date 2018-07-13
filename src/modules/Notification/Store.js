@@ -1,6 +1,6 @@
 import {observable, action, computed} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
-import {getLastArr, isEmptyArr} from "../../helpers/utility";
+import {getLastArr, isEmpty, isEmptyArr} from "../../helpers/utility";
 import StoreNotification from "./Noti/Store";
 import {getNotificationsApi} from "../../apis/notificationApis";
 import {messageError} from "../../helpers/message";
@@ -12,7 +12,9 @@ class Store {
     @observable pagination = {};
 
     @action
-    async getNotifications(callbackFinished) {
+    async getNotifications() {
+
+        if (this.isLoading) return;
 
         this.isLoading = true;
         this.error = null;
@@ -33,10 +35,7 @@ class Store {
             this.error = messageHttpRequest(error);
         } finally {
             this.isLoading = false;
-            if (callbackFinished) {
-                callbackFinished();
-            }
-            if (!isEmptyArr(this.error)) {
+            if (!isEmpty(this.error)) {
                 messageError(this.error);
             }
         }

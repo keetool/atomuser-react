@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 
 let cx = classNamesBind.bind(styles);
 
-const Header = ({post, linkDetail, prefixCls}) => {
+const Header = ({post, linkDetail, linkProfile, prefixCls}) => {
     const {creator} = post;
 
     return (
@@ -17,11 +17,13 @@ const Header = ({post, linkDetail, prefixCls}) => {
             <div className={cx(`${prefixCls}-creator`)}>
                 <Avatar url={creator.avatar_url}/>
                 <div className={cx(`${prefixCls}-creator-content`)}>
-                    <div
-                        className={cx(`${prefixCls}-name`)}
-                    >
-                        {creator.name}
-                    </div>
+                    <Link to={linkProfile}>
+                        <div
+                            className={cx(`${prefixCls}-name`)}
+                        >
+                            {creator.name}
+                        </div>
+                    </Link>
                     <Link to={linkDetail}>
                         <div className={cx(`${prefixCls}-text-time`)}>
                             {relativeTime(post.created_at)}
@@ -47,6 +49,7 @@ Header.defaultProps = {
 Header.propTypes = {
     post: PropTypes.object.isRequired,
     linkDetail: PropTypes.string.isRequired,
+    linkProfile: PropTypes.string.isRequired,
 };
 
 export default Header;

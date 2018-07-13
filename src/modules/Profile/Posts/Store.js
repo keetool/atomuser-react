@@ -1,15 +1,30 @@
-import {observable, action,computed} from "mobx";
-import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
-import {getPostsApi} from "../../apis/postApis";
-import {getLastArr, isEmpty, isEmptyArr} from "../../helpers/utility";
-import StorePost from "../../components/Post/Store";
-import {messageError} from "../../helpers/message";
+import {observable, action, computed} from "mobx";
+import {httpSuccess, messageHttpRequest} from "../../../helpers/httpRequest";
+import {getPostsByUserApi} from "../../../apis/postApis";
+import {getLastArr, isEmpty, isEmptyArr} from "../../../helpers/utility";
+import StorePost from "../../../components/Post/Store";
+import {messageError} from "../../../helpers/message";
 
 class Store {
     @observable posts = [];
     @observable isLoading = false;
     @observable error = null;
     @observable isLoadMore = true;
+    @observable userID = '';
+
+    @action addUserID = (userID) => {
+        this.resetStore();
+        this.userID = userID;
+        this.getPosts();
+    };
+
+    @action resetStore = () => {
+        this.posts = [];
+        this.isLoading = false;
+        this.error = null;
+        this.isLoadMore = true;
+        this.userID = '';
+    };
 
     @action
     async getPosts() {
@@ -21,7 +36,7 @@ class Store {
         const lastPost = getLastArr(this.posts);
         const lastPostID = lastPost ? lastPost.post.id : '';
         try {
-            const res = await getPostsApi(lastPostID);
+            const res = await getPostsByUserApi(this.userID, lastPostID);
             const data = res.data;
 
             if (httpSuccess(res.status)) {

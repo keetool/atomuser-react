@@ -46,7 +46,7 @@ class Store {
             this.error = messageHttpRequest(error);
         } finally {
             this.isLoading = false;
-            if (!isEmptyArr(this.error)) {
+            if (!isEmpty(this.error)) {
                 messageError(this.error);
             }
         }

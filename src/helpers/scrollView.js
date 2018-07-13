@@ -17,12 +17,10 @@ class ScrollView {
     trackScrolling = () => {
         const wrappedElement = document.getElementById(this.id);
         if (this.isBottom(wrappedElement)) {
-
             if (this.handle) {
                 this.handle();
             }
             document.removeEventListener('scroll', this.trackScrolling);
-
         }
     };
 

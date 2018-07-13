@@ -13,6 +13,7 @@ import {getAccount} from "../../actions/accoutActions";
 import {AccountProvider} from "../../components/context/AccountContext";
 import GlobalTab from "../../components/GlobalTab";
 import {isLoggedIn} from "../../helpers/auth";
+import {withRouter} from "react-router";
 
 let cx = classNamesBind.bind(styles);
 
@@ -117,4 +118,4 @@ AppContainer.defaultProps = {
 
 AppContainer.propTypes = {};
 
-export default AppContainer;
+export default withRouter(AppContainer);

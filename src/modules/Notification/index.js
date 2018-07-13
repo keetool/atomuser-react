@@ -24,11 +24,11 @@ class ListNotification extends React.Component {
     constructor(props) {
         super(props);
         this.store = new Store();
+        this.scrollView = new ScrollView(listId, this.getNotis);
     }
 
     componentDidMount() {
-        this.scrollView = new ScrollView(listId, this.getNotis);
-        this.store.getNotifications(this.getNotiFinished);
+        this.store.getNotifications();
 
         const channel = `${SUBDOMAIN}:${CREATE_NOTIFICATION}`;
         socket.on(channel, (data) => {
@@ -41,14 +41,19 @@ class ListNotification extends React.Component {
         });
     }
 
-    getNotiFinished = () => {
-        this.scrollView.addEventScroll();
-    };
+
+    componentDidUpdate() {
+        const {isLoading} = this.store;
+        if (!isLoading) {
+            this.scrollView.addEventScroll();
+        }
+    }
+
 
     getNotis = () => {
         const store = this.store;
         if (store.isLoadMore) {
-            store.getNotifications(this.getNotiFinished);
+            store.getNotifications();
         }
     };
 
