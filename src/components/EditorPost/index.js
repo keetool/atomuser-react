@@ -11,7 +11,7 @@ import Store from './Store';
 import {observer} from "mobx-react";
 import Action from "./Action";
 import LayoutImage from "./upload/LayoutImage";
-import {isEmptyArr} from "../../helpers/utility";
+import {findLinkAndAddTab, isEmptyArr} from "../../helpers/utility";
 import {isLoggedIn, redirectSignIn} from "../../helpers/auth";
 import {messageWarning} from "../../helpers/message";
 
@@ -109,6 +109,20 @@ class EditorPost extends React.Component {
         }
     };
 
+    handlePaste = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        let clipboardData = e.clipboardData || window.clipboardData;
+        let pastedData = clipboardData.getData('text/plain');
+
+        pastedData = findLinkAndAddTab(pastedData);
+
+        console.log(pastedData);
+
+        document.execCommand('insertHtml', false, pastedData);
+    };
+
     render() {
         const {account, t, prefixCls} = this.props;
         const {isFocus, percentUpload, error, isUploading, images} = this.store;
@@ -134,6 +148,7 @@ class EditorPost extends React.Component {
                         ref={(ref) => {
                             this._ref = ref;
                         }}
+                        onPaste={this.handlePaste}
                         placeholder={placeHolderEditor}
                         onKeyUp={this._checkEmpty}
                     />
