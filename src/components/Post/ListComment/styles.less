@@ -1,9 +1,11 @@
 @import "../../../styles/variables";
 
-.container-comment {
+@prefixCls: post-comment;
+
+.@{prefixCls}-container-comment {
   margin-top: 10px;
   margin-bottom: 10px;
-  .text-load-more {
+  .@{prefixCls}-text-load-more {
     cursor: pointer;
     &:hover {
       color: black;
@@ -11,32 +13,32 @@
   }
 }
 
-.layout-content {
+.@{prefixCls}-layout-content {
   margin-top: 5px;
   margin-bottom: 5px;
   display: flex;
   flex-direction: row;
-  .content {
+  .@{prefixCls}-content {
     padding-left: 10px;
     padding-top: 4px;
     flex: 1;
-    .comment {
+    .@{prefixCls}-comment {
       word-break: break-all;
 
-      .name {
+      .@{prefixCls}-name {
         display: inline;
         padding-right: 5px;
         font-weight: bold;
         cursor: pointer;
       }
-      .content-comment {
+      .@{prefixCls}-content-comment {
         display: inline;
       }
     }
   }
 }
 
-.layout-action {
+.@{prefixCls}-layout-action {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -47,19 +49,19 @@
     color: @atomuser-grey-color;
   }
 
-  .action-left, .action-right {
+  .@{prefixCls}-action-left, .@{prefixCls}-action-right {
     display: flex;
     flex-direction: row;
     align-items: center;
   }
 
-  .action-reply {
+  .@{prefixCls}-action-reply {
     font-weight: 500;
     cursor: pointer;
   }
 
-  .action-right {
-    .text-time {
+  .@{prefixCls}-action-right {
+    .@{prefixCls}-text-time {
       color: @atomuser-grey-color;
       cursor: pointer;
       &:hover {
@@ -70,10 +72,10 @@
   }
 }
 
-.divider {
+.@{prefixCls}-divider {
   background-color: @atomuser-divider-color;
   margin-right: @margin-icon-action-post;
-  &.vertical {
+  &.@{prefixCls}-vertical {
     width: 1px;
     height: 18px;
   }

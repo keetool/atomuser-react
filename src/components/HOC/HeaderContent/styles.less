@@ -1,21 +1,23 @@
 @import "../../../styles/variables";
 
-.header {
+@prefixCls: header-content;
+
+.@{prefixCls}-header {
   background-color: @atomuser-primary-color;
   z-index: @atomuser-zindex-1;
 
-  &.fixed-top {
+  &.@{prefixCls}-fixed-top {
     position: fixed;
     top: @atomuser-layout-header-height;
     left: 0;
     width: 100%;
   }
 
-  .content {
+  .@{prefixCls}-content {
     padding: 0 @atomuser-padding-content-horizontal;
   }
   @media screen and (min-width: @atomuser-screen-without-mobile) {
-    .content {
+    .@{prefixCls}-content {
       width: @atomuser-layout-width-without-mobile;
       margin: 0 auto;
     }

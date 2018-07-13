@@ -11,7 +11,7 @@ let cx = classNamesBind.bind(styles);
 
 
 @observer
-class Content extends React.Component {
+class Image extends React.Component {
     numberClick = 0;
     state = {
         isReview: false,
@@ -42,7 +42,7 @@ class Content extends React.Component {
 
 
     render() {
-        const {images} = this.props;
+        const {images, prefixCls} = this.props;
         if (isEmptyArr(images)) {
             return <div/>;
         } else {
@@ -57,13 +57,13 @@ class Content extends React.Component {
             const {isReview, reviewImage} = this.state;
 
             return (
-                <div className={cx('layout-image')} style={{marginBottom: images.length > 1 ? "40px" : 0}}>
+                <div className={cx(`${prefixCls}-layout-image`)} style={{marginBottom: images.length > 1 ? "40px" : 0}}>
                     <Slider settings={settings}>
                         {
                             images.map((image, index) => {
                                 return (
                                     <div key={index}>
-                                        <div className={cx('image')}
+                                        <div className={cx(`${prefixCls}-image`)}
                                              onClick={() => this.onDoubleClick(image.url)}
                                              style={{background: convertUrlImageBackground(image.url)}}
                                         />
@@ -84,8 +84,12 @@ class Content extends React.Component {
     }
 }
 
-Content.propTypes = {
+Image.defaultProps = {
+    prefixCls: 'post'
+};
+
+Image.propTypes = {
     images: PropTypes.array.isRequired
 };
 
-export default Content;
+export default Image;

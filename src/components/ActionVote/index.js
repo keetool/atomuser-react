@@ -8,37 +8,39 @@ import Tooltip from "../common/Tooltip";
 
 let cx = classNamesBind.bind(styles);
 
-const ActionVote = ({upvote, downvote, vote, actionUpVote, actionDownVote, disabled}) => {
+const ActionVote = ({upvote, downvote, vote, actionUpVote, actionDownVote, disabled, prefixCls}) => {
     return (
 
-        <div className={cx({
-            "action-vote": true,
-            "disabled": disabled
-        })}>
+        <div className={cx(
+            `${prefixCls}-action-vote`, {
+                [`${prefixCls}-disabled`]: disabled
+            })}>
             <Tooltip placement="topLeft" title={`${upvote} ` + translateI18n('social.home.post_item.upvote')}>
                 <Icon
                     type="caret-up"
                     className={cx({
-                        "voted": vote == 1
+                        [`${prefixCls}-voted`]: vote == 1
                     })}
                     onClick={disabled ? null : actionUpVote}
                 />
             </Tooltip>
-            <div className={cx({
-                "text-vote": true
-            })}>
+            <div className={cx(`${prefixCls}-text-vote`)}>
                 {upvote - downvote}
             </div>
             <Tooltip placement="top" title={`${downvote} ` + translateI18n('social.home.post_item.downvote')}>
                 <Icon type="caret-down"
                       className={cx({
-                          "voted": vote == -1
+                          [`${prefixCls}-voted`]: vote == -1
                       })}
                       onClick={disabled ? null : actionDownVote}
                 />
             </Tooltip>
         </div>
     );
+};
+
+ActionVote.defaultProps = {
+    prefixCls: 'action-vote'
 };
 
 ActionVote.propTypes = {

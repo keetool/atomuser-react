@@ -25,17 +25,17 @@ class Post extends React.Component {
     };
 
     render() {
-        const {store} = this.props;
+        const {store, prefixCls} = this.props;
         const {post, storeComment, storeEditorComment, config} = store;
         const linkDetailPost = linkRoute("/post/:postID", {postID: post.id});
 
         return (
-            <div className={cx("layout-post")}>
+            <div className={cx(`${prefixCls}-layout-post`)}>
                 <Header post={post} linkDetail={linkDetailPost}/>
                 <Content post={post}/>
                 <Action post={post} store={store}/>
 
-                <div className={cx("layout-comment")}>
+                <div className={cx(`${prefixCls}-layout-comment`)}>
                     <Comments
                         hideComment={config.hideListComment}
                         hideEditorComment={config.hideEditorComment}
@@ -53,6 +53,10 @@ class Post extends React.Component {
         );
     }
 }
+
+Post.defaultProps = {
+    prefixCls: 'post'
+};
 
 Post.propTypes = {
     store: PropTypes.object

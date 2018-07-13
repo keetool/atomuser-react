@@ -10,17 +10,19 @@ let cx = classNamesBind.bind(styles);
 @observer
 class Content extends React.Component {
     render() {
-        const {post} = this.props;
+        const {post, prefixCls} = this.props;
         return (
-            <div className={cx({
-                "content": true
-            })}>
-                <div dangerouslySetInnerHTML={{__html: post.body}} className={cx("content-body")}/>
+            <div className={cx(`${prefixCls}-content`)}>
+                <div dangerouslySetInnerHTML={{__html: post.body}} className={cx(`${prefixCls}-content-body`)}/>
                 <Image images={post.images}/>
             </div>
         );
     }
 }
+
+Content.defaultProps = {
+    prefixCls: 'post'
+};
 
 Content.propTypes = {
     post: PropTypes.object.isRequired

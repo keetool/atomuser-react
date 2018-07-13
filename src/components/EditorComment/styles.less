@@ -1,12 +1,14 @@
 @import "../../styles/variables";
 
-.layout-editor {
-  .container {
+@prefixCls: editor-comment;
+
+.@{prefixCls}-layout-editor {
+  .@{prefixCls}-container {
     display: flex;
     flex-direction: row;
     position: relative;
     align-items: center;
-    .editor {
+    .@{prefixCls}-editor {
       margin-left: 10px;
       padding: 6px 15px;
       flex: 1;
@@ -21,25 +23,25 @@
         display: block;
         color: rgba(59, 59, 59, 0.58);
       }
-      &.focus {
+      &.@{prefixCls}-focus {
       }
-      &.border {
+      &.@{prefixCls}-border {
         border: solid @atomuser-grey-color 1px;
       }
-      &.uploading-comment {
+      &.@{prefixCls}-uploading-comment {
         color: @atomuser-grey-color;
       }
-      &.disable {
+      &.@{prefixCls}-disable {
         cursor: not-allowed;
       }
     }
-    > .uploading {
+    > .@{prefixCls}-uploading {
       position: absolute;
       cursor: not-allowed;
       bottom: 4px;
       right: 10px;
     }
-    .signin-to-comment {
+    .@{prefixCls}-signin-to-comment {
       margin-left: 10px;
       display: table-cell;
       vertical-align: middle;

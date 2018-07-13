@@ -25,13 +25,13 @@ class ListComment extends React.Component {
 
     render() {
         const {comments, isLoading, isLoadMore} = this.props.store;
-        const {t} = this.props;
+        const {t, prefixCls} = this.props;
         return (
             <div>
-                <div className={cx("container-comment")}>
+                <div className={cx(`${prefixCls}-container-comment`)}>
                     {
                         isLoadMore && !isEmptyArr(comments) &&
-                        <div className={cx("text-load-more")}
+                        <div className={cx(`${prefixCls}-text-load-more`)}
                              onClick={this.loadMore}
                         >{t("social.home.post.comment_load_more")}</div>
                     }
@@ -61,6 +61,10 @@ class ListComment extends React.Component {
         );
     }
 }
+
+ListComment.defaultProps = {
+    prefixCls: 'post-comment'
+};
 
 ListComment.propTypes = {
     store: PropTypes.object.isRequired,

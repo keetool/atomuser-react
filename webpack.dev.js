@@ -1,6 +1,6 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
-
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = merge(common, {
     output: {
@@ -17,5 +17,21 @@ module.exports = merge(common, {
         host: '0.0.0.0',
         public: 'localhost:3000',
         disableHostCheck: true
+    },
+    module: {
+        rules: [
+            {
+                test: /\.less$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    {
+                        loader: "less-loader", options: {
+                            javascriptEnabled: true,
+                        }
+                    }
+                ]
+            },
+        ],
     }
 });

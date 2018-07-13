@@ -1,6 +1,8 @@
 @import "../../styles/variables";
 
-.layout-tabbar {
+@prefixCls: global-tabbar;
+
+.@{prefixCls}-layout-tabbar {
   width: 100%;
   padding: 0;
   display: flex;
@@ -8,12 +10,12 @@
   justify-content: center;
   background-color: @atomuser-background-tabbar;
   border-top: @border-style-base @border-width-base @border-color-base;
-  &.tabbar-fixed-bottom {
+  &.@{prefixCls}-tabbar-fixed-bottom {
     position: fixed;
     bottom: 0px;
-    z-index: 1;
+    z-index: @atomuser-zindex-1;
   }
-  .tabbar {
+  .@{prefixCls}-tabbar {
     width: 100%;
     @media screen and (min-width: @atomuser-screen-without-mobile) {
       width: @atomuser-layout-width-without-mobile;
@@ -22,7 +24,7 @@
     display: flex;
     flex-direction: row;
 
-    .tabbar-item {
+    .@{prefixCls}-tabbar-item {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -36,7 +38,7 @@
         }
       }
 
-      &.active {
+      &.@{prefixCls}-active {
         i {
           color: @atomuser-primary-color !important;
         }

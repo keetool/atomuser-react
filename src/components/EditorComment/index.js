@@ -64,17 +64,17 @@ class EditorComment extends React.Component {
     };
 
     renderEditor = () => {
-        const {t, store} = this.props;
+        const {t, store, prefixCls} = this.props;
         if (isLoggedIn()) {
             const {isFocus, isUploading} = store;
             return (
                 <div
                     className={cx({
-                        "editor": true,
-                        "focus": isFocus,
-                        "border": isFocus || isUploading,
-                        "uploading-comment": isUploading,
-                        "disable": isUploading
+                        [`${prefixCls}-editor`]: true,
+                        [`${prefixCls}-focus`]: isFocus,
+                        [`${prefixCls}-border`]: isFocus || isUploading,
+                        [`${prefixCls}-uploading-comment`]: isUploading,
+                        [`${prefixCls}-disable`]: isUploading
                     })}
                     contentEditable={!isUploading}
                     onFocus={this._onFocus}
@@ -89,7 +89,7 @@ class EditorComment extends React.Component {
             );
         } else {
             return (
-                <div className={cx('signin-to-comment')} onClick={() => {
+                <div className={cx(`${prefixCls}-signin-to-comment`)} onClick={() => {
                     redirectSignIn();
                 }}>
                     {t('social.editor_comment.form.button_signin_to_comment')}
@@ -100,20 +100,16 @@ class EditorComment extends React.Component {
 
 
     render() {
-        const {account, style, store} = this.props;
+        const {account, style, store, prefixCls} = this.props;
         const {isUploading} = store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
         return (
             <div
-                className={cx({
-                    "layout-editor": true,
-                })}
+                className={cx(`${prefixCls}-layout-editor`)}
                 style={style}
             >
                 <div
-                    className={cx({
-                        "container": true
-                    })}
+                    className={cx(`${prefixCls}-container`)}
                 >
                     <Avatar url={avatarUrl} style={{cursor: "pointer"}}/>
                     {
@@ -121,7 +117,7 @@ class EditorComment extends React.Component {
                     }
                     {
                         isUploading &&
-                        <div className={cx("uploading")}>
+                        <div className={cx(`${prefixCls}-uploading`)}>
                             <Spin indicator={IconUpLoading}/>
                         </div>
                     }
@@ -131,6 +127,10 @@ class EditorComment extends React.Component {
         );
     }
 }
+
+EditorComment.defaultProps = {
+    prefixCls: 'editor-comment'
+};
 
 EditorComment.propTypes = {
     addComment: PropTypes.func,

@@ -1,19 +1,21 @@
 @import "../../styles/variables.less";
 
-.container {
+@prefixCls: module-signin;
+
+.@{prefixCls}-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   overflow: auto;
 }
 
-.content {
+.@{prefixCls}-content {
   padding: 32px 0;
   flex: 1;
   background: @atomuser-primary-color;
 }
 
-.footer {
+.@{prefixCls}-footer {
   background: white;
   height: 100px;
   display: flex;
@@ -23,23 +25,23 @@
   div {
     text-align: center;
   }
-  .text-forgot {
+  .@{prefixCls}-text-forgot {
     display: flex;
     flex-direction: row;
   }
 }
 
 @media (min-width: @screen-md-min) {
-  .content {
+  .@{prefixCls}-content {
     padding: 112px 0 24px 0;
   }
 }
 
-.top {
+.@{prefixCls}-top {
   text-align: center;
 }
 
-.header {
+.@{prefixCls}-header {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,12 +50,12 @@
   }
 }
 
-.logo {
+.@{prefixCls}-logo {
   height: 25px;
   vertical-align: top;
 }
 
-.desc {
+.@{prefixCls}-desc {
   font-size: 15px;
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
   color: white;
@@ -61,7 +63,7 @@
   margin-bottom: 40px;
 }
 
-.main {
+.@{prefixCls}-main {
   width: 368px;
   margin: 0 auto;
   @media screen and (max-width: @screen-sm) {
@@ -81,24 +83,24 @@
     }
   }
 
-  .other {
+  .@{prefixCls}-other {
     text-align: left;
     margin-top: 24px;
     line-height: 22px;
 
-    .register {
+    .@{prefixCls}-register {
       float: right;
     }
   }
 }
 
-.login {
-  .submit {
+.@{prefixCls}-login {
+  .@{prefixCls}-submit {
     width: 100%;
   }
 }
 
-.btn {
+.@{prefixCls}-btn {
   border-radius: 25px;
   display: flex;
   flex-direction: row;
@@ -107,17 +109,17 @@
   margin-bottom: 20px;
   cursor: pointer;
 
-  &.btn-facebook {
+  &.@{prefixCls}-btn-facebook {
     background-color: #096dd9;
     color: white;
   }
 
-  &.btn-google {
+  &.@{prefixCls}-btn-google {
     background-color: #EA4235;
     color: white;
   }
 
-  .text-login {
+  .@{prefixCls}-text-login {
     text-align: center;
     width: 100%;
   }
@@ -126,7 +128,7 @@
     box-shadow: 0px 0px 20px rgba(185, 185, 185, 0.36);
   }
 
-  &.disable {
+  &.@{prefixCls}-disable {
     cursor: not-allowed;
     opacity: 0.6;
   }

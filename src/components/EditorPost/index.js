@@ -110,28 +110,25 @@ class EditorPost extends React.Component {
     };
 
     render() {
-        const {account, t} = this.props;
+        const {account, t, prefixCls} = this.props;
         const {isFocus, percentUpload, error, isUploading, images} = this.store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
         const placeHolderEditor = isLoggedIn() ? t('social.editor.form.placeholder') : t('social.editor.form.placeholder_need_signin');
         return (
             <div
-                className={cx({
-                    "layout-editor": true,
-                    "disable": isUploading
-                })}
+                className={cx(
+                    `${prefixCls}-layout-editor`, {
+                        [`${prefixCls}-disable`]: isUploading
+                    })}
                 onBlur={() => console.log("blur")}
             >
                 <div
-                    className={cx({
-                        "container": true
-                    })}
+                    className={cx(`${prefixCls}-container`)}
                 >
                     <Avatar url={avatarUrl} size={40}/>
                     <div
-                        className={cx({
-                            "editor": true,
-                            "focus": isFocus,
+                        className={cx(`${prefixCls}-editor`, {
+                            [`${prefixCls}-focus`]: isFocus,
                         })}
                         contentEditable={!isUploading}
                         onFocus={this._onFocus}
@@ -151,7 +148,7 @@ class EditorPost extends React.Component {
                 {
                     isFocus && isLoggedIn() &&
                     <div>
-                        <div className={cx("divider", "horizontal")}/>
+                        <div className={cx(`${prefixCls}-divider`, `${prefixCls}-horizontal`)}/>
                         <Action onSelectImageToUpload={this.onSelectImageToUpload}/>
                     </div>
 
@@ -162,9 +159,7 @@ class EditorPost extends React.Component {
                 {
                     isFocus &&
                     (
-                        <div className={cx({
-                            "container-action": true
-                        })}>
+                        <div className={cx(`${prefixCls}-container-action`)}>
                             {isUploading ?
                                 (
                                     <Progress percent={percentUpload * 100} status="active" showInfo={false}/>
@@ -181,6 +176,10 @@ class EditorPost extends React.Component {
         );
     }
 }
+
+EditorPost.defaultProps = {
+    prefixCls: 'editor-post'
+};
 
 EditorPost.propTypes = {
     addPost: PropTypes.func.isRequired

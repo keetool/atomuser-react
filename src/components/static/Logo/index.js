@@ -9,12 +9,12 @@ const Logo = ({isContrast, size = 80, style = {}}) => {
     return (
         <div className={cx({
             'atomuser-logo': true,
-            'contrast': isContrast
+            'atomuser-icon-contrast': isContrast
         })}
              style={{width: size + 'px', height: size + 'px', ...style}}
         >
-            <div className={styles['atomuser-icon']}>
-                <div className={styles['atomuser-icon-dot']}>
+            <div className={cx('atomuser-icon')}>
+                <div className={cx('atomuser-icon-dot')}>
                 </div>
             </div>
         </div>

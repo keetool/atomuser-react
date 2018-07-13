@@ -1,6 +1,8 @@
 @import "../../styles/variables";
 
-.layout-post {
+@prefixCls: post;
+
+.@{prefixCls}-layout-post {
   background: white;
   margin: @atomuser-margin-posts 0;
   padding-top: 10px;
@@ -9,27 +11,27 @@
   border-radius: @atomuser-card-border-radius;
 }
 
-.header {
+.@{prefixCls}-header {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 0 @atomuser-padding-content-horizontal;
-  .creator {
+  .@{prefixCls}-creator {
     display: flex;
     flex-direction: row;
     align-items: center;
     cursor: pointer;
-    .creator-content {
+    .@{prefixCls}-creator-content {
       margin-left: 10px;
       display: flex;
       flex-direction: column;
       flex: 1;
-      .name {
+      .@{prefixCls}-name {
         font-weight: bold;
         flex: 1;
       }
-      .text-time {
+      .@{prefixCls}-text-time {
         color: @atomuser-grey-color;
         &:hover {
           text-decoration: underline;
@@ -39,24 +41,24 @@
       }
     }
   }
-  .action {
+  .@{prefixCls}-action {
     cursor: pointer;
-    .action-icon {
+    .@{prefixCls}-action-icon {
       font-size: 25px;
       color: @atomuser-grey-color;
     }
   }
 }
 
-.content {
+.@{prefixCls}-content {
   margin-top: 5px;
   margin-bottom: 15px;
-  > .content-body {
+  > .@{prefixCls}-content-body {
     padding: 0 @atomuser-padding-content-horizontal;
   }
 }
 
-.layout-action {
+.@{prefixCls}-layout-action {
   padding: 0 @atomuser-padding-content-horizontal;
   display: flex;
   flex-direction: row;
@@ -68,22 +70,22 @@
     color: @atomuser-grey-color;
   }
 
-  .active-mark {
+  .@{prefixCls}-active-mark {
     color: @atomuser-mark-active-color
   }
 
-  .action-left {
+  .@{prefixCls}-action-left {
     display: flex;
     flex-direction: row;
     align-items: center;
 
-    .action-comment {
+    .@{prefixCls}-action-comment {
       display: flex;
       flex-direction: row;
       align-items: center;
       cursor: pointer;
 
-      .text-comment {
+      .@{prefixCls}-text-comment {
         font-weight: 500;
         margin-right: @margin-icon-action-post;
       }
@@ -91,20 +93,20 @@
   }
 }
 
-.disabled {
+.@{prefixCls}-disabled {
   cursor: not-allowed !important;
   * {
     cursor: not-allowed !important;
   }
 }
 
-.layout-comment {
+.@{prefixCls}-layout-comment {
   padding: 5px @atomuser-padding-content-horizontal;
 }
 
-.layout-image {
+.@{prefixCls}-layout-image {
   margin-top: 10px;
-  .image {
+  .@{prefixCls}-image {
     cursor: pointer;
     display: flex;
     flex: 1;
@@ -114,19 +116,19 @@
   }
 }
 
-.divider {
+.@{prefixCls}-divider {
   background-color: @atomuser-divider-color;
   margin-right: @margin-icon-action-post;
-  &.vertical {
+  &.@{prefixCls}-vertical {
     width: 1px;
     height: 18px;
   }
 }
 
-.footer {
+.@{prefixCls}-footer {
   margin-top: 15px;
   color: @atomuser-grey-color;
-  .text-comment {
+  .@{prefixCls}-text-comment {
     cursor: pointer;
     margin-top: 10px;
     &:hover {

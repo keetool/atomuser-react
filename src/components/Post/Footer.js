@@ -10,16 +10,20 @@ let cx = classNamesBind.bind(styles);
 @observer
 class Footer extends React.Component {
     render() {
-        // const {post} = this.props;
+        const {prefixCls} = this.props;
         return (
-            <div className={cx("footer")}>
+            <div className={cx(`${prefixCls}-footer`)}>
             </div>
         );
     }
 }
 
+Footer.defaultProps = {
+    prefixCls: 'post'
+};
+
 Footer.propTypes = {
-    post: PropTypes.object.isRequired,
+    post: PropTypes.object,
 };
 
 export default translate(props => props.namespaces)(Footer);

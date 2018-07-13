@@ -5,6 +5,9 @@ import Logo from '../../components/static/Logo';
 import {translate} from "react-i18next";
 import LogoText from "../../components/static/LogoText";
 import {capitalizeFirstLetter} from "../../helpers/utility";
+import classNamesBind from "classnames/bind";
+
+let cx = classNamesBind.bind(styles);
 
 class SignInContainer extends React.Component {
     constructor(props, context) {
@@ -12,25 +15,25 @@ class SignInContainer extends React.Component {
     }
 
     render() {
-        const {t} = this.props;
+        const {t, prefixCls} = this.props;
         return (
-            <div className={styles.container}>
-                <div className={styles.content}>
-                    <div className={styles.top}>
-                        <div className={styles.header}>
+            <div className={cx(`${prefixCls}-container`)}>
+                <div className={cx(`${prefixCls}-content`)}>
+                    <div className={cx(`${prefixCls}-top`)}>
+                        <div className={cx(`${prefixCls}-header`)}>
                             <Logo isContrast size={80}/>
                             <LogoText isContrast size={50}/>
                         </div>
-                        <div className={styles.desc}>{
+                        <div className={cx(`${prefixCls}-desc`)}>{
                             capitalizeFirstLetter(t("social.login.form.description"))}
                         </div>
                     </div>
-                    <div className={styles.main}>
+                    <div className={cx(`${prefixCls}-main`)}>
                         <SignInForm/>
                     </div>
                 </div>
-                <div className={styles.footer}>
-                    <div className={styles['text-forgot']}>
+                <div className={cx(`${prefixCls}-footer`)}>
+                    <div className={cx(`${prefixCls}-text-forgot`)}>
                         <div>Forgot password</div>
                         &emsp; &middot; &emsp;
                         <div>New account</div>
@@ -42,6 +45,10 @@ class SignInContainer extends React.Component {
         );
     }
 }
+
+SignInContainer.defaultProps = {
+    prefixCls: 'module-signin'
+};
 
 SignInContainer.propTypes = {};
 

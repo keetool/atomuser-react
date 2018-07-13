@@ -125,42 +125,7 @@ module.exports = {
                 //         ]
                 //     },
                 // ],
-            },
-            {
-                test: /\.less$/,
-                oneOf: [
-                    {
-                        exclude: /node_modules/,
-                        use: [MiniCssExtractPlugin.loader, {
-                            loader: "css-loader",
-                            options: {
-                                sourceMap: true,
-                                modules: true,
-                                localIdentName: '[local]__[hash:base64:5]',
-                            },
-
-                        }, {
-                            loader: "less-loader", options: {
-                                javascriptEnabled: true,
-                            }
-                        }]
-                    },
-                    {
-                        include: /node_modules/,
-                        use: [
-                            MiniCssExtractPlugin.loader,
-                            'css-loader',
-                            {
-                                loader: "less-loader", options: {
-                                    javascriptEnabled: true,
-                                }
-                            }
-                        ]
-                    },
-                ],
-            },
-
-
+            }
         ],
 
     },

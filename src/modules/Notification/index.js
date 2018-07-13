@@ -12,8 +12,11 @@ import {CREATE_NOTIFICATION} from "../../services/socketEvent";
 import {withAccount} from "../../components/context/AccountContext";
 import {SUBDOMAIN} from "../../constants/env";
 import {getValueObjectFromStringKey} from "../../helpers/utility";
+import ScrollView from "../../helpers/scrollView";
 
 let cx = classNamesBind.bind(styles);
+
+const listId = "list-noti";
 
 @observer
 class ListNotification extends React.Component {
@@ -21,7 +24,9 @@ class ListNotification extends React.Component {
     store = new Store();
 
     componentDidMount() {
-        this.store.getNotifications();
+        this.scrollView = new ScrollView(listId, this.getNotis);
+        this.store.getNotifications(this.getNotiFinished);
+
         const channel = `${SUBDOMAIN}:${CREATE_NOTIFICATION}`;
         socket.on(channel, (data) => {
             const notification = data;
@@ -32,6 +37,17 @@ class ListNotification extends React.Component {
             }
         });
     }
+
+    getNotiFinished = () => {
+        this.scrollView.addEventScroll();
+    };
+
+    getNotis = () => {
+        const store = this.store;
+        if (store.isLoadMore) {
+            store.getNotifications(this.getNotiFinished);
+        }
+    };
 
     renderLoading = () => {
         return (
@@ -67,7 +83,9 @@ class ListNotification extends React.Component {
         const {prefixCls} = this.props;
         const {notifications, isLoading} = this.store;
         return (
-            <div className={cx(`${prefixCls}-layout`)}>
+            <div
+                id={listId}
+                className={cx(`${prefixCls}-layout`)}>
                 {
                     notifications && notifications.length > 0 ?
                         (

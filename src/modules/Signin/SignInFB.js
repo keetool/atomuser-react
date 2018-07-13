@@ -22,17 +22,21 @@ class SignInFB extends React.Component {
     };
 
     render() {
-        const {t, disable, isLogging} = this.props;
+        const {t, disable, isLogging, prefixCls} = this.props;
         return (
-            <div className={cx('btn', 'btn-facebook', {'disable': disable})}
+            <div className={cx(`${prefixCls}-btn`, `${prefixCls}-btn-facebook`, {[`${prefixCls}-disable`]: disable})}
                  onClick={disable ? null : this.loginFacebook}>
                 <Icon type="facebook" style={{fontSize: 25, position: 'absolute'}}/>
                 <div
-                    className={cx('text-login')}>{capitalizeFirstLetter(t(isLogging ? 'social.login.form.is_logging' : 'social.login.form.text_login_facebook'))}</div>
+                    className={cx(`${prefixCls}-text-login`)}>{capitalizeFirstLetter(t(isLogging ? 'social.login.form.is_logging' : 'social.login.form.text_login_facebook'))}</div>
             </div>
         );
     }
 }
+
+SignInFB.defaultProps = {
+    prefixCls: 'module-signin'
+};
 
 SignInFB.propTypes = {
     disable: PropTypes.bool,

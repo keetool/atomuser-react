@@ -1,6 +1,8 @@
 @import "../../styles/variables";
 
-.layout-content {
+@prefixCls: app-container;
+
+.@{prefixCls}-layout-content {
   -webkit-transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   -moz-transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   -ms-transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -10,26 +12,15 @@
     width: @atomuser-layout-width-without-mobile;
     margin: 0 auto;
   }
-  //box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  &.fixed-sider {
-    padding-left: 256px;
-  }
-  &.fixed-header-top {
+
+  &.@{prefixCls}-fixed-header-top {
     margin-top: @atomuser-layout-header-height;
   }
 
-  &.collapse-sider-left {
-    padding-left: @menu-collapsed-width;
-  }
-
-  &.collapse-sider-left-mobile {
-    padding-left: 0;
-  }
-
-  .content {
+  .@{prefixCls}-content {
     min-height: calc(100vh - @atomuser-layout-header-height) !important;
     padding-bottom: 0;
-    &.has-tabbar {
+    &.@{prefixCls}-has-tabbar {
       padding-bottom: @atomuser-layout-header-height;
     }
   }

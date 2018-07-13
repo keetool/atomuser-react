@@ -12,22 +12,17 @@ let cx = classNamesBind.bind(styles);
 @observer
 class Comment extends React.Component {
     render() {
-        const {store} = this.props;
+        const {store, prefixCls} = this.props;
         const {comment} = store;
         const creator = comment.user ? comment.user : {avatar_url: LOGO};
         return (
-            <div className={cx({
-                "layout-content": true
-            })}>
+            <div className={cx(`${prefixCls}-layout-content`)}>
                 <Avatar url={creator.avatar_url}/>
-                <div className={cx({
-                    "content": true
-                })}>
-                    <div className={cx({
-                        "comment": true
-                    })}>
-                        <div className={cx("name")}>{creator.name}</div>
-                        <div className={cx("content-comment")} dangerouslySetInnerHTML={{__html: comment.value}}/>
+                <div className={cx(`${prefixCls}-content`)}>
+                    <div className={cx(`${prefixCls}-comment`)}>
+                        <div className={cx(`${prefixCls}-name`)}>{creator.name}</div>
+                        <div className={cx(`${prefixCls}-content-comment`)}
+                             dangerouslySetInnerHTML={{__html: comment.value}}/>
                     </div>
                     <Action comment={comment} store={store}/>
                 </div>
@@ -35,6 +30,10 @@ class Comment extends React.Component {
         );
     }
 }
+
+Comment.defaultProps = {
+    prefixCls: 'post-comment'
+};
 
 Comment.propTypes = {
     store: PropTypes.object.isRequired,

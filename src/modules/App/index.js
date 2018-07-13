@@ -67,37 +67,40 @@ class AppContainer extends React.Component {
     };
 
     render() {
+        const {prefixCls} = this.props;
         const {collapsed, isMobile} = this.state;
         const FIXED_HEADER = true;
         const hasTabbar = isLoggedIn();
         const layout = (
-            <Layout>
-                <GlobalHeader
-                    collapsed={collapsed}
-                    onCollapse={this.handleMenuCollapse}
-                    isMobile={isMobile}
-                    fixed={FIXED_HEADER}
-                />
                 <Layout>
-                    <div
-                        className={cx({
-                            "layout-content": true,
-                            "fixed-header-top": FIXED_HEADER,
-                        })}
-                    >
-                        <Layout.Content>
-                            <div className={cx({
-                                "content": true,
-                                "has-tabbar": hasTabbar,
-                            })}>
-                                <AppRoutes/>
-                            </div>
-                        </Layout.Content>
-                    </div>
+                    <GlobalHeader
+                        collapsed={collapsed}
+                        onCollapse={this.handleMenuCollapse}
+                        isMobile={isMobile}
+                        fixed={FIXED_HEADER}
+                    />
+                    <Layout>
+                        <div
+                            className={cx(`${prefixCls}-layout-content`, {
+                                    [`${prefixCls}-fixed-header-top`]: FIXED_HEADER,
+                                }
+                            )}
+                        >
+                            <Layout.Content>
+                                <div className={cx(`${prefixCls}-content`, {
+                                    [`${prefixCls}-has-tabbar`]: hasTabbar,
+                                })}>
+                                    <AppRoutes/>
+                                </div>
+                            </Layout.Content>
+                        </div>
+                    </Layout>
+                    {
+                        hasTabbar && <GlobalTab/>
+                    }
                 </Layout>
-                {hasTabbar && <GlobalTab/>}
-            </Layout>
-        );
+            )
+        ;
         return (
             <AccountProvider value={this.state.account}>
                 <ContainerQuery query={QUERY_SCREEN}>
@@ -107,6 +110,10 @@ class AppContainer extends React.Component {
         );
     }
 }
+
+AppContainer.defaultProps = {
+    prefixCls: 'app-container'
+};
 
 AppContainer.propTypes = {};
 

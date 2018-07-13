@@ -1,15 +1,17 @@
 @import "../../styles/variables";
 
-.voted {
+@prefixCls: action-vote;
+
+.@{prefixCls}-voted {
   color: @atomuser-primary-color !important;
 }
 
-.action-vote {
+.@{prefixCls}-action-vote {
   display: flex;
   flex-direction: row;
   align-items: center;
   cursor: pointer;
-  .text-vote {
+  .@{prefixCls}-text-vote {
     font-weight: 500;
     margin-right: @margin-icon-action-post;
   }
@@ -19,7 +21,7 @@
   }
 }
 
-.disabled {
+.@{prefixCls}-disabled {
   cursor: not-allowed !important;
   i {
     cursor: not-allowed !important;

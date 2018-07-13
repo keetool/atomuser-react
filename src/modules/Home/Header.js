@@ -9,11 +9,10 @@ let cx = classNamesBind.bind(styles);
 
 class Header extends React.Component {
     render() {
+        const {prefixCls} = this.props;
         return (
-            <div className={cx({
-                "header": true
-            })}>
-                <div className={"header-item"}>
+            <div className={cx(`${prefixCls}-header`)}>
+                <div className={cx(`${prefixCls}-header-item`)}>
                     All threads
                 </div>
 
@@ -21,6 +20,10 @@ class Header extends React.Component {
         );
     }
 }
+
+Header.defaultProps = {
+    prefixCls: 'module-home'
+};
 
 Header.propTypes = {
     fixed: PropTypes.bool,

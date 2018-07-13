@@ -19,20 +19,19 @@ class UploadImage extends React.Component {
     }
 
     render() {
-        const {image} = this.props;
-        console.log({image});
+        const {image, prefixCls} = this.props;
         const url = isEmpty(image.url) ? '' : image.url;
         return (
-            <div className={cx('container-image')}>
+            <div className={cx(`${prefixCls}-container-image`)}>
                 <div
-                    className={cx('image')}
+                    className={cx(`${prefixCls}-image`)}
                     style={{
                         background: convertUrlImageBackground(url)
                     }}
                 />
                 {
                     image.isUploading &&
-                    <div className={cx('loading')}>
+                    <div className={cx(`${prefixCls}-loading`)}>
                         <Progress percent={image.percentComplete} size="small" status="active" showInfo={false}/>
                     </div>
                 }
@@ -41,6 +40,10 @@ class UploadImage extends React.Component {
         );
     }
 }
+
+UploadImage.defaultProps = {
+    prefixCls: 'editor-post'
+};
 
 UploadImage.propTypes = {
     store: PropTypes.object.isRequired,

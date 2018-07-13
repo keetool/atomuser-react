@@ -59,17 +59,15 @@ class GlobalTab extends React.Component {
 
 
     render() {
-        const {t} = this.props;
+        const {t, prefixCls} = this.props;
         const {location} = this.props;
         const {pathname} = location;
         return (
-            <Layout.Footer className={cx({
-                "layout-tabbar": true,
-                "tabbar-fixed-bottom": true
-            })}>
-                <div className={cx({
-                    "tabbar": true
-                })}>
+            <Layout.Footer className={cx(
+                `${prefixCls}-layout-tabbar`,
+                `${prefixCls}-tabbar-fixed-bottom`
+            )}>
+                <div className={cx(`${prefixCls}-tabbar`)}>
                     {
                         TABS.map((tab, index) => {
                             return (
@@ -82,10 +80,10 @@ class GlobalTab extends React.Component {
                                         to={tab.path}
                                         style={{width: tabbarItemWidth}}
                                     >
-                                        <div className={cx({
-                                            "tabbar-item": true,
-                                            "active": checkLink(pathname, tab.path)
-                                        })}
+                                        <div className={cx(`${prefixCls}-tabbar-item`,
+                                            {
+                                                [`${prefixCls}-active`]: checkLink(pathname, tab.path)
+                                            })}
                                         >
                                             <IconTab type={tab.icon}/>
                                         </div>
@@ -99,6 +97,10 @@ class GlobalTab extends React.Component {
         );
     }
 }
+
+GlobalTab.defaultProps = {
+    prefixCls: 'global-tabbar'
+};
 
 GlobalTab.propTypes = {};
 

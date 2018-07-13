@@ -18,23 +18,29 @@ class Action extends React.Component {
     };
 
     render() {
-        const {t} = this.props;
+        const {t, prefixCls} = this.props;
         return (
-            <div className={cx('layout-action')}>
-                <div className={cx('action-photo')}>
+            <div className={cx(`${prefixCls}-layout-action`)}>
+                <div className={cx(`${prefixCls}-action-photo`)}>
                     <InputFile type={".jpg,.png,.gif"} multiple onChange={this.onSelectImage}>
                         <Button icon="picture">
                             {t('social.editor.action.photo')}
                         </Button>
                     </InputFile>
                 </div>
-                <div className={cx('action-file')}>
-                        <Button icon="paper-clip">{t('social.editor.action.file')}</Button>
+                <div className={cx(`${prefixCls}-action-file`)}>
+                    <Button icon="paper-clip">{t('social.editor.action.file')}</Button>
                 </div>
             </div>
         );
     }
 }
+
+
+Action.defaultProps = {
+    prefixCls: 'editor-post'
+};
+
 
 Action.propTypes = {
     onSelectImageToUpload: PropTypes.func.isRequired,

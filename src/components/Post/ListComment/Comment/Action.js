@@ -25,11 +25,11 @@ class Action extends React.Component {
     };
 
     render() {
-        const {comment} = this.props;
+        const {comment, prefixCls} = this.props;
         const disabled = !isLoggedIn();
         return (
-            <div className={cx("layout-action")}>
-                <div className={cx("action-left")}>
+            <div className={cx(`${prefixCls}-layout-action`)}>
+                <div className={cx(`${prefixCls}-action-left`)}>
                     <ActionVote
                         upvote={comment.upvote}
                         downvote={comment.downvote}
@@ -41,13 +41,17 @@ class Action extends React.Component {
                     {/*<div className={cx("divider", "vertical")}/>*/}
                     {/*<div className={cx("action-reply")}>{t('social.home.comment_item.reply')}</div>*/}
                 </div>
-                <div className={cx("action-right")}>
-                    <div className={cx("text-time")}>{fullRelativeTime(comment.created_at)}</div>
+                <div className={cx(`${prefixCls}-action-right`)}>
+                    <div className={cx(`${prefixCls}-text-time`)}>{fullRelativeTime(comment.created_at)}</div>
                 </div>
             </div>
         );
     }
 }
+
+Action.defaultProps = {
+    prefixCls: 'post-comment'
+};
 
 Action.propTypes = {
     comment: PropTypes.object,

@@ -9,47 +9,39 @@ import {Link} from "react-router-dom";
 
 let cx = classNamesBind.bind(styles);
 
-const Header = ({post, linkDetail}) => {
+const Header = ({post, linkDetail, prefixCls}) => {
     const {creator} = post;
 
     return (
-        <div className={cx({
-            "header": true
-        })}>
-            <div className={cx({
-                "creator": true
-            })}>
+        <div className={cx(`${prefixCls}-header`)}>
+            <div className={cx(`${prefixCls}-creator`)}>
                 <Avatar url={creator.avatar_url}/>
-                <div className={cx({
-                    "creator-content": true
-                })}>
+                <div className={cx(`${prefixCls}-creator-content`)}>
                     <div
-                        className={cx({
-                            "name": true
-                        })}
+                        className={cx(`${prefixCls}-name`)}
                     >
                         {creator.name}
                     </div>
                     <Link to={linkDetail}>
-                        <div className={cx("text-time")}>
+                        <div className={cx(`${prefixCls}-text-time`)}>
                             {relativeTime(post.created_at)}
                         </div>
                     </Link>
                 </div>
 
             </div>
-            <div className={cx({
-                "action": true
-            })}>
+            <div className={cx(`${prefixCls}-action`)}>
                 <Icon
                     type="ellipsis"
-                    className={cx({
-                        "action-icon": true
-                    })}
+                    className={cx(`${prefixCls}-action-icon`)}
                 />
             </div>
         </div>
     );
+};
+
+Header.defaultProps = {
+    prefixCls: 'post'
 };
 
 Header.propTypes = {

@@ -9,10 +9,10 @@ class Store {
     @observable notifications = [];
     @observable isLoading = false;
     @observable error = null;
-    @observable isLoadMore = true;
+    @observable pagination = {};
 
     @action
-    async getNotifications() {
+    async getNotifications(callbackFinished) {
 
         this.isLoading = true;
         this.error = null;
@@ -24,11 +24,8 @@ class Store {
 
             if (httpSuccess(res.status)) {
                 const notifications = data.data;
-                if (!isEmptyArr(notifications)) {
-                    this.notifications = [...this.notifications, ...this.createStoreNotifications(notifications)];
-                } else {
-                    this.isLoadMore = false;
-                }
+                this.notifications = [...this.notifications, ...this.createStoreNotifications(notifications)];
+                this.pagination = data.meta;
             } else {
                 this.error = messageHttpRequest();
             }
@@ -36,6 +33,9 @@ class Store {
             this.error = messageHttpRequest(error);
         } finally {
             this.isLoading = false;
+            if (callbackFinished) {
+                callbackFinished();
+            }
             if (!isEmptyArr(this.error)) {
                 messageError(this.error);
             }
@@ -52,6 +52,10 @@ class Store {
 
     @computed get isEmpty() {
         return !this.isLoading && !this.error && isEmptyArr(this.notifications);
+    }
+
+    @computed get isLoadMore() {
+        return this.pagination.total > 0;
     }
 
     createStoreNotifications(notifications) {

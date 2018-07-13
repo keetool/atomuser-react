@@ -14,7 +14,6 @@ import LogoText from "../static/LogoText";
 import {isLoggedIn, redirectSignIn, signout} from "../../helpers/auth";
 import {translate} from "react-i18next";
 import Tooltip from "../common/Tooltip";
-// import classNames from 'classnames';
 
 let cx = classNamesBind.bind(styles);
 
@@ -35,37 +34,30 @@ class GlobalHeader extends React.Component {
         window.open('/', '_blank');
     };
 
-    ren;
-
     render() {
         const {
             fixed,
-            t
+            t,
+            prefixCls
         } = this.props;
         return (
             <Layout.Header
-                className={cx({
-                    "layout-header": true,
-                    "header-fixed-top": fixed
-                })}
+                className={cx(
+                    `${prefixCls}-layout-header`, {
+                        [`${prefixCls}-header-fixed-top`]: fixed
+                    })}
             >
                 <div
-                    className={cx({
-                        "header": true,
-                    })}
+                    className={cx(`${prefixCls}-header`)}
                 >
                     <div
-                        className={cx({
-                            "logo": true,
-                        })}
+                        className={cx(`${prefixCls}-logo`)}
                         onClick={this.handleClickLogo}
                     >
                         <Logo size={25} isContrast/>
                         <LogoText size={20} bold={false} isContrast style={{paddingLeft: '2px'}}/>
                     </div>
-                    <div className={cx({
-                        "right": true,
-                    })}>
+                    <div className={cx(`${prefixCls}-right`)}>
                         {
                             isLoggedIn() ?
                                 (
@@ -90,6 +82,10 @@ class GlobalHeader extends React.Component {
         );
     }
 }
+
+GlobalHeader.defaultProps = {
+    prefixCls: 'global-header'
+};
 
 GlobalHeader.propTypes = {
     onCollapse: PropTypes.func.isRequired,

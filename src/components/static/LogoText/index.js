@@ -9,7 +9,7 @@ const LogoText = ({isContrast, size = 50, style = {}, bold = true}) => {
     return (
         <div className={cx({
             'atomuser-logo-text': true,
-            'contrast': isContrast
+            'atomuser-logo-text-contrast': isContrast
         })}
              style={{fontSize: size, ...style}}
         >

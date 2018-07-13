@@ -15,16 +15,20 @@ class SignInGoogle extends React.Component {
     }
 
     render() {
-        const {t, disable, isLogging} = this.props;
+        const {t, disable, isLogging, prefixCls} = this.props;
         return (
-            <div className={cx('btn', 'btn-google', {'disable': disable})}>
+            <div className={cx(`${prefixCls}-btn`, `${prefixCls}-btn-google`, {[`${prefixCls}-disable`]: disable})}>
                 <Icon type="google" style={{fontSize: 25, position: 'absolute'}}/>
-                <div className={cx('text-login')}>{capitalizeFirstLetter(t(
+                <div className={cx(`${prefixCls}-text-login`)}>{capitalizeFirstLetter(t(
                     isLogging ? 'social.login.form.is_logging' : 'social.login.form.text_login_google'))}</div>
             </div>
         );
     }
 }
+
+SignInGoogle.defaultProps = {
+    prefixCls: 'module-signin'
+};
 
 SignInGoogle.propTypes = {
     disable: PropTypes.bool,
