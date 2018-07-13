@@ -21,11 +21,9 @@ class Store {
         try {
             const notificationId = this.notification.id;
             const res = await seenNotificationApi(notificationId);
-            const data = res.data;
+            // const data = res.data;
 
-            if (httpSuccess(res.status)) {
-                console.log(data);
-            } else {
+            if (!httpSuccess(res.status)) {
                 this.error = messageHttpRequest();
             }
         } catch (error) {

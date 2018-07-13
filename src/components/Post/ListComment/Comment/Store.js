@@ -38,7 +38,6 @@ class Store {
                 this.changeDataComment(oldComment);
             }
         } catch (error) {
-            console.log(error);
             this.changeDataComment(oldComment);
         } finally {
             this.isVoting = false;
@@ -73,7 +72,6 @@ class Store {
                 this.changeDataComment(oldComment);
             }
         } catch (error) {
-            console.log(error);
             this.changeDataComment(oldComment);
         } finally {
             this.isVoting = false;

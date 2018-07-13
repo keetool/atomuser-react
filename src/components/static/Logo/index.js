@@ -14,8 +14,7 @@ const Logo = ({isContrast, size = 80, style = {}}) => {
              style={{width: size + 'px', height: size + 'px', ...style}}
         >
             <div className={cx('atomuser-icon')}>
-                <div className={cx('atomuser-icon-dot')}>
-                </div>
+                <div className={cx('atomuser-icon-dot')}/>
             </div>
         </div>
     );

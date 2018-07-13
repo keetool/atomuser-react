@@ -21,7 +21,10 @@ const listId = "list-noti";
 @observer
 class ListNotification extends React.Component {
 
-    store = new Store();
+    constructor(props) {
+        super(props);
+        this.store = new Store();
+    }
 
     componentDidMount() {
         this.scrollView = new ScrollView(listId, this.getNotis);

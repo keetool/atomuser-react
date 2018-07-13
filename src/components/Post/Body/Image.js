@@ -12,18 +12,19 @@ let cx = classNamesBind.bind(styles);
 
 @observer
 class Image extends React.Component {
-    numberClick = 0;
+
     state = {
         isReview: false,
         reviewImage: ''
     };
+
+    numberClick = 0;
 
     handleCancel = () => {
         this.setState({isReview: false});
     };
 
     handleReviewImage = (url) => {
-        console.log(url);
         this.setState({reviewImage: url, isReview: true});
     };
 

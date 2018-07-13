@@ -1,12 +1,5 @@
-import asyncComponent from "../helpers/AsyncFunc";
 import React from "react";
 import queryString from "query-string";
-
-
-
-export function getPathComponent(path) {
-    return asyncComponent(() => import(path));
-}
 
 export function URL_add_parameter(param, value) {
     let hash = {};
@@ -49,10 +42,7 @@ export function isEmpty(data) {
  * @param {*} component
  * @param {*} keyComponent
  */
-export function addPropsComponent(beforeProps,
-                                  props = {},
-                                  component = null,
-                                  keyComponent = null) {
+export function addPropsComponent(beforeProps, props = {}, component = null, keyComponent = null) {
     if (component && keyComponent) {
         component = React.cloneElement(component, props);
         return {
@@ -130,7 +120,7 @@ export function redirectURL(url) {
 export function splitHostname() {
     let result = {};
     /*eslint-disable*/
-    let regexParse = new RegExp("([a-z\-0-9]{2,63})\.([a-z\.]{2,5})$");
+    let regexParse = new RegExp('([a-z\-0-9]{2,63})\.([a-z\.]{2,5})$');
     /*eslint-enable*/
     let urlParts = regexParse.exec(window.location.hostname);
     result.domain = urlParts[1];

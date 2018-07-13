@@ -18,7 +18,7 @@ module.exports = merge(common, {
                             options: {
                                 sourceMap: true,
                                 modules: true,
-                                localIdentName: '[local]__[hash:base64:5]',
+                                localIdentName: '__[hash:base64:6]',
                             },
 
                         }, {

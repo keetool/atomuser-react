@@ -14,11 +14,9 @@ let cx = classNamesBind.bind(styles);
 @observer
 class Home extends React.Component {
 
-    store = new Store();
-
     constructor(props) {
         super(props);
-
+        this.store = new Store();
     }
 
     componentDidMount() {

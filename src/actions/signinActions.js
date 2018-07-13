@@ -27,7 +27,6 @@ export function signinFB(account, merchantSubDomain, setState) {
         .then(res => {
             setState({isLoggingFB: false});
             if (httpSuccess(res.status)) {
-                console.log(res.data.access_token);
                 saveToken(res.data.access_token, res.data.expires_in);
                 saveRefreshToken(res.data.refresh_token, res.data.expires_in);
                 redirectSignedIn(merchantSubDomain);

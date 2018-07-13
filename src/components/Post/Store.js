@@ -9,6 +9,7 @@ class Store {
     @observable post = {};
     @observable isVoting = false;
     @observable isMarking = false;
+    @observable errorVote = null;
     @observable storeEditorComment = {};
     @observable storeComment = {};
     @observable config = {
@@ -43,7 +44,6 @@ class Store {
             const data = res.data;
 
             if (httpSuccess(res.status)) {
-                console.log(data);
                 this.changeDataPost(data.data);
             } else {
                 this.changeDataPost(oldPost);
@@ -73,7 +73,6 @@ class Store {
             const data = res.data;
 
             if (httpSuccess(res.status)) {
-                console.log(data);
                 this.changeDataPost(data.data);
             } else {
                 this.changeDataPost(oldPost);
@@ -112,7 +111,6 @@ class Store {
                 this.changeDataPost(oldPost);
             }
         } catch (error) {
-            console.log(error);
             this.changeDataPost(oldPost);
         } finally {
             this.isVoting = false;
@@ -148,7 +146,6 @@ class Store {
                 this.changeDataPost(oldPost);
             }
         } catch (error) {
-            console.log(error);
             this.changeDataPost(oldPost);
         } finally {
             this.isVoting = false;

@@ -112,7 +112,6 @@ class Store {
     };
 
     @action removeImage(image) {
-        console.log(this.getIndexImagesByFile(image.file));
         this.images.splice(this.getIndexImagesByFile(image.file), 1);
 
     }

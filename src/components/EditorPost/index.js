@@ -120,7 +120,6 @@ class EditorPost extends React.Component {
                     `${prefixCls}-layout-editor`, {
                         [`${prefixCls}-disable`]: isUploading
                     })}
-                onBlur={() => console.log("blur")}
             >
                 <div
                     className={cx(`${prefixCls}-container`)}
@@ -137,8 +136,7 @@ class EditorPost extends React.Component {
                         }}
                         placeholder={placeHolderEditor}
                         onKeyUp={this._checkEmpty}
-                    >
-                    </div>
+                    />
                 </div>
 
                 {

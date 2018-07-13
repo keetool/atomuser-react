@@ -11,10 +11,10 @@ import ListPost from "./ListPost";
 let cx = classNamesBind.bind(styles);
 
 class Search extends React.Component {
+    constructor(props) {
+        super(props);
+        this.store = new Store();
 
-    store = new Store();
-
-    componentDidMount() {
     }
 
     render() {

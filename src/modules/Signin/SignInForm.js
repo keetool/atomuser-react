@@ -2,12 +2,11 @@ import React from "react";
 import {Alert} from "antd";
 import styles from "./styles.less";
 import {translate} from "react-i18next";
-import {signin, signinFB} from "../../actions/signinActions";
+import {signinFB} from "../../actions/signinActions";
 import SignInFB from "./SignInFB";
 import SignInGoogle from "./SignInGoogle";
 import {withRouter} from "react-router";
 import {getQueryParamsUrl, isEmpty} from "../../helpers/utility";
-import {getMerchant} from "../../actions/merchantActions";
 import {IS_PRODUCTION} from "../../constants/env";
 import {redirectSignedOut} from "../../helpers/auth";
 
@@ -22,21 +21,14 @@ class SignInForm extends React.Component {
         isLoggingFB: false,
         messageError: false,
         messageMerchant: null,
-        merchantSubDomain: ''
     };
 
-    componentDidMount() {
-        console.log(this.getMerchantSubdomain());
-        this.setState({merchantSubDomain: this.getMerchantSubdomain()});
-        // this.getMerchant();
-    }
-
-    handleSubmit = values => {
-        signin(values, this.setData);
-    };
+    // handleSubmit = values => {
+    //     signin(values, this.setData);
+    // };
 
     signInFB = (account) => {
-        signinFB(account, this.state.merchantSubDomain, this.setData);
+        signinFB(account, this.getMerchantSubdomain(), this.setData);
     };
 
     renderMessageError = content => {
@@ -56,10 +48,6 @@ class SignInForm extends React.Component {
             redirectSignedOut();
         }
         return subdomain;
-    };
-
-    getMerchant = () => {
-        getMerchant(this.setData, this.getMerchantID());
     };
 
 
