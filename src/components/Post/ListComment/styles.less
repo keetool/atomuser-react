@@ -22,6 +22,7 @@
     padding-left: 10px;
     padding-top: 4px;
     flex: 1;
+
     .@{prefixCls}-comment {
       word-break: break-all;
 
@@ -34,6 +35,14 @@
       }
       .@{prefixCls}-content-comment {
         display: inline;
+      }
+      > .@{prefixCls}-content-view-more {
+        padding: 0 @atomuser-padding-content-horizontal;
+        color: @atomuser-primary-color;
+        cursor: pointer;
+        :hover {
+          text-decoration: underline;
+        }
       }
     }
   }

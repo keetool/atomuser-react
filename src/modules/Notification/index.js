@@ -12,7 +12,7 @@ import {CREATE_NOTIFICATION} from "../../services/socketEvent";
 import {withAccount} from "../../components/context/AccountContext";
 import {SUBDOMAIN} from "../../constants/env";
 import {getValueObjectFromStringKey} from "../../helpers/utility";
-import ScrollView from "../../helpers/scrollView";
+import ScrollView from "../../entity/ScrollView";
 
 let cx = classNamesBind.bind(styles);
 

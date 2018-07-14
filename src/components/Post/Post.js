@@ -33,7 +33,7 @@ class Post extends React.Component {
         return (
             <div className={cx(`${prefixCls}-layout-post`)}>
                 <Header post={post} linkDetail={linkDetailPost} linkProfile={linkProfile}/>
-                <Content post={post}/>
+                <Content post={post} store={store}/>
                 <Action post={post} store={store}/>
 
                 <div className={cx(`${prefixCls}-layout-comment`)}>

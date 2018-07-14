@@ -20,12 +20,13 @@ class Information extends React.Component {
     }
 
     renderAnalytics = () => {
-        const {prefixCls, t} = this.props;
+        const {prefixCls, t, store} = this.props;
+        const {comments_count, posts_count, votes_count} = store;
         return (
             <div className={cx(`${prefixCls}-layout-info-info-analytics`)}>
                 <div className={cx(`${prefixCls}-layout-info-info-analytics-post`)}>
                     <div className={cx(`${prefixCls}-layout-info-info-analytics-post-number`)}>
-                        11
+                        {posts_count}
                     </div>
                     <div className={cx(`${prefixCls}-layout-info-info-analytics-comment-text`)}>
                         {t('social.profile.info.post')}
@@ -34,7 +35,7 @@ class Information extends React.Component {
                 <div className={cx(`${prefixCls}-divider`, `${prefixCls}-vertical`)}/>
                 <div className={cx(`${prefixCls}-layout-info-info-analytics-vote`)}>
                     <div className={cx(`${prefixCls}-layout-info-info-analytics-vote-number`)}>
-                        123
+                        {votes_count}
                     </div>
                     <div className={cx(`${prefixCls}-layout-info-info-analytics-comment-text`)}>
                         {t('social.profile.info.vote')}
@@ -43,7 +44,7 @@ class Information extends React.Component {
                 <div className={cx(`${prefixCls}-divider`, `${prefixCls}-vertical`)}/>
                 <div className={cx(`${prefixCls}-layout-info-info-analytics-comment`)}>
                     <div className={cx(`${prefixCls}-layout-info-info-analytics-comment-number`)}>
-                        876
+                        {comments_count}
                     </div>
                     <div className={cx(`${prefixCls}-layout-info-info-analytics-comment-text`)}>
                         {t('social.profile.info.comment')}

@@ -11,9 +11,12 @@ import Store from './Store';
 import {observer} from "mobx-react";
 import Action from "./Action";
 import LayoutImage from "./upload/LayoutImage";
-import {findLinkAndAddTab, isEmptyArr} from "../../helpers/utility";
+import {isEmptyArr} from "../../helpers/utility";
 import {isLoggedIn, redirectSignIn} from "../../helpers/auth";
 import {messageWarning} from "../../helpers/message";
+import {
+    convertDataPastedEditor,
+} from "../../helpers/editor";
 
 let cx = classNamesBind.bind(styles);
 
@@ -61,7 +64,7 @@ class EditorPost extends React.Component {
 
     submitPost = () => {
         this.store.addPost({
-                body: this._ref.innerHTML,
+                body: this.store.content,
                 image_ids: JSON.stringify(this.store.getIdImages())
             },
             this.uploadPostSuccess
@@ -116,16 +119,24 @@ class EditorPost extends React.Component {
         let clipboardData = e.clipboardData || window.clipboardData;
         let pastedData = clipboardData.getData('text/plain');
 
-        pastedData = findLinkAndAddTab(pastedData);
-
-        console.log(pastedData);
+        pastedData = convertDataPastedEditor(pastedData);
 
         document.execCommand('insertHtml', false, pastedData);
+
+        this.store.setContent(this._ref.innerHTML);
+        this.store.setLineNumber(this._ref.childElementCount);
+    };
+
+    onKeyPress = () => {
+        this._checkEmpty();
+
+        this.store.setContent(this._ref.innerHTML);
+        this.store.setLineNumber(this._ref.childElementCount);
     };
 
     render() {
         const {account, t, prefixCls} = this.props;
-        const {isFocus, percentUpload, error, isUploading, images} = this.store;
+        const {isFocus, percentUpload, error, isUploading, images, isZoomText} = this.store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
         const placeHolderEditor = isLoggedIn() ? t('social.editor.form.placeholder') : t('social.editor.form.placeholder_need_signin');
         return (
@@ -141,7 +152,7 @@ class EditorPost extends React.Component {
                     <Avatar url={avatarUrl} size={40}/>
                     <div
                         className={cx(`${prefixCls}-editor`, {
-                            [`${prefixCls}-focus`]: isFocus,
+                            [`${prefixCls}-zoom-text`]: isFocus && isZoomText,
                         })}
                         contentEditable={!isUploading}
                         onFocus={this._onFocus}
@@ -150,7 +161,7 @@ class EditorPost extends React.Component {
                         }}
                         onPaste={this.handlePaste}
                         placeholder={placeHolderEditor}
-                        onKeyUp={this._checkEmpty}
+                        onKeyUp={this.onKeyPress}
                     />
                 </div>
 

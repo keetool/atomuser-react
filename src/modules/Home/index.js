@@ -7,6 +7,7 @@ import Posts from "./ListPost";
 import {observer} from "mobx-react";
 import Store from "./Store";
 import withTitle from "../../components/HOC/withTitle";
+import scrollTopView from "../../components/HOC/scrollTopView";
 
 let cx = classNamesBind.bind(styles);
 
@@ -43,4 +44,4 @@ Home.defaultProps = {
     prefixCls: 'module-home'
 };
 
-export default withTitle()(Home);
+export default withTitle()(scrollTopView()(Home));

@@ -9,6 +9,7 @@ import {translate} from "react-i18next";
 import {Alert, Icon, Spin} from "antd";
 import {observer} from "mobx-react";
 import {isLoggedIn, redirectSignIn} from "../../helpers/auth";
+import {convertDataPastedEditor} from "../../helpers/editor";
 
 let cx = classNamesBind.bind(styles);
 
@@ -37,19 +38,44 @@ class EditorComment extends React.Component {
     uploadSuccess = (data) => {
         this._onBlur();
         this._ref.innerHTML = "";
+        this.store.reset();
         this.props.addComment(data);
     };
 
     onKeyPress = (e) => {
+
         const {store} = this.props;
         if (e.which === 13 && !e.shiftKey) {
             store.addComment(
                 {
-                    value: this._ref.innerHTML
+                    value: store.content
                 }
                 , this.uploadSuccess);
             e.preventDefault();
         }
+
+        this._checkEmpty();
+
+        store.setContent(this._ref.innerHTML);
+        store.setLineNumber(this._ref.childElementCount);
+    };
+
+
+    handlePaste = (e) => {
+        const {store} = this.props;
+
+        e.stopPropagation();
+        e.preventDefault();
+
+        let clipboardData = e.clipboardData || window.clipboardData;
+        let pastedData = clipboardData.getData('text/plain');
+
+        pastedData = convertDataPastedEditor(pastedData);
+
+        document.execCommand('insertHtml', false, pastedData);
+
+        store.setContent(this._ref.innerHTML);
+        store.setLineNumber(this._ref.childElementCount);
     };
 
     renderMessageError = content => {
@@ -83,8 +109,8 @@ class EditorComment extends React.Component {
                         this._ref = ref;
                     }}
                     placeholder={t('social.editor_comment.form.placeholder')}
-                    onKeyUp={this._checkEmpty}
                     onKeyPress={this.onKeyPress}
+                    onPaste={this.handlePaste}
                 />
             );
         } else {

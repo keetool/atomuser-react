@@ -5,7 +5,7 @@ import Loading from "../../components/Post/Loading";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import {observer} from "mobx-react";
-import ScrollView from "../../helpers/scrollView";
+import ScrollView from "../../entity/ScrollView";
 import {translate} from "react-i18next";
 
 let cx = classNamesBind.bind(styles);

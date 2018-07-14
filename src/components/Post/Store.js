@@ -1,9 +1,10 @@
-import {observable, action} from "mobx";
+import {observable, action, computed} from "mobx";
 import {httpSuccess} from "../../helpers/httpRequest";
 import {downVoteApi, upVoteApi} from "../../apis/postApis";
 import StoreEditorComment from "../../components/EditorComment/Store";
 import StoreComment from "./ListComment/Store";
 import {addMarkPostApi, deleteMarkPostApi} from "../../apis/markApis";
+import {isViewMore, overLineNumber, splitStrToViewMore} from "../../helpers/editor";
 
 class Store {
     @observable post = {};
@@ -14,7 +15,8 @@ class Store {
     @observable storeComment = {};
     @observable config = {
         hideListComment: false,
-        hideEditorComment: false
+        hideEditorComment: false,
+        viewMore: true,
     };
 
     constructor(post, config) {
@@ -199,6 +201,25 @@ class Store {
 
     @action incComment(amount = 1) {
         this.post.num_comments += amount;
+    }
+
+    @computed get content() {
+        if (this.viewMore) {
+            return splitStrToViewMore(this.post.body);
+        } else {
+            return this.post.body;
+        }
+    }
+
+    @action disableViewMore() {
+        this.config.viewMore = false;
+    }
+
+
+    @computed get viewMore() {
+        return (isViewMore(this.post.body)
+            || overLineNumber(this.post.body))
+            && this.config.viewMore;
     }
 }
 

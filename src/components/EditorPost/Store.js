@@ -1,10 +1,11 @@
-import {observable, action} from "mobx";
+import {observable, action, computed} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {addPostApi} from "../../apis/postApis";
 import progress from "../../helpers/progress";
 import {translateI18n} from "../../languages/i18n";
 import {uploadImageApi} from "../../apis/imageApis";
 import {messageSuccess, messageWarning} from "../../helpers/message";
+import {convertDataEditor, overLineNumber, overMaxString} from "../../helpers/editor";
 
 class Store {
     @observable percentUpload = 0;
@@ -12,6 +13,8 @@ class Store {
     @observable error = null;
     @observable isFocus = false;
     @observable images = [];
+    @observable content = "";
+    @observable lineNumber = 0;
 
     @action
     async addPost(post, callback = null) {
@@ -122,7 +125,22 @@ class Store {
         this.error = null;
         this.isFocus = false;
         this.images = [];
+        this.content = '';
     }
+
+    @action setContent(value) {
+        this.content = convertDataEditor(value);
+    }
+
+    @action setLineNumber(value) {
+        this.lineNumber = value;
+    }
+
+    @computed get isZoomText() {
+        return !overMaxString(this.content) && !overLineNumber(this.content);
+    }
+
+
 }
 
 export default Store;

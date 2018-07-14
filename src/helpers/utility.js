@@ -1,5 +1,6 @@
 import React from "react";
 import queryString from "query-string";
+import {IS_PRODUCTION} from "../constants/env";
 
 export function URL_add_parameter(param, value) {
     let hash = {};
@@ -119,6 +120,8 @@ export function redirectURL(url) {
  */
 export function splitHostname() {
     let result = {};
+    if (!IS_PRODUCTION) return result;
+
     /*eslint-disable*/
     let regexParse = new RegExp('([a-z\-0-9]{2,63})\.([a-z\.]{2,5})$');
     /*eslint-enable*/
@@ -214,13 +217,4 @@ export function getValueObjectFromStringKey(object, strKey) {
         objectData = objectData[key];
     });
     return objectData;
-}
-
-export function findLinkAndAddTab(str) {
-    /*eslint-disable*/
-    const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/g;
-    /*eslint-enable*/
-    return str.replace(urlRegex, (url) => {
-        return '<a target="_blank" href="' + url + '">' + url + '</a>';
-    });
 }

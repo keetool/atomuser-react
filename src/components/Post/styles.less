@@ -56,6 +56,18 @@
   margin-bottom: 15px;
   > .@{prefixCls}-content-body {
     padding: 0 @atomuser-padding-content-horizontal;
+    word-break: break-word;
+    * {
+      word-break: break-word;
+    }
+  }
+  > .@{prefixCls}-content-view-more {
+    padding: 0 @atomuser-padding-content-horizontal;
+    color: @atomuser-primary-color;
+    cursor: pointer;
+    :hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -136,6 +148,5 @@
       color: black;
     }
   }
-
 }
 

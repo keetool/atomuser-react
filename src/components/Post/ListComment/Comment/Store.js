@@ -1,10 +1,12 @@
-import {observable, action} from "mobx";
+import {observable, action, computed} from "mobx";
 import {downVoteApi, upVoteApi} from "../../../../apis/commentApis";
 import {httpSuccess} from "../../../../helpers/httpRequest";
+import {isViewMore, overLineNumber, splitStrToViewMore} from "../../../../helpers/editor";
 
 class Store {
     @observable comment = {};
     @observable isVoting = false;
+    @observable isViewMore = true;
 
     constructor(comment) {
         this.comment = comment;
@@ -113,6 +115,23 @@ class Store {
     @action changeDataComment = (commentID, newComment) => {
         this.comment = {...this.comment, ...newComment};
     };
+
+    @computed get content() {
+        if (this.viewMore) {
+            return splitStrToViewMore(this.comment.value);
+        } else {
+            return this.comment.value;
+        }
+    }
+
+    @action disableViewMore() {
+        this.isViewMore = false;
+    }
+
+    @computed get viewMore() {
+        return (isViewMore(this.comment.value)
+            || overLineNumber(this.comment.value)) && this.isViewMore;
+    }
 }
 
 
