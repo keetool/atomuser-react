@@ -9,7 +9,7 @@ class Store {
     @observable marks = [];
     @observable isLoading = false;
     @observable error = null;
-    @observable isLoadMore = true;
+    @observable pagination = {};
 
     @action
     async getBookmarks() {
@@ -26,11 +26,9 @@ class Store {
 
             if (httpSuccess(res.status)) {
                 const posts = data.data;
-                if (!isEmptyArr(posts)) {
-                    this.marks = [...this.marks, ...this.createStorePosts(posts)];
-                } else {
-                    this.isLoadMore = false;
-                }
+                this.marks = [...this.marks, ...this.createStorePosts(posts)];
+                data.meta.remain_total = data.meta.total - posts.length;
+                this.pagination = data.meta;
             } else {
                 this.error = messageHttpRequest();
             }
@@ -56,6 +54,10 @@ class Store {
 
     createStorePost(post) {
         return new StorePost(post);
+    }
+
+    @computed get isLoadMore() {
+        return this.pagination.remain_total > 0;
     }
 }
 

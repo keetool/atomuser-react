@@ -7,13 +7,16 @@ import {
 } from "antd";
 import styles from "./styles.less";
 import classNamesBind from "classnames/bind";
-import {URL_add_parameter, reload_url} from "../../helpers/utility";
+import {URL_add_parameter, reload_url, checkLink} from "../../helpers/utility";
 import {withAccount} from "../context/AccountContext";
 import Logo from "../static/Logo";
 import LogoText from "../static/LogoText";
 import {isLoggedIn, redirectSignIn, signout} from "../../helpers/auth";
 import {translate} from "react-i18next";
 import Tooltip from "../common/Tooltip";
+import {withDevice} from "../context/DeviceContext";
+import history from "../../helpers/history";
+import {TABS} from "../../constants";
 
 let cx = classNamesBind.bind(styles);
 
@@ -34,11 +37,25 @@ class GlobalHeader extends React.Component {
         window.open('/', '_blank');
     };
 
+    isShowBack = () => {
+        const {device, account} = this.props;
+        const {location} = history;
+        const {pathname} = location;
+
+        const isMenu = TABS(account.id).filter((tab) => checkLink(pathname, tab.path)).length > 0;
+
+        return device.isMobile && !isMenu && account.id;
+    };
+
+    handleBack = () => {
+        history.goBack();
+    };
+
     render() {
         const {
             fixed,
             t,
-            prefixCls
+            prefixCls,
         } = this.props;
         return (
             <Layout.Header
@@ -50,13 +67,29 @@ class GlobalHeader extends React.Component {
                 <div
                     className={cx(`${prefixCls}-header`)}
                 >
-                    <div
-                        className={cx(`${prefixCls}-logo`)}
-                        onClick={this.handleClickLogo}
-                    >
-                        <Logo size={25} isContrast/>
-                        <LogoText size={20} bold={false} isContrast style={{paddingLeft: '2px'}}/>
-                    </div>
+                    {
+                        this.isShowBack() ?
+                            (
+                                <div className={cx(`${prefixCls}-header-back`)} onClick={this.handleBack}>
+                                    <div className={cx(`${prefixCls}-header-back-icon`)}>
+                                        <Icon type="arrow-left"/>
+                                    </div>
+                                    <div className={cx(`${prefixCls}-header-back-text`)}>
+                                        {t('social.header.back.text')}
+                                    </div>
+                                </div>
+                            )
+                            :
+                            (
+                                <div
+                                    className={cx(`${prefixCls}-logo`)}
+                                    onClick={this.handleClickLogo}
+                                >
+                                    <Logo size={25} isContrast/>
+                                    <LogoText size={20} bold={false} isContrast style={{paddingLeft: '2px'}}/>
+                                </div>
+                            )
+                    }
                     <div className={cx(`${prefixCls}-right`)}>
                         {
                             isLoggedIn() ?
@@ -95,4 +128,4 @@ GlobalHeader.propTypes = {
     fixed: PropTypes.bool
 };
 
-export default translate(props => props.namespaces)(withAccount(GlobalHeader));
+export default translate(props => props.namespaces)(withAccount(withDevice(GlobalHeader)));

@@ -2,7 +2,7 @@ import {observable, action, computed} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {getLastArr, isEmpty, isEmptyArr} from "../../helpers/utility";
 import StoreNotification from "./Noti/Store";
-import {getNotificationsApi} from "../../apis/notificationApis";
+import {getNotificationsByMerchantApi} from "../../apis/notificationApis";
 import {messageError} from "../../helpers/message";
 
 class Store {
@@ -21,12 +21,13 @@ class Store {
         const lastNoti = getLastArr(this.notifications);
         const lastNotiID = lastNoti ? lastNoti.notification.id : '';
         try {
-            const res = await getNotificationsApi(lastNotiID);
+            const res = await getNotificationsByMerchantApi(lastNotiID);
             const data = res.data;
 
             if (httpSuccess(res.status)) {
                 const notifications = data.data;
                 this.notifications = [...this.notifications, ...this.createStoreNotifications(notifications)];
+                data.meta.remain_total = data.meta.total - notifications.length;
                 this.pagination = data.meta;
             } else {
                 this.error = messageHttpRequest();
@@ -54,7 +55,7 @@ class Store {
     }
 
     @computed get isLoadMore() {
-        return this.pagination.total > 0;
+        return this.pagination.remain_total > 0;
     }
 
     createStoreNotifications(notifications) {

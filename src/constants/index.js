@@ -48,3 +48,33 @@ export const TOKEN_FACEBOOK = "EAAceU4B1yBEBAOTzdikxRoABdbPOf6Q2bAazfkq3sIw8PJgR
 export const FACEBOOK_ID = "622242781443804";
 export const DISTANCE_TOP_MESSAGE_HOME = 54;
 
+export const TABS = (userID) => {
+    return [
+        {
+            name: 'social.tooltip.tabbar.search',
+            path: '/search',
+            icon: 'search'
+        },
+        {
+            name: 'social.tooltip.tabbar.mark',
+            path: '/mark',
+            icon: 'star-o'
+        },
+        {
+            name: 'social.tooltip.tabbar.home',
+            path: '/',
+            icon: 'appstore-o'
+        },
+        {
+            name: 'social.tooltip.tabbar.notification',
+            path: '/notification',
+            icon: 'heart-o'
+        },
+        {
+            name: 'social.tooltip.tabbar.profile',
+            path: `/profile/${userID}`,
+            icon: 'user'
+        },
+
+    ];
+};

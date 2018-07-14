@@ -14,13 +14,17 @@ import {AccountProvider} from "../../components/context/AccountContext";
 import GlobalTab from "../../components/GlobalTab";
 import {isLoggedIn} from "../../helpers/auth";
 import {withRouter} from "react-router";
+import {DeviceProvider} from "../../components/context/DeviceContext";
 
 let cx = classNamesBind.bind(styles);
+
+const QUERY_SCREEN_MOBILE = 'screen and (max-width:576px)';
 
 let isMobile;
 enquireScreen(b => {
     isMobile = b;
-});
+}, QUERY_SCREEN_MOBILE);
+
 
 class AppContainer extends React.Component {
     constructor(props, context) {
@@ -54,7 +58,7 @@ class AppContainer extends React.Component {
                     isMobile: false
                 });
             }
-        });
+        }, QUERY_SCREEN_MOBILE);
     }
 
     componentWillUnmount() {
@@ -72,6 +76,9 @@ class AppContainer extends React.Component {
         const {collapsed, isMobile} = this.state;
         const FIXED_HEADER = true;
         const hasTabbar = isLoggedIn();
+        const device = {
+            isMobile
+        };
         const layout = (
                 <Layout>
                     <GlobalHeader
@@ -104,9 +111,11 @@ class AppContainer extends React.Component {
         ;
         return (
             <AccountProvider value={this.state.account}>
-                <ContainerQuery query={QUERY_SCREEN}>
-                    {params => <div className={classNames(params)}>{layout}</div>}
-                </ContainerQuery>
+                <DeviceProvider value={device}>
+                    <ContainerQuery query={QUERY_SCREEN}>
+                        {params => <div className={classNames(params)}>{layout}</div>}
+                    </ContainerQuery>
+                </DeviceProvider>
             </AccountProvider>
         );
     }

@@ -7,6 +7,12 @@ export function getNotificationsApi(notiID = '') {
     return axios.get(url);
 }
 
+export function getNotificationsByMerchantApi(notiID = '') {
+    let url = MERCHANT_API_URL + `v1/user/notification/merchant/after/${notiID}`;
+
+    return axios.get(url);
+}
+
 export function seenNotificationApi(notiID) {
     let url = MERCHANT_API_URL + `v1/user/notification/${notiID}/seen`;
 

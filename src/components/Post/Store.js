@@ -5,6 +5,7 @@ import StoreEditorComment from "../../components/EditorComment/Store";
 import StoreComment from "./ListComment/Store";
 import {addMarkPostApi, deleteMarkPostApi} from "../../apis/markApis";
 import {isViewMore, overLineNumber, splitStrToViewMore} from "../../helpers/editor";
+import {isEmpty} from "../../helpers/utility";
 
 class Store {
     @observable post = {};
@@ -217,7 +218,7 @@ class Store {
 
 
     @computed get viewMore() {
-        return (isViewMore(this.post.body)
+        return !isEmpty(this.post.body) && (isViewMore(this.post.body)
             || overLineNumber(this.post.body))
             && this.config.viewMore;
     }

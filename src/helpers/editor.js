@@ -93,7 +93,7 @@ function getContentMaxLine(data) {
 export function splitStrToViewMore(data) {
 
     if (overLineNumber(data)) {
-        return getContentMaxLine(data);
+        return getContentMaxLine(data) + '<div>...</div>';
     }
 
     if (overMaxString(data)) {

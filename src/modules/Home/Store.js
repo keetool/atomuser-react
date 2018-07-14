@@ -1,4 +1,4 @@
-import {observable, action,computed} from "mobx";
+import {observable, action, computed} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {getPostsApi} from "../../apis/postApis";
 import {getLastArr, isEmpty, isEmptyArr} from "../../helpers/utility";
@@ -9,7 +9,7 @@ class Store {
     @observable posts = [];
     @observable isLoading = false;
     @observable error = null;
-    @observable isLoadMore = true;
+    @observable pagination = {};
 
     @action
     async getPosts() {
@@ -26,11 +26,9 @@ class Store {
 
             if (httpSuccess(res.status)) {
                 const posts = data.data;
-                if (!isEmptyArr(posts)) {
-                    this.posts = [...this.posts, ...this.createStorePosts(posts)];
-                } else {
-                    this.isLoadMore = false;
-                }
+                this.posts = [...this.posts, ...this.createStorePosts(posts)];
+                data.meta.remain_total = data.meta.total - posts.length;
+                this.pagination = data.meta;
             } else {
                 this.error = messageHttpRequest();
             }
@@ -61,6 +59,10 @@ class Store {
 
     @computed get isEmpty() {
         return !this.isLoading && !this.error && isEmptyArr(this.posts);
+    }
+
+    @computed get isLoadMore() {
+        return this.pagination.remain_total > 0;
     }
 }
 

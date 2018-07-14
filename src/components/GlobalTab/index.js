@@ -9,6 +9,7 @@ import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import {checkLink} from "../../helpers/utility";
 import {withAccount} from "../context/AccountContext";
+import {TABS} from "../../constants";
 
 
 let cx = classNamesBind.bind(styles);
@@ -29,40 +30,9 @@ class GlobalTab extends React.Component {
     componentDidMount() {
     }
 
-    getTabs = () => {
-        const {account} = this.props;
-        return [
-            {
-                name: 'social.tooltip.tabbar.search',
-                path: '/search',
-                icon: 'search'
-            },
-            {
-                name: 'social.tooltip.tabbar.mark',
-                path: '/mark',
-                icon: 'star-o'
-            },
-            {
-                name: 'social.tooltip.tabbar.home',
-                path: '/',
-                icon: 'appstore-o'
-            },
-            {
-                name: 'social.tooltip.tabbar.notification',
-                path: '/notification',
-                icon: 'heart-o'
-            },
-            {
-                name: 'social.tooltip.tabbar.profile',
-                path: `/profile/${account.id}`,
-                icon: 'user'
-            },
-
-        ];
-    };
 
     render() {
-        const {t, prefixCls} = this.props;
+        const {t, prefixCls, account} = this.props;
         const {location} = this.props;
         const {pathname} = location;
         return (
@@ -72,7 +42,7 @@ class GlobalTab extends React.Component {
             )}>
                 <div className={cx(`${prefixCls}-tabbar`)}>
                     {
-                        this.getTabs().map((tab, index) => {
+                        TABS(account.id).map((tab, index) => {
                             return (
                                 <TooltipCustom
                                     placement={"top"}

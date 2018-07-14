@@ -1,7 +1,7 @@
-import {observable, action} from "mobx";
+import {observable, action, computed} from "mobx";
 import {getCommentsApi} from "../../../apis/commentApis";
 import {httpSuccess, messageHttpRequest} from "../../../helpers/httpRequest";
-import {getFirstArr, isEmpty, isEmptyArr, isExistArray} from "../../../helpers/utility";
+import {getFirstArr, isEmpty, isExistArray} from "../../../helpers/utility";
 import StoreComment from "./Comment/Store";
 import {messageError} from "../../../helpers/message";
 
@@ -10,7 +10,7 @@ class Store {
     @observable comments = [];
     @observable isLoading = false;
     @observable error = null;
-    @observable isLoadMore = true;
+    @observable pagination = {};
 
     constructor(post) {
         this.post = post;
@@ -30,12 +30,10 @@ class Store {
             const data = res.data;
             if (httpSuccess(res.status)) {
                 let comments = data.data;
-                if (!isEmptyArr(comments)) {
-                    comments = this.createStoreComments(comments);
-                    this.comments = [...comments.reverse(), ...this.comments];
-                } else {
-                    this.isLoadMore = false;
-                }
+                comments = this.createStoreComments(comments);
+                this.comments = [...comments.reverse(), ...this.comments];
+                data.meta.remain_total = data.meta.total - comments.length;
+                this.pagination = data.meta;
             } else {
                 this.error = messageHttpRequest();
             }
@@ -69,10 +67,9 @@ class Store {
         return new StoreComment(comment);
     }
 
-    // @computed
-    // get isLoadMore() {
-    //     return this.comments.length < this.post.num_comments;
-    // }
+    @computed get isLoadMore() {
+        return this.pagination.remain_total > 0;
+    }
 }
 
 
