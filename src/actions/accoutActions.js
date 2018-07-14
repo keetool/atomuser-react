@@ -6,7 +6,7 @@ export function getAccount(setState) {
   profileApi()
     .then(res => {
       if (httpSuccess(res.status)) {
-        setState({ account: { isLoading: false, ...res.data.data } });
+        setState({ account: { ...res.data.data } });
       } else {
         setState({ account: { isLoading: false } });
       }
