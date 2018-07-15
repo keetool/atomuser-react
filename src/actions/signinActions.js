@@ -25,11 +25,13 @@ export function signinFB(account, merchantSubDomain, setState) {
     setState({isLoggingFB: true, messageError: null});
     signinFBApi(account, merchantSubDomain)
         .then(res => {
-            setState({isLoggingFB: false});
+
             if (httpSuccess(res.status)) {
                 saveToken(res.data.access_token, res.data.expires_in);
                 saveRefreshToken(res.data.refresh_token, res.data.expires_in);
                 redirectSignedIn(merchantSubDomain);
+            } else {
+                setState({isLoggingFB: false});
             }
         })
         .catch(error => {

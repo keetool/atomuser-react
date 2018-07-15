@@ -4,11 +4,14 @@ import {translate} from "react-i18next";
 import Loading from "./Loading";
 import {observer} from "mobx-react";
 import Avatar from "../../../components/Avatar";
-import {getValueObjectFromStringKey} from "../../../helpers/utility";
+import {checkLink, getValueObjectFromStringKey, linkRoute} from "../../../helpers/utility";
 import {LOGO} from "../../../constants";
 import styles from '../styles.less';
 import classNamesBind from "classnames/bind";
 import {Button} from "antd";
+import {withAccount} from "../../../components/context/AccountContext";
+import {withRouter} from "react-router";
+import {Link} from "react-router-dom";
 
 let cx = classNamesBind.bind(styles);
 
@@ -21,7 +24,7 @@ class Information extends React.Component {
 
     renderAnalytics = () => {
         const {prefixCls, t, store} = this.props;
-        const {comments_count, posts_count, votes_count} = store;
+        const {comments_count, posts_count, votes_count} = store.info;
         return (
             <div className={cx(`${prefixCls}-layout-info-info-analytics`)}>
                 <div className={cx(`${prefixCls}-layout-info-info-analytics-post`)}>
@@ -55,12 +58,18 @@ class Information extends React.Component {
     };
 
     render() {
-        const {prefixCls, t, store} = this.props;
+        const {prefixCls, t, store, account, history} = this.props;
         const {isLoading, info} = store;
+        const {location} = history;
+        const {pathname} = location;
 
         if (isLoading) {
             return (<Loading/>);
         }
+
+        const linkProfile = linkRoute("/profile/:userID", {userID: getValueObjectFromStringKey(account, 'id')});
+
+        const isShowEdit = checkLink(pathname, linkProfile);
 
         const avatarUrl = getValueObjectFromStringKey(info, "avatar_url") ? info.avatar_url : LOGO;
 
@@ -77,9 +86,16 @@ class Information extends React.Component {
 
                         {this.renderAnalytics()}
 
-                        <div className={cx(`${prefixCls}-layout-info-info-edit`)}>
-                            <Button icon={"form"}>{t('social.profile.info.edit')}</Button>
-                        </div>
+                        {
+                            isShowEdit &&
+                            <div className={cx(`${prefixCls}-layout-info-info-edit`)}>
+                                <Link to={'/profile/edit'}>
+                                    <Button icon={"form"}>{t('social.profile.info.edit')}</Button>
+                                </Link>
+
+                            </div>
+                        }
+
                     </div>
                 </div>
             </div>
@@ -96,4 +112,4 @@ Information.propTypes = {
     store: PropTypes.object.isRequired
 };
 
-export default translate(props => props.namespaces)(Information);
+export default translate(props => props.namespaces)(withAccount(withRouter(Information)));

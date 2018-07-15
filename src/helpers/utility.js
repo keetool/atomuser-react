@@ -60,13 +60,17 @@ export function addPropsComponent(beforeProps, props = {}, component = null, key
  * @param {*} key
  */
 export function removeProp(props, key = null) {
+    let newProps = {};
     if (key) {
-        return {
-            ...props,
-            [key]: undefined
-        };
+        Object.keys({...props}).forEach((keyProp) => {
+            if (keyProp !== key) {
+                newProps[keyProp] = props[keyProp];
+            }
+        });
+        return newProps;
     }
     return props;
+
 }
 
 export function capitalizeFirstLetter(string) {

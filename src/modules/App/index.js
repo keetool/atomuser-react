@@ -15,6 +15,7 @@ import GlobalTab from "../../components/GlobalTab";
 import {isLoggedIn} from "../../helpers/auth";
 import {withRouter} from "react-router";
 import {DeviceProvider} from "../../components/context/DeviceContext";
+import withTitle from "../../components/HOC/withTitle";
 
 let cx = classNamesBind.bind(styles);
 
@@ -71,6 +72,12 @@ class AppContainer extends React.Component {
         });
     };
 
+    updateAccount = (data) => {
+        this.setState({
+            account: {...this.state.account, ...data}
+        });
+    };
+
     render() {
         const {prefixCls} = this.props;
         const {collapsed, isMobile} = this.state;
@@ -79,6 +86,11 @@ class AppContainer extends React.Component {
         const device = {
             isMobile
         };
+        const account = {
+            ...this.state.account,
+            updateAccount: this.updateAccount
+        };
+
         const layout = (
                 <Layout>
                     <GlobalHeader
@@ -110,7 +122,7 @@ class AppContainer extends React.Component {
             )
         ;
         return (
-            <AccountProvider value={this.state.account}>
+            <AccountProvider value={account}>
                 <DeviceProvider value={device}>
                     <ContainerQuery query={QUERY_SCREEN}>
                         {params => <div className={classNames(params)}>{layout}</div>}
@@ -127,4 +139,4 @@ AppContainer.defaultProps = {
 
 AppContainer.propTypes = {};
 
-export default withRouter(AppContainer);
+export default withRouter(withTitle()(AppContainer));
