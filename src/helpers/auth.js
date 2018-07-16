@@ -1,5 +1,5 @@
 import {redirectURL} from "./utility";
-import {FACEBOOK_ID, TOKEN_EXPIRED_TIME, TOKEN_FACEBOOK} from "../constants";
+import {FACEBOOK_ID, GOOGLE_ID, TOKEN_EXPIRED_TIME, TOKEN_FACEBOOK} from "../constants";
 import {DOMAIN, IS_PRODUCTION, PROTOCOL, PROTOCOL_DOMAIN, SUBDOMAIN} from "../constants/env";
 import {deleteCookie, getCookie, setCookie} from "./cookie";
 
@@ -86,6 +86,16 @@ export function signInFB(callback) {
         };
         callback(account);
     }
+}
+
+export async function signInGoogle(callback) {
+    let GoogleAuth = gapi.auth2.init({
+        client_id: GOOGLE_ID,
+        scope: 'profile email'
+    });
+    let GoogleUser = await GoogleAuth.signIn();
+    console.log(GoogleUser.getAuthResponse().id_token);
+    callback({id_token: GoogleUser.getAuthResponse().id_token});
 }
 
 export function redirectSignedIn(merchantSubDomain) {

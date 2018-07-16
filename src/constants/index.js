@@ -46,6 +46,7 @@ export const LANGUAGES = [
 export const TOKEN_TYPE = "Bearer";
 export const TOKEN_FACEBOOK = "EAAceU4B1yBEBAOTzdikxRoABdbPOf6Q2bAazfkq3sIw8PJgRbanD09yJCff0w6lcilQLIxwVZAcufpFB6FZAHgn5qR9NytPuHgWFZC86kBcVtJ2BY3bL9TXz6bMTxgKcwGt9ZA67fPkeQgbe8uKnwsjG6yTXZBHbONxrjD4SbZAwZDZD";
 export const FACEBOOK_ID = "622242781443804";
+export const GOOGLE_ID = "495439088808-1451ltmfth2pm0vgahhc715kphpauvqs.apps.googleusercontent.com";
 export const DISTANCE_TOP_MESSAGE_HOME = 54;
 
 export const TABS = (userID) => {

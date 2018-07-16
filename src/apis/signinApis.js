@@ -18,3 +18,12 @@ export function signinFBApi(account = {}, merchantSubDomain) {
         facebook_id: account.userID
     });
 }
+
+export function signinGoogleApi(account = {}, merchantSubDomain) {
+    const domainMerchant = `${PROTOCOL}${merchantSubDomain}.${DOMAIN}`;
+
+    let url = domainMerchant + 'client-api/' + `v1/auth/google/token-signin`;
+    return axios.post(url, {
+        input_token: account.id_token,
+    });
+}

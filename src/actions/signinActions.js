@@ -1,4 +1,4 @@
-import {signinApi, signinFBApi} from "../apis/signinApis";
+import {signinApi, signinFBApi, signinGoogleApi} from "../apis/signinApis";
 import history from "../helpers/history";
 import {saveToken, saveRefreshToken, redirectSignedIn} from "../helpers/auth";
 import {httpSuccess, messageHttpRequestSignIn} from "../helpers/httpRequest";
@@ -37,5 +37,25 @@ export function signinFB(account, merchantSubDomain, setState) {
         .catch(error => {
             const messageError = messageHttpRequestSignIn(error);
             setState({isLoggingFB: false, messageError});
+        });
+}
+
+export function signinGoogle(account, merchantSubDomain, setState) {
+
+    setState({isLoggingGoogle: true, messageError: null});
+    signinGoogleApi(account, merchantSubDomain)
+        .then(res => {
+
+            if (httpSuccess(res.status)) {
+                saveToken(res.data.access_token, res.data.expires_in);
+                saveRefreshToken(res.data.refresh_token, res.data.expires_in);
+                redirectSignedIn(merchantSubDomain);
+            } else {
+                setState({isLoggingGoogle: false});
+            }
+        })
+        .catch(error => {
+            const messageError = messageHttpRequestSignIn(error);
+            setState({isLoggingGoogle: false, messageError});
         });
 }

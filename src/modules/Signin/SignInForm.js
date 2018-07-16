@@ -2,7 +2,7 @@ import React from "react";
 import {Alert} from "antd";
 import styles from "./styles.less";
 import {translate} from "react-i18next";
-import {signinFB} from "../../actions/signinActions";
+import {signinFB, signinGoogle} from "../../actions/signinActions";
 import SignInFB from "./SignInFB";
 import SignInGoogle from "./SignInGoogle";
 import {withRouter} from "react-router";
@@ -19,6 +19,7 @@ class SignInForm extends React.Component {
     state = {
         isLoading: false,
         isLoggingFB: false,
+        isLoggingGoogle: false,
         messageError: false,
         messageMerchant: null,
     };
@@ -29,6 +30,11 @@ class SignInForm extends React.Component {
 
     signInFB = (account) => {
         signinFB(account, this.getMerchantSubdomain(), this.setData);
+    };
+
+    signinGoogle = (account) => {
+        console.log(account);
+        signinGoogle(account, this.getMerchantSubdomain(), this.setData);
     };
 
     renderMessageError = content => {
@@ -52,13 +58,14 @@ class SignInForm extends React.Component {
 
 
     render() {
-        const {messageMerchant, messageError, isLoggingFB} = this.state;
+        const {messageMerchant, messageError, isLoggingFB, isLoggingGoogle} = this.state;
+        const disableButton = messageMerchant || isLoggingFB || isLoggingGoogle;
         return (
             <div className={styles.login}>
                 {messageMerchant && this.renderMessageError(messageMerchant)}
                 {messageError && this.renderMessageError(messageError)}
-                <SignInFB disable={messageMerchant || isLoggingFB} signIn={this.signInFB} isLogging={isLoggingFB}/>
-                <SignInGoogle disable={messageMerchant || isLoggingFB}/>
+                <SignInFB disable={disableButton} signIn={this.signInFB} isLogging={isLoggingFB}/>
+                <SignInGoogle disable={disableButton} signIn={this.signinGoogle} isLogging={isLoggingGoogle}/>
             </div>
         );
     }
