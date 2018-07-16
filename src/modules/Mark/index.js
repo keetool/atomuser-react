@@ -8,6 +8,7 @@ import Header from "./Header";
 import ListMark from "./ListMark";
 import {observer} from "mobx-react";
 import Store from "./Store";
+import scrollTopView from "../../components/HOC/scrollTopView";
 
 let cx = classNamesBind.bind(styles);
 
@@ -40,4 +41,4 @@ Mark.defaultProps = {
 
 Mark.propTypes = {};
 
-export default translate(props => props.namespaces)(withTitle()(Mark));
+export default translate(props => props.namespaces)(withTitle()(scrollTopView()(Mark)));

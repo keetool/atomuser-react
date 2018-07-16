@@ -20,9 +20,19 @@ export function removeStyleInString(data) {
     return data.replace(reFindJS, "");
 }
 
+export function removeTagA(data) {
+    const reFindHtml = /<[\/]*a[^>]*>/g;
+    return data.replace(reFindHtml, "");
+}
+
 export function html2text(data) {
     const reFindHtml = /<[^>]*>/g;
     return data.replace(reFindHtml, "");
+}
+
+export function convertDataBeforeAddEditor(data) {
+    data = removeTagA(data);
+    return data;
 }
 
 function htmlEncode(value) {
@@ -93,12 +103,14 @@ function getContentMaxLine(data) {
 export function splitStrToViewMore(data) {
 
     if (overLineNumber(data)) {
-        return getContentMaxLine(data) + '<div>...</div>';
+        data = getContentMaxLine(data) + '<div>...</div>';
     }
 
     if (overMaxString(data)) {
-        return data.substring(0, MAX_LENGTH_STRING) + '<div>...</div>';
+        data = data.substring(0, MAX_LENGTH_STRING) + '<div>...</div>';
     }
+
+    return data;
 
 
 }

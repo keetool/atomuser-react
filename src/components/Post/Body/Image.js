@@ -76,7 +76,7 @@ class Image extends React.Component {
                     </Slider>
                     <Modal visible={isReview} footer={null} onCancel={this.handleCancel} bodyStyle={{padding: 0}}
                            width={800}
-                           cancelText={<div>1234</div>}>
+                    >
                         <img style={{width: '100%'}} src={reviewImage}/>
                     </Modal>
                 </div>

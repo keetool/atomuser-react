@@ -56,6 +56,11 @@ class Store {
         return !this.isLoading && !this.error && isEmptyArr(this.posts);
     }
 
+    @action handleDeletePost = (postID) => {
+        console.log(this.posts);
+        this.posts = this.posts.filter(postStore => postStore.post.id !== postID);
+    };
+
     createStorePosts(posts) {
         return posts.map((post) => {
             return this.createStorePost(post);
@@ -65,7 +70,8 @@ class Store {
     createStorePost(post) {
         return new StorePost(post, {
             hideListComment: true,
-            hideEditorComment: true
+            hideEditorComment: true,
+            handleDelete: this.handleDeletePost
         });
     }
 

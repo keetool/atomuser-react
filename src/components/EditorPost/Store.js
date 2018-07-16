@@ -1,11 +1,12 @@
 import {observable, action, computed} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
-import {addPostApi} from "../../apis/postApis";
+import {addPostApi, editPostApi} from "../../apis/postApis";
 import progress from "../../helpers/progress";
 import {translateI18n} from "../../languages/i18n";
 import {uploadImageApi} from "../../apis/imageApis";
 import {messageSuccess, messageWarning} from "../../helpers/message";
 import {convertDataEditor, overLineNumber, overMaxString} from "../../helpers/editor";
+import {isEmpty} from "../../helpers/utility";
 
 class Store {
     @observable percentUpload = 0;
@@ -15,9 +16,18 @@ class Store {
     @observable images = [];
     @observable content = "";
     @observable lineNumber = 0;
+    post = {};
+
+    constructor(post) {
+        if (!isEmpty(post)) {
+            this.post = post;
+            this.content = post.body;
+            this.images = [...post.images];
+        }
+    }
 
     @action
-    async addPost(post, callback = null) {
+    async addPost(callback = null) {
         this.isUploading = true;
         this.error = null;
 
@@ -29,8 +39,57 @@ class Store {
         });
         progress.set(0);
         progress.start();
+
+        const post = {
+            body: this.content,
+            image_ids: JSON.stringify(this.getIdImages())
+        };
+
         try {
             const res = await addPostApi(post);
+            const data = res.data;
+            if (httpSuccess(res.status)) {
+                setTimeout(() => {
+                    this.isUploading = false;
+                    messageSuccess(translateI18n('social.home.post.upload_success'));
+                    if (callback) {
+                        callback(data.data);
+                    }
+                }, 400);
+            } else {
+                this.error = messageHttpRequest();
+                this.isUploading = false;
+            }
+        } catch (error) {
+            this.error = messageHttpRequest(error);
+            this.isUploading = false;
+        } finally {
+            progress.done();
+        }
+    }
+
+    @action
+    async editPost(callback = null) {
+        this.isUploading = true;
+        this.error = null;
+
+        progress.init((value) => {
+            this.percentUpload = value;
+        }, {
+            trickleRate: 0.1,
+            trickleSpeed: 500,
+        });
+        progress.set(0);
+        progress.start();
+
+        const post = {
+            ...this.post,
+            body: this.content,
+            image_ids: JSON.stringify(this.getIdImages())
+        };
+
+        try {
+            const res = await editPostApi(post);
             const data = res.data;
             if (httpSuccess(res.status)) {
                 setTimeout(() => {
@@ -116,7 +175,6 @@ class Store {
 
     @action removeImage(image) {
         this.images.splice(this.getIndexImagesByFile(image.file), 1);
-
     }
 
     @action reset() {
@@ -129,6 +187,7 @@ class Store {
     }
 
     @action setContent(value) {
+        console.log(value);
         this.content = convertDataEditor(value);
     }
 
@@ -139,7 +198,6 @@ class Store {
     @computed get isZoomText() {
         return !overMaxString(this.content) && !overLineNumber(this.content);
     }
-
 
 }
 

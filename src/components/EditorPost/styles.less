@@ -6,7 +6,7 @@
   border-radius: 5px;
   padding: 10px @atomuser-padding-content-horizontal;
   background: white;
-  margin: @atomuser-margin-posts 0;
+  margin: 0;
   border: solid 1px @atomuser-divider-color;
   &.@{prefixCls}-disable {
     cursor: not-allowed;
@@ -94,7 +94,47 @@
     height: 100%;
     border-radius: 8px;
     background: @atomuser-background-color-image center center / cover;
+
   }
+  .@{prefixCls}-image-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+    width: 100%;
+    i {
+      font-size: 25px;
+      color: white;
+      font-weight: bold;
+    }
+  }
+
+  .@{prefixCls}-image-action {
+    opacity: 0;
+    transition: opacity .2s;
+    background-color: rgba(113, 111, 111, 0.65);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 8px;
+    justify-content: center;
+    &:hover {
+      opacity: 1;
+    }
+    &-view, &-remove{
+      padding: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      color: white;
+    }
+
+  }
+
   > .@{prefixCls}-background-image {
     position: absolute;
     top: 0;

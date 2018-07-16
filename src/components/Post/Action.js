@@ -41,17 +41,10 @@ class Action extends React.Component {
         store.downVote();
     };
 
-    handleMark = () => {
-        const {store, post} = this.props;
-        if (post.isBookmarked) {
-            store.deleteMarkPost();
-        } else {
-            store.addMarkPost();
-        }
-    };
+
 
     render() {
-        const {post, prefixCls, t} = this.props;
+        const {post, prefixCls, t, handleMark} = this.props;
         const disabled = !isLoggedIn();
         return (
             <div className={cx(`${prefixCls}-layout-action`)}>
@@ -74,7 +67,7 @@ class Action extends React.Component {
                     <Tooltip title={t('social.home.post_item.mark')}>
                         <Icon type="star" className={cx({
                             [`${prefixCls}-active-mark`]: post.isBookmarked
-                        })} onClick={disabled ? null : this.handleMark}/>
+                        })} onClick={disabled ? null : handleMark}/>
                     </Tooltip>
                 </div>
             </div>
@@ -93,6 +86,7 @@ ActionComment.defaultProps = {
 Action.propTypes = {
     post: PropTypes.object,
     store: PropTypes.object,
+    handleMark: PropTypes.func,
 };
 
 ActionComment.propTypes = {

@@ -28,9 +28,9 @@ class Action extends React.Component {
                         </Button>
                     </InputFile>
                 </div>
-                <div className={cx(`${prefixCls}-action-file`)}>
-                    <Button icon="paper-clip">{t('social.editor.action.file')}</Button>
-                </div>
+                {/*<div className={cx(`${prefixCls}-action-file`)}>*/}
+                {/*<Button icon="paper-clip">{t('social.editor.action.file')}</Button>*/}
+                {/*</div>*/}
             </div>
         );
     }

@@ -11,10 +11,11 @@ import Store from './Store';
 import {observer} from "mobx-react";
 import Action from "./Action";
 import LayoutImage from "./upload/LayoutImage";
-import {isEmptyArr} from "../../helpers/utility";
+import {getValueObjectFromStringKey, isEmpty, isEmptyArr} from "../../helpers/utility";
 import {isLoggedIn, redirectSignIn} from "../../helpers/auth";
 import {messageWarning} from "../../helpers/message";
 import {
+    convertDataBeforeAddEditor,
     convertDataPastedEditor,
 } from "../../helpers/editor";
 
@@ -22,8 +23,17 @@ let cx = classNamesBind.bind(styles);
 
 @observer
 class EditorPost extends React.Component {
+    constructor(props) {
+        super(props);
+        this.store = new Store(props.post);
+        if (props.post) {
+            this.defaultValue = convertDataBeforeAddEditor(props.post.body);
+            this._onFocus();
+        } else {
+            this.defaultValue = '';
+        }
 
-    store = new Store();
+    }
 
     _onFocus = () => {
         this.store.setFocusEditor(true);
@@ -57,41 +67,66 @@ class EditorPost extends React.Component {
     };
 
     uploadPostSuccess = (data) => {
-        this.props.addPost(data);
+        const {post} = this.props;
+
         this.clearData();
         this._onBlur();
+
+        const isEditPost = !isEmpty(getValueObjectFromStringKey(post, 'id'));
+
+        if (isEditPost) {
+            this.props.editPost(data);
+        } else {
+            this.props.addPost(data);
+        }
     };
 
-    submitPost = () => {
-        this.store.addPost({
-                body: this.store.content,
-                image_ids: JSON.stringify(this.store.getIdImages())
-            },
-            this.uploadPostSuccess
-        );
+    submitAddPost = () => {
+        this.store.addPost(this.uploadPostSuccess);
+    };
+
+    submitEditPost = () => {
+        this.store.editPost(this.uploadPostSuccess);
     };
 
     onSelectImageToUpload = (files) => {
         const {t} = this.props;
-        let images = Array.from(files);
-        if (images.length > 10) {
-            messageWarning(t('social.editor.Noti.limit_file_upload'));
-            images = images.slice(0, 10);
+        const {images} = this.store;
+        let imageFiles = Array.from(files);
+        if (imageFiles.length + images.length > 10) {
+            messageWarning(t('social.editor.noti.limit_file_upload'));
+            imageFiles = imageFiles.slice(0, 10 - images.length);
         }
-        images = images.map((image) => {
+
+        if (imageFiles.length <= 0) return;
+
+        imageFiles = imageFiles.map((image) => {
                 return {file: image};
             }
         );
-        this.store.addImages(images);
+        this.store.addImages(imageFiles);
     };
 
     renderSubmit = () => {
-        const {t} = this.props;
+        const {t, post} = this.props;
+        const isEditPost = !isEmpty(getValueObjectFromStringKey(post, 'id'));
+
         if (isLoggedIn()) {
+            if (isEditPost) {
+                return (
+                    <Button
+                        type="primary"
+                        onClick={this.submitEditPost}
+                        style={{width: '100%'}}
+                    >
+                        {t('social.editor.form.button_edit_post')}
+                    </Button>
+                );
+            }
             return (
                 <Button
                     type="primary"
-                    onClick={this.submitPost}
+                    onClick={this.submitAddPost}
                     style={{width: '100%'}}
                 >
                     {t('social.editor.form.button_post')}
@@ -123,15 +158,20 @@ class EditorPost extends React.Component {
 
         document.execCommand('insertHtml', false, pastedData);
 
-        this.store.setContent(this._ref.innerHTML);
-        this.store.setLineNumber(this._ref.childElementCount);
+        this.setContent();
+    };
+
+    setContent = () => {
+        setTimeout(() => {
+            this.store.setContent(this._ref.innerHTML);
+            this.store.setLineNumber(this._ref.childElementCount);
+        }, 100);
     };
 
     onKeyPress = () => {
         this._checkEmpty();
 
-        this.store.setContent(this._ref.innerHTML);
-        this.store.setLineNumber(this._ref.childElementCount);
+        this.setContent();
     };
 
     render() {
@@ -139,6 +179,7 @@ class EditorPost extends React.Component {
         const {isFocus, percentUpload, error, isUploading, images, isZoomText} = this.store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
         const placeHolderEditor = isLoggedIn() ? t('social.editor.form.placeholder') : t('social.editor.form.placeholder_need_signin');
+
         return (
             <div
                 className={cx(
@@ -162,12 +203,16 @@ class EditorPost extends React.Component {
                         onPaste={this.handlePaste}
                         placeholder={placeHolderEditor}
                         onKeyUp={this.onKeyPress}
+                        dangerouslySetInnerHTML={{__html: this.defaultValue}}
                     />
                 </div>
 
                 {
                     !isEmptyArr(images) &&
-                    <LayoutImage images={images} store={this.store}/>
+                    <LayoutImage
+                        images={images} store={this.store}
+                        onSelectImageToUpload={this.onSelectImageToUpload}
+                    />
                 }
                 {
                     isFocus && isLoggedIn() &&
@@ -206,7 +251,9 @@ EditorPost.defaultProps = {
 };
 
 EditorPost.propTypes = {
-    addPost: PropTypes.func.isRequired
+    addPost: PropTypes.func,
+    editPost: PropTypes.func,
+    post: PropTypes.object,
 };
 
 export default translate(props => props.namespaces)(withAccount(EditorPost));

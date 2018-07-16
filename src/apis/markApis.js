@@ -11,12 +11,12 @@ export function deleteMarkPostApi(postID) {
     return axios.delete(url);
 }
 
-export function getMarkPostsBySubdomain() {
-    let url = MERCHANT_API_URL + `v1/user/bookmark/by-sub-domain`;
+export function getMarkPostsBySubdomain(id) {
+    let url = MERCHANT_API_URL + `v1/user/bookmark/by-sub-domain/after/${id}`;
     return axios.get(url);
 }
 
-export function getAllMarkPosts() {
-    let url = MERCHANT_API_URL + `v1/user/bookmark`;
+export function getAllMarkPosts(id) {
+    let url = MERCHANT_API_URL + `v1/user/bookmark/after/${id}`;
     return axios.get(url);
 }

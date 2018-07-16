@@ -47,6 +47,11 @@ class Store {
         this.posts = [newPost, ...this.posts];
     };
 
+    @action handleDeletePost = (postID) => {
+        console.log(this.posts);
+        this.posts = this.posts.filter(postStore => postStore.post.id !== postID);
+    };
+
     createStorePosts(posts) {
         return posts.map((post) => {
             return this.createStorePost(post);
@@ -54,7 +59,7 @@ class Store {
     }
 
     createStorePost(post) {
-        return new StorePost(post);
+        return new StorePost(post, {handleDelete: this.handleDeletePost});
     }
 
     @computed get isEmpty() {

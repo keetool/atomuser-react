@@ -46,6 +46,10 @@ class Store {
         return !this.isLoading && !this.error && isEmptyArr(this.marks);
     }
 
+    @action handleDeletePost = (postID) => {
+        this.marks = this.marks.filter(postStore => postStore.post.id !== postID);
+    };
+
     createStorePosts(posts) {
         return posts.map((post) => {
             return this.createStorePost(post);
@@ -53,7 +57,7 @@ class Store {
     }
 
     createStorePost(post) {
-        return new StorePost(post);
+        return new StorePost(post, {handleDelete: this.handleDeletePost});
     }
 
     @computed get isLoadMore() {

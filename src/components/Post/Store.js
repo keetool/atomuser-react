@@ -1,23 +1,29 @@
 import {observable, action, computed} from "mobx";
-import {httpSuccess} from "../../helpers/httpRequest";
-import {downVoteApi, upVoteApi} from "../../apis/postApis";
+import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
+import {deletePostApi, downVoteApi, upVoteApi} from "../../apis/postApis";
 import StoreEditorComment from "../../components/EditorComment/Store";
 import StoreComment from "./ListComment/Store";
 import {addMarkPostApi, deleteMarkPostApi} from "../../apis/markApis";
 import {isViewMore, overLineNumber, splitStrToViewMore} from "../../helpers/editor";
 import {isEmpty} from "../../helpers/utility";
+import {translateI18n} from "../../languages/i18n";
+import {messageError, messageSuccess} from "../../helpers/message";
 
 class Store {
     @observable post = {};
     @observable isVoting = false;
     @observable isMarking = false;
+    @observable isDeleting = false;
     @observable errorVote = null;
+    @observable errorDelete = null;
     @observable storeEditorComment = {};
     @observable storeComment = {};
+    @observable showModalEdit = false;
     @observable config = {
         hideListComment: false,
         hideEditorComment: false,
         viewMore: true,
+        handleDelete: null
     };
 
     constructor(post, config) {
@@ -155,6 +161,37 @@ class Store {
         }
     }
 
+    @action.bound
+    async deletePost() {
+        if (this.isDeleting) return;
+
+        this.isDeleting = true;
+        this.errorDelete = null;
+
+        const post = this.post;
+        const postID = post.id;
+
+        try {
+            const res = await deletePostApi(postID);
+
+            if (httpSuccess(res.status)) {
+                messageSuccess(translateI18n('social.home.post_item.delete_post_success'));
+                if (this.config.handleDelete) {
+                    this.config.handleDelete(postID);
+                }
+            } else {
+                this.errorDelete = messageHttpRequest();
+            }
+        } catch (error) {
+            this.errorDelete = messageHttpRequest(error);
+        } finally {
+            this.isDeleting = false;
+            if (this.errorDelete) {
+                messageError(this.errorDelete);
+            }
+        }
+    }
+
     @action addUpVotePost = () => {
         let oldPost = this.post;
         if (oldPost.vote == 0) {
@@ -222,6 +259,10 @@ class Store {
             || overLineNumber(this.post.body))
             && this.config.viewMore;
     }
+
+    @action changeStatusModal = (status) => {
+        this.showModalEdit = status;
+    };
 }
 
 export default Store;

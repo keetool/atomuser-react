@@ -2,11 +2,19 @@ import axios from "axios";
 import {MERCHANT_API_URL, PUBLIC_MERCHANT_API_URL} from "../constants/env";
 import {isLoggedIn} from "../helpers/auth";
 
-export function addPostApi(data = {}) {
+export function addPostApi({body, image_ids}) {
     let url = MERCHANT_API_URL + `v1/post`;
     return axios.post(url, {
-        body: data.body,
-        image_ids: data.image_ids
+        body: body,
+        image_ids: image_ids
+    });
+}
+
+export function editPostApi({body, image_ids, id}) {
+    let url = MERCHANT_API_URL + `v1/post/${id}`;
+    return axios.put(url, {
+        body: body,
+        image_ids: image_ids
     });
 }
 
@@ -53,4 +61,9 @@ export function upVoteApi(postID) {
 export function downVoteApi(postID) {
     let url = MERCHANT_API_URL + `v1/post/${postID}/vote/down`;
     return axios.post(url);
+}
+
+export function deletePostApi(postID) {
+    let url = MERCHANT_API_URL + `v1/post/${postID}/hide`;
+    return axios.put(url);
 }
