@@ -90,30 +90,8 @@ class EditorComment extends React.Component {
     };
 
     renderEditor = () => {
-        const {t, store, prefixCls} = this.props;
-        if (isLoggedIn()) {
-            const {isFocus, isUploading} = store;
-            return (
-                <div
-                    className={cx({
-                        [`${prefixCls}-editor`]: true,
-                        [`${prefixCls}-focus`]: isFocus,
-                        [`${prefixCls}-border`]: isFocus || isUploading,
-                        [`${prefixCls}-uploading-comment`]: isUploading,
-                        [`${prefixCls}-disable`]: isUploading
-                    })}
-                    contentEditable={!isUploading}
-                    onFocus={this._onFocus}
-                    onBlur={this._onBlur}
-                    ref={(ref) => {
-                        this._ref = ref;
-                    }}
-                    placeholder={t('social.editor_comment.form.placeholder')}
-                    onKeyPress={this.onKeyPress}
-                    onPaste={this.handlePaste}
-                />
-            );
-        } else {
+        const {t, store, prefixCls, account} = this.props;
+        if (!isLoggedIn()) {
             return (
                 <div className={cx(`${prefixCls}-signin-to-comment`)} onClick={() => {
                     redirectSignIn();
@@ -122,6 +100,41 @@ class EditorComment extends React.Component {
                 </div>
             );
         }
+
+        const {joined, isJoining, onJoin} = account;
+
+        if (!joined) {
+            return (
+                <div
+                    className={cx(`${prefixCls}-signin-to-comment`)}
+                    onClick={isJoining ? null : onJoin}
+                >
+                    {t('social.editor_comment.form.button_join_to_comment')}
+                </div>
+            );
+        }
+
+        const {isFocus, isUploading} = store;
+        return (
+            <div
+                className={cx({
+                    [`${prefixCls}-editor`]: true,
+                    [`${prefixCls}-focus`]: isFocus,
+                    [`${prefixCls}-border`]: isFocus || isUploading,
+                    [`${prefixCls}-uploading-comment`]: isUploading,
+                    [`${prefixCls}-disable`]: isUploading
+                })}
+                contentEditable={!isUploading}
+                onFocus={this._onFocus}
+                onBlur={this._onBlur}
+                ref={(ref) => {
+                    this._ref = ref;
+                }}
+                placeholder={t('social.editor_comment.form.placeholder')}
+                onKeyPress={this.onKeyPress}
+                onPaste={this.handlePaste}
+            />
+        );
     };
 
 

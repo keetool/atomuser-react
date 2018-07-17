@@ -7,6 +7,11 @@
     width: @atomuser-layout-width-without-mobile;
     margin: 0 auto;
   }
+  @media screen and (min-width: @atomuser-screen-layout-width-full) {
+    width: @atomuser-layout-width-full;
+    margin: 0 auto;
+  }
+
   padding: 0 @atomuser-padding-content-horizontal;
   background: @atomuser-primary-color;
   display: flex;
@@ -30,7 +35,12 @@
   }
 
   > .@{prefixCls}-right {
-
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .@{prefixCls}-right-join {
+      margin-right: 10px;
+    }
   }
 
   &-back {

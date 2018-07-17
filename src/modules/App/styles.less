@@ -8,8 +8,13 @@
   -ms-transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   -o-transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
-  @media screen and (min-width: @atomuser-screen-without-mobile) {
+
+  @media screen and (max-width: @atomuser-screen-without-mobile ) {
     width: @atomuser-layout-width-without-mobile;
+    margin: 0 auto;
+  }
+  @media screen and (min-width: @atomuser-screen-layout-width-full) {
+    width: @atomuser-layout-width-full;
     margin: 0 auto;
   }
 
@@ -18,10 +23,45 @@
   }
 
   .@{prefixCls}-content {
+    position: relative;
     min-height: calc(100vh - @atomuser-layout-header-height) !important;
     padding-bottom: 0;
     &.@{prefixCls}-has-tabbar {
       padding-bottom: @atomuser-layout-header-height;
     }
+
+    .@{prefixCls}-content-app {
+      @media screen and (min-width: @atomuser-screen-without-mobile) {
+        width: @atomuser-width-app-content;
+        margin: 0 auto;
+      }
+    }
+
+    .@{prefixCls}-content-left, .@{prefixCls}-content-right {
+      position: fixed;
+      height: calc(100vh - @atomuser-layout-header-height) !important;
+      overflow-y: auto;
+      top: @atomuser-layout-header-height;
+      width: (@atomuser-layout-width-full - @atomuser-width-app-content) / 2;
+      @media screen and (min-width: @atomuser-screen-without-mobile) {
+        display: none;
+        z-index: -1000000;
+      }
+      @media screen and (min-width: @atomuser-screen-layout-width-full) {
+        display: block;
+        z-index: 10;
+      }
+      padding: 10px;
+      //top: 0;
+    }
+
+    .@{prefixCls}-content-left {
+
+    }
+
+    .@{prefixCls}-content-right {
+      right: calc(50vw - @atomuser-layout-width-full / 2);
+    }
   }
+
 }

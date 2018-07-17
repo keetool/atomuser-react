@@ -6,9 +6,9 @@ import {Icon} from "antd";
 import {observer} from "mobx-react";
 import {translateI18n} from "../../languages/i18n";
 import ActionVote from "../ActionVote/index";
-import {isLoggedIn} from "../../helpers/auth";
 import Tooltip from "../common/Tooltip";
 import {translate} from "react-i18next";
+import {withAccount} from "../context/AccountContext";
 
 let cx = classNamesBind.bind(styles);
 
@@ -44,8 +44,8 @@ class Action extends React.Component {
 
 
     render() {
-        const {post, prefixCls, t, handleMark} = this.props;
-        const disabled = !isLoggedIn();
+        const {post, prefixCls, t, handleMark, account} = this.props;
+        const disabled = !account.acceptAction;
         return (
             <div className={cx(`${prefixCls}-layout-action`)}>
                 <div className={cx(`${prefixCls}-action-left`)}>
@@ -93,4 +93,4 @@ ActionComment.propTypes = {
     totalComments: PropTypes.number,
 };
 
-export default translate(props => props.namespaces)(Action);
+export default translate(props => props.namespaces)(withAccount(Action));

@@ -130,6 +130,7 @@ module.exports = {
 
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
         new WebpackMd5Hash(),
         new FaviconsWebpackPlugin('./public/favicon/assets/logo/logo.png'),
         new HtmlWebPackPlugin({
@@ -152,7 +153,7 @@ module.exports = {
             filename: "[name].[contenthash].css",
             chunkFilename: "[name].[contenthash].chunk.css",
         }),
-        new webpack.HotModuleReplacementPlugin()
+
     ],
     optimization: {
         minimizer: [
@@ -171,5 +172,6 @@ module.exports = {
         splitChunks: {
             chunks: 'all'
         }
-    }
+    },
+
 };

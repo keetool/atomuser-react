@@ -21,7 +21,7 @@ export function removeStyleInString(data) {
 }
 
 export function removeTagA(data) {
-    const reFindHtml = /<[\/]*a[^>]*>/g;
+    const reFindHtml = /<[/]*a[^>]*>/g;
     return data.replace(reFindHtml, "");
 }
 
@@ -100,14 +100,14 @@ function getContentMaxLine(data) {
     return result;
 }
 
-export function splitStrToViewMore(data) {
+export function splitStrToViewMore(data, maxLine = MAX_LINE_NUMBER, maxLength = MAX_LENGTH_STRING) {
 
-    if (overLineNumber(data)) {
-        data = getContentMaxLine(data) + '<div>...</div>';
+    if (overLineNumber(data, maxLine)) {
+        data = getContentMaxLine(data, maxLine) + '<div>...</div>';
     }
 
-    if (overMaxString(data)) {
-        data = data.substring(0, MAX_LENGTH_STRING) + '<div>...</div>';
+    if (overMaxString(data, maxLength)) {
+        data = data.substring(0, maxLength) + '<div>...</div>';
     }
 
     return data;
@@ -115,12 +115,12 @@ export function splitStrToViewMore(data) {
 
 }
 
-export function overLineNumber(data) {
+export function overLineNumber(data, maxLine = MAX_LINE_NUMBER) {
     const lineNumber = getNumberLine(data);
-    return lineNumber > MAX_LINE_NUMBER;
+    return lineNumber > maxLine;
 }
 
-export function overMaxString(data) {
-    return data.length > MAX_LENGTH_STRING;
+export function overMaxString(data, maxLength = MAX_LENGTH_STRING) {
+    return data.length > maxLength;
 }
 

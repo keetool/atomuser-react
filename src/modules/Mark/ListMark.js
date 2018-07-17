@@ -64,10 +64,10 @@ class ListMark extends React.Component {
                 {
                     marks && marks.length > 0 ?
                         (
-                            marks.map((storePost, index) => {
+                            marks.map((mark, index) => {
                                     return (
                                         <div key={index}>
-                                            <Post store={storePost} key={index}/>
+                                            <Post store={mark.postStore} key={index}/>
                                         </div>
                                     );
                                 }

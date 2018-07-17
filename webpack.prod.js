@@ -4,7 +4,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = merge(common, {
     output: {
-        publicPath: "https://d255zuevr6tr8p.cloudfront.net/build-social/"
+        // publicPath: "https://d255zuevr6tr8p.cloudfront.net/build-social/"
+        publicPath: "/build/social/"
     },
     module: {
         rules: [

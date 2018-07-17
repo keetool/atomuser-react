@@ -1,0 +1,84 @@
+@import "../../../styles/variables";
+
+@prefixCls: app-list-hot-post;
+
+.@{prefixCls} {
+  &-layout {
+    padding: 10px;
+    &-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px;
+      margin-left: 5px;
+      &-icon {
+        color: @atomuser-primary-color;
+        font-size: 20px;
+      }
+      &-text {
+        padding-left: 15px;
+        color: @atomuser-primary-color;
+      }
+    }
+    &-load-more {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px;
+      margin-left: 5px;
+      &-icon {
+        color: @atomuser-primary-color;
+        font-size: 20px;
+      }
+      &-text {
+        padding-left: 15px;
+        color: @atomuser-primary-color;
+      }
+    }
+  }
+  &-post {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    &-action {
+      width: 35px;
+      display: flex;
+      justify-content: center;
+    }
+    &-content {
+      padding-left: 10px;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      &-creator {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        &-avatar {
+
+        }
+        &-name {
+          padding-left: 10px;
+          width: 100%;
+          font-weight: bold;
+          color: @atomuser-text-color;
+        }
+      }
+      &-post {
+        display: flex;
+        flex-direction: column;
+        &-content {
+
+        }
+        &-text-time {
+          color: @atomuser-grey-color;
+          &:hover {
+            text-decoration: underline;
+          }
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+}

@@ -1,5 +1,5 @@
 import i18n from "../languages/i18n";
-import {signout} from "./auth";
+// import {signout} from "./auth";
 
 export function httpSuccess(status) {
     return status == 200 || status == 201;
@@ -23,7 +23,7 @@ export function messageHttpRequest(error = {}) {
     if (error.response) {
         switch (error.response.status) {
             case 401:
-                signout();
+                // signout();
                 return;
             case 404:
                 return 'not_found';

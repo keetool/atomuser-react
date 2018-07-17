@@ -11,6 +11,12 @@
   flex-direction: row;
   align-items: center;
   cursor: pointer;
+  &&-horizontal {
+    flex-direction: column;
+    .@{prefixCls}-text-vote, i {
+      margin-right: 0;
+    }
+  }
   .@{prefixCls}-text-vote {
     font-weight: 500;
     margin-right: @margin-icon-action-post;

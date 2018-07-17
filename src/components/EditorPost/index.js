@@ -108,10 +108,25 @@ class EditorPost extends React.Component {
     };
 
     renderSubmit = () => {
-        const {t, post} = this.props;
+        const {t, post, account} = this.props;
         const isEditPost = !isEmpty(getValueObjectFromStringKey(post, 'id'));
 
+        const {joined, isJoining, onJoin} = account;
+
         if (isLoggedIn()) {
+            if (!joined) {
+                return (
+                    <Button
+                        type="primary"
+                        loading={isJoining}
+                        onClick={isJoining ? null : onJoin}
+                        style={{width: '100%'}}
+                    >
+                        {t('social.editor.form.button_join_to_post')}
+                    </Button>
+                );
+            }
+
             if (isEditPost) {
                 return (
                     <Button
@@ -174,11 +189,23 @@ class EditorPost extends React.Component {
         this.setContent();
     };
 
+    getPlaceHolderEditor = () => {
+        const {account, t} = this.props;
+        const {joined} = account;
+        let placeHolderEditor = isLoggedIn() ? t('social.editor.form.placeholder') : t('social.editor.form.placeholder_need_signin');
+
+        placeHolderEditor = joined ? placeHolderEditor : t('social.editor.form.placeholder_need_join');
+
+        return placeHolderEditor;
+    };
+
     render() {
-        const {account, t, prefixCls} = this.props;
+        const {account, prefixCls} = this.props;
+        const {acceptAction} = account;
         const {isFocus, percentUpload, error, isUploading, images, isZoomText} = this.store;
         const avatarUrl = account && account.avatar_url ? account.avatar_url : LOGO;
-        const placeHolderEditor = isLoggedIn() ? t('social.editor.form.placeholder') : t('social.editor.form.placeholder_need_signin');
+
+        const placeHolderEditor = this.getPlaceHolderEditor();
 
         return (
             <div
@@ -215,7 +242,7 @@ class EditorPost extends React.Component {
                     />
                 }
                 {
-                    isFocus && isLoggedIn() &&
+                    isFocus && acceptAction &&
                     <div>
                         <div className={cx(`${prefixCls}-divider`, `${prefixCls}-horizontal`)}/>
                         <Action onSelectImageToUpload={this.onSelectImageToUpload}/>

@@ -72,8 +72,8 @@ class Post extends React.Component {
         const {post, storeComment, storeEditorComment, config, isDeleting, showModalEdit} = store;
         const linkDetailPost = linkRoute("/post/:postID", {postID: post.id});
         const linkProfile = linkRoute("/profile/:userID", {userID: getValueObjectFromStringKey(post, 'creator.id')});
-
         const loading = isDeleting;
+
         return (
             <div>
                 <Spin spinning={loading} size="large">

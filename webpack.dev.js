@@ -35,5 +35,6 @@ module.exports = merge(common, {
                 ]
             },
         ],
-    }
+    },
+    devtool: 'eval-cheap-module-source-map',
 });

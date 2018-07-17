@@ -52,11 +52,10 @@ class GlobalHeader extends React.Component {
     };
 
     render() {
-        const {
-            fixed,
-            t,
-            prefixCls,
-        } = this.props;
+        const {fixed, t, prefixCls, account} = this.props;
+
+        const {joined, isJoining, onJoin} = account;
+
         return (
             <Layout.Header
                 className={cx(
@@ -92,6 +91,18 @@ class GlobalHeader extends React.Component {
                     }
                     <div className={cx(`${prefixCls}-right`)}>
                         {
+                            isLoggedIn() && joined === false &&
+                            <div className={cx(`${prefixCls}-right-join`)}>
+                                <Button ghost
+                                        loading={isJoining}
+                                        onClick={isJoining ? null : onJoin}
+                                >
+                                    {t('social.header.button.join')}
+                                </Button>
+                            </div>
+
+                        }
+                        {
                             isLoggedIn() ?
                                 (
                                     <Tooltip placement="bottomRight" title={t('social.tooltip.header.signout')}>
@@ -121,8 +132,6 @@ GlobalHeader.defaultProps = {
 };
 
 GlobalHeader.propTypes = {
-    onCollapse: PropTypes.func.isRequired,
-    collapsed: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
     fixedSider: PropTypes.bool,
     fixed: PropTypes.bool

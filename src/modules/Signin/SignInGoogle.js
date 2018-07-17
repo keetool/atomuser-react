@@ -7,6 +7,7 @@ import {Icon} from "antd";
 import {capitalizeFirstLetter} from "../../helpers/utility";
 import PropTypes from "prop-types";
 import {signInGoogle} from "../../helpers/auth";
+import {GOOGLE_ID} from "../../constants";
 
 let cx = classNamesBind.bind(styles);
 
@@ -16,16 +17,32 @@ class SignInGoogle extends React.Component {
     }
 
     loginGoogle = () => {
-        signInGoogle(data => {
+        signInGoogle(this.auth2, data => {
             this.props.signIn(data);
         });
     };
+
+    componentDidMount() {
+        this.loadAuth2();
+    }
+
+    loadAuth2 = () => {
+        //es-lint-disable
+        window.gapi.load('auth2', () => {
+            this.auth2 = window.gapi.auth2.init({
+                client_id: GOOGLE_ID,
+                cookiepolicy: 'single_host_origin',
+            });
+        });
+        //es-lint-enable
+    };
+
 
     render() {
         const {t, disable, isLogging, prefixCls} = this.props;
         return (
             <div className={cx(`${prefixCls}-btn`, `${prefixCls}-btn-google`, {[`${prefixCls}-disable`]: disable})}
-                 onClick={disable ? null : this.loginGoogle}
+                 onClick={isLogging ? null : this.loginGoogle}
             >
                 <Icon type="google" style={{fontSize: 25, position: 'absolute'}}/>
                 <div className={cx(`${prefixCls}-text-login`)}>{capitalizeFirstLetter(t(

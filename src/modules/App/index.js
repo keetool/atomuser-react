@@ -9,13 +9,16 @@ import classNames from "classnames";
 import styles from "./styles.less";
 import AppRoutes from "../../routes/AppRoutes";
 import {setHeaderToken} from "../../helpers/axios";
-import {getAccount} from "../../actions/accoutActions";
 import {AccountProvider} from "../../components/context/AccountContext";
 import GlobalTab from "../../components/GlobalTab";
 import {isLoggedIn} from "../../helpers/auth";
 import {withRouter} from "react-router";
 import {DeviceProvider} from "../../components/context/DeviceContext";
 import withTitle from "../../components/HOC/withTitle";
+import {observer} from "mobx-react";
+import store from './store';
+import ListNewAtom from "./ListNewAtom/ListNewAtom";
+import HostPosts from "./HostPosts/HostPosts";
 
 let cx = classNamesBind.bind(styles);
 
@@ -26,33 +29,29 @@ enquireScreen(b => {
     isMobile = b;
 }, QUERY_SCREEN_MOBILE);
 
-
+@observer
 class AppContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.setData = this.setState.bind(this);
+        if (isLoggedIn()) {
+            setHeaderToken();
+        }
     }
 
     state = {
-        collapsed: false,
         isMobile: isMobile,
-        account: {
-            isLoading: false
-        }
     };
 
     componentDidMount() {
 
         if (isLoggedIn()) {
-            setHeaderToken();
-            getAccount(this.setData);
+            store.getAccount();
         }
 
         this.enquireHandler = enquireScreen(mobile => {
             if (mobile) {
                 this.setState({
                     isMobile: mobile,
-                    collapsed: true
                 });
             } else {
                 this.setState({
@@ -66,36 +65,35 @@ class AppContainer extends React.Component {
         unenquireScreen(this.enquireHandler);
     }
 
-    handleMenuCollapse = collapsed => {
-        this.setState({
-            collapsed: collapsed ? collapsed : !this.state.collapsed
-        });
+    updateAccount = (data) => {
+        store.updateAccount(data);
     };
 
-    updateAccount = (data) => {
-        this.setState({
-            account: {...this.state.account, ...data}
-        });
+    joinMerchant = () => {
+        store.joinMerchant();
     };
 
     render() {
+        const {account, isLoadingAccount, isJoiningMerchant} = store;
+
         const {prefixCls} = this.props;
-        const {collapsed, isMobile} = this.state;
+        const {isMobile} = this.state;
         const FIXED_HEADER = true;
         const hasTabbar = isLoggedIn();
         const device = {
             isMobile
         };
-        const account = {
-            ...this.state.account,
-            updateAccount: this.updateAccount
+        const accountData = {
+            ...account,
+            isLoading: isLoadingAccount,
+            isJoining: isJoiningMerchant,
+            updateAccount: this.updateAccount,
+            onJoin: this.joinMerchant
         };
 
         const layout = (
                 <Layout>
                     <GlobalHeader
-                        collapsed={collapsed}
-                        onCollapse={this.handleMenuCollapse}
                         isMobile={isMobile}
                         fixed={FIXED_HEADER}
                     />
@@ -110,7 +108,15 @@ class AppContainer extends React.Component {
                                 <div className={cx(`${prefixCls}-content`, {
                                     [`${prefixCls}-has-tabbar`]: hasTabbar,
                                 })}>
-                                    <AppRoutes/>
+                                    <div className={cx(`${prefixCls}-content-left`)}>
+                                        <HostPosts/>
+                                    </div>
+                                    <div className={cx(`${prefixCls}-content-app`)}>
+                                        <AppRoutes/>
+                                    </div>
+                                    <div className={cx(`${prefixCls}-content-right`)}>
+                                        <ListNewAtom/>
+                                    </div>
                                 </div>
                             </Layout.Content>
                         </div>
@@ -122,7 +128,7 @@ class AppContainer extends React.Component {
             )
         ;
         return (
-            <AccountProvider value={account}>
+            <AccountProvider value={accountData}>
                 <DeviceProvider value={device}>
                     <ContainerQuery query={QUERY_SCREEN}>
                         {params => <div className={classNames(params)}>{layout}</div>}

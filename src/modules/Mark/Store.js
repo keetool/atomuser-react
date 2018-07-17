@@ -19,15 +19,16 @@ class Store {
         this.isLoading = true;
         this.error = null;
         const lastMark = getLastArr(this.marks);
-        const lastPostID = lastMark ? lastMark.post.id : '';
+        const lastMarkID = lastMark ? lastMark.id : '';
+
         try {
-            const res = await getMarkPostsBySubdomain(lastPostID);
+            const res = await getMarkPostsBySubdomain(lastMarkID);
             const data = res.data;
 
             if (httpSuccess(res.status)) {
-                const posts = data.data;
-                this.marks = [...this.marks, ...this.createStorePosts(posts)];
-                data.meta.remain_total = data.meta.total - posts.length;
+                const marks = data.data;
+                this.marks = [...this.marks, ...this.createStorePosts(marks)];
+                data.meta.remain_total = data.meta.total - marks.length;
                 this.pagination = data.meta;
             } else {
                 this.error = messageHttpRequest();
@@ -47,12 +48,12 @@ class Store {
     }
 
     @action handleDeletePost = (postID) => {
-        this.marks = this.marks.filter(postStore => postStore.post.id !== postID);
+        this.marks = this.marks.filter(mark => mark.postStore.post.id !== postID);
     };
 
-    createStorePosts(posts) {
-        return posts.map((post) => {
-            return this.createStorePost(post);
+    createStorePosts(marks) {
+        return marks.map((mark) => {
+            return {...mark, postStore: this.createStorePost(mark.post)};
         });
     }
 

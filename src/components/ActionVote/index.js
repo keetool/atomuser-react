@@ -8,12 +8,16 @@ import Tooltip from "../common/Tooltip";
 
 let cx = classNamesBind.bind(styles);
 
-const ActionVote = ({upvote, downvote, vote, actionUpVote, actionDownVote, disabled, prefixCls}) => {
+const ActionVote = ({horizontal, upvote, downvote, vote, actionUpVote, actionDownVote, disabled, prefixCls}) => {
+    const voteNumber = !isNaN(upvote - downvote) ? upvote - downvote : 0;
+
     return (
 
         <div className={cx(
             `${prefixCls}-action-vote`, {
-                [`${prefixCls}-disabled`]: disabled
+                [`${prefixCls}-disabled`]: disabled,
+                [`${prefixCls}-action-vote-horizontal`]: horizontal,
+
             })}>
             <Tooltip placement="topLeft" title={`${upvote} ` + translateI18n('social.home.post_item.upvote')}>
                 <Icon
@@ -25,7 +29,7 @@ const ActionVote = ({upvote, downvote, vote, actionUpVote, actionDownVote, disab
                 />
             </Tooltip>
             <div className={cx(`${prefixCls}-text-vote`)}>
-                {upvote - downvote}
+                {voteNumber}
             </div>
             <Tooltip placement="top" title={`${downvote} ` + translateI18n('social.home.post_item.downvote')}>
                 <Icon type="caret-down"
@@ -40,8 +44,11 @@ const ActionVote = ({upvote, downvote, vote, actionUpVote, actionDownVote, disab
 };
 
 ActionVote.defaultProps = {
-    prefixCls: 'action-vote'
+    prefixCls: 'action-vote',
+    upvote: 0,
+    downvote: 0,
 };
+
 
 ActionVote.propTypes = {
     upvote: PropTypes.number,

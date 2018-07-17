@@ -43,6 +43,11 @@ export function getPostsByUserApi(userID, postID) {
     );
 }
 
+export function getHotPostsApi() {
+    let url = MERCHANT_API_URL + `v1/post/list/top`;
+    return axios.get(url);
+}
+
 export function getPostApi(postID) {
     let url;
     if (isLoggedIn()) {

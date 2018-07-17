@@ -1,0 +1,83 @@
+@import "../../../styles/variables";
+
+@prefixCls: app-list-new-atom;
+
+.@{prefixCls} {
+  &-layout {
+    padding: 10px;
+    &-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px;
+      margin-left: 5px;
+      &-icon {
+        color: @atomuser-primary-color;
+        font-size: 20px;
+      }
+      &-text {
+        padding-left: 15px;
+        color: @atomuser-primary-color;
+      }
+    }
+
+    &-load-more {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px;
+      margin-left: 5px;
+      cursor: pointer;
+      &-icon {
+        color: @atomuser-primary-color;
+        font-size: 20px;
+      }
+      &-text {
+        padding-left: 15px;
+        color: @atomuser-primary-color;
+      }
+    }
+
+  }
+  &-user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    &-content {
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      &-name {
+        font-weight: bold;
+        flex: 1;
+        color: @atomuser-text-color;
+      }
+      &-text-time {
+        color: @atomuser-grey-color;
+        &:hover {
+          text-decoration: underline;
+        }
+        cursor: pointer;
+
+      }
+    }
+  }
+
+  &-load-more {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    margin-left: 5px;
+    &-icon {
+      color: @atomuser-primary-color;
+      font-size: 20px;
+    }
+    &-text {
+      padding-left: 15px;
+      color: @atomuser-primary-color;
+    }
+  }
+}

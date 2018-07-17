@@ -8,9 +8,9 @@ import {relativeTime} from "../../helpers/time";
 import {Link} from "react-router-dom";
 import {withAccount} from "../context/AccountContext";
 import {observer} from "mobx-react";
-import {randomStr} from "../../helpers/utility";
-import {isLoggedIn} from "../../helpers/auth";
+import {getValueObjectFromStringKey, randomStr} from "../../helpers/utility";
 import {translate} from "react-i18next";
+import {LOGO} from "../../constants";
 
 let cx = classNamesBind.bind(styles);
 
@@ -24,7 +24,7 @@ class Header extends React.Component {
         const textMark = post.isBookmarked ? t('social.home.post_item.dropdown_remove_bookmark')
             : t('social.home.post_item.dropdown_add_bookmark');
 
-        const isCreator = creator.id === account.id;
+        const isCreator = creator && creator.id === account.id;
 
         return (
             <Menu>
@@ -49,23 +49,28 @@ class Header extends React.Component {
     };
 
     render() {
-        const {post, linkDetail, linkProfile, prefixCls} = this.props;
-        const {creator} = post;
+        const {post, linkDetail, linkProfile, prefixCls, account} = this.props;
+
+        const avatarUrl = getValueObjectFromStringKey(post, "creator.avatar_url") ?
+            getValueObjectFromStringKey(post, "creator.avatar_url") : LOGO;
+
+        const nameCreator = getValueObjectFromStringKey(post, "creator.name") ?
+            getValueObjectFromStringKey(post, "creator.name") : LOGO;
 
         const dropdownID = randomStr();
 
-        const disabled = !isLoggedIn();
+        const disabled = !account.acceptAction;
 
         return (
             <div className={cx(`${prefixCls}-header`)}>
                 <div className={cx(`${prefixCls}-creator`)}>
-                    <Avatar url={creator.avatar_url}/>
+                    <Avatar url={avatarUrl}/>
                     <div className={cx(`${prefixCls}-creator-content`)}>
                         <Link to={linkProfile}>
                             <div
                                 className={cx(`${prefixCls}-name`)}
                             >
-                                {creator.name}
+                                {nameCreator}
                             </div>
                         </Link>
                         <Link to={linkDetail}>
