@@ -43,14 +43,11 @@
       overflow-y: auto;
       top: @atomuser-layout-header-height;
       width: (@atomuser-layout-width-full - @atomuser-width-app-content) / 2;
-      @media screen and (min-width: @atomuser-screen-without-mobile) {
+      @media screen and (min-width: @atomuser-screen-without-mobile) and (max-width: @atomuser-screen-layout-width-full) {
         display: none;
         z-index: -1000000;
       }
-      @media screen and (min-width: @atomuser-screen-layout-width-full) {
-        display: block;
-        z-index: 10;
-      }
+
       padding: 10px;
       //top: 0;
     }
