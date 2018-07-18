@@ -1,9 +1,11 @@
-import {observable, action, computed} from "mobx";
+import {observable, action, computed, runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {getLastArr, isEmpty, isEmptyArr} from "../../helpers/utility";
 import StoreNotification from "./Noti/Store";
 import {getNotificationsByMerchantApi} from "../../apis/notificationApis";
 import {messageError} from "../../helpers/message";
+
+import {concat2Array} from "../../helpers/entity/array";
 
 class Store {
     @observable notifications = [];
@@ -26,16 +28,29 @@ class Store {
 
             if (httpSuccess(res.status)) {
                 const notifications = data.data;
-                this.notifications = [...this.notifications, ...this.createStoreNotifications(notifications)];
-                data.meta.remain_total = data.meta.total - notifications.length;
-                this.pagination = data.meta;
+                runInAction(() => {
+                    this.notifications = concat2Array(this.notifications, this.createStoreNotifications(notifications));
+                    data.meta.remain_total = data.meta.total - notifications.length;
+                    this.pagination = data.meta;
+                });
+
             } else {
-                this.error = messageHttpRequest();
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
+
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+            });
+
         } finally {
-            this.isLoading = false;
+
+            runInAction(() => {
+                this.isLoading = false;
+            });
+
             if (!isEmpty(this.error)) {
                 messageError(this.error);
             }

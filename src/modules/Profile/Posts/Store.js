@@ -1,9 +1,10 @@
-import {observable, action, computed} from "mobx";
+import {observable, action, computed, runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../../helpers/httpRequest";
 import {getPostsByUserApi} from "../../../apis/postApis";
 import {getLastArr, isEmpty, isEmptyArr} from "../../../helpers/utility";
 import StorePost from "../../../components/Post/Store";
 import {messageError} from "../../../helpers/message";
+import {concat2Array} from "../../../helpers/entity/array";
 
 class Store {
     @observable posts = [];
@@ -39,20 +40,30 @@ class Store {
             const res = await getPostsByUserApi(this.userID, lastPostID);
             const data = res.data;
 
-            if (httpSuccess(res.status)) {
-                const posts = data.data;
-                if (!isEmptyArr(posts)) {
-                    this.posts = [...this.posts, ...this.createStorePosts(posts)];
+            runInAction(() => {
+                if (httpSuccess(res.status)) {
+                    const posts = data.data;
+
+                    if (!isEmptyArr(posts)) {
+                        this.posts = concat2Array(this.posts, this.createStorePosts(posts));
+                    } else {
+                        this.isLoadMore = false;
+                    }
+
                 } else {
-                    this.isLoadMore = false;
+                    this.error = messageHttpRequest();
                 }
-            } else {
-                this.error = messageHttpRequest();
-            }
+            });
         } catch (error) {
-            this.error = messageHttpRequest(error);
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+            });
         } finally {
-            this.isLoading = false;
+
+            runInAction(() => {
+                this.isLoading = false;
+            });
+
             if (!isEmpty(this.error)) {
                 messageError(this.error);
             }
@@ -65,7 +76,6 @@ class Store {
     };
 
     @action handleDeletePost = (postID) => {
-        console.log(this.posts);
         this.posts = this.posts.filter(postStore => postStore.post.id !== postID);
     };
 

@@ -1,4 +1,4 @@
-import {computed, observable, action} from "mobx";
+import {computed, observable, action, runInAction} from "mobx";
 import {
     getDataNotification
 } from "../../../helpers/notification/notification";
@@ -21,13 +21,16 @@ class Store {
         try {
             const notificationId = this.notification.id;
             const res = await seenNotificationApi(notificationId);
-            // const data = res.data;
 
             if (!httpSuccess(res.status)) {
-                this.error = messageHttpRequest();
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+            });
         }
     }
 

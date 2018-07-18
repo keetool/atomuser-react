@@ -25,7 +25,8 @@ class ScrollView {
     };
 
     isBottom = (el) => {
-        return el.getBoundingClientRect().bottom - this.distance <= window.innerHeight;
+        return el && el.getBoundingClientRect && el.getBoundingClientRect()
+            && el.getBoundingClientRect().bottom - this.distance <= window.innerHeight;
     };
 }
 

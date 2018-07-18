@@ -16,15 +16,15 @@ class SignInGoogle extends React.Component {
         super(props, context);
     }
 
+    componentDidMount() {
+        this.loadAuth2();
+    }
+
     loginGoogle = () => {
         signInGoogle(this.auth2, data => {
             this.props.signIn(data);
         });
     };
-
-    componentDidMount() {
-        this.loadAuth2();
-    }
 
     loadAuth2 = () => {
         //es-lint-disable

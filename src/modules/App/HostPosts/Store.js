@@ -1,7 +1,8 @@
-import {observable, action} from "mobx";
+import {observable, action,runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../../helpers/httpRequest";
 import {messageError} from "../../../helpers/message";
 import {getHotPostsApi} from "../../../apis/postApis";
+import {concat2Array} from "../../../helpers/entity/array";
 
 class Store {
     @observable posts = [];
@@ -20,14 +21,22 @@ class Store {
 
             if (httpSuccess(res.status)) {
                 const posts = data.data;
-                this.posts = [...this.posts, ...posts];
+                runInAction(() => {
+                    this.posts = concat2Array(this.posts, posts);
+                });
             } else {
-                this.error = messageHttpRequest();
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+            });
         } finally {
-            this.isLoading = false;
+            runInAction(() => {
+                this.isLoading = false;
+            });
             if (this.error) {
                 messageError(this.error);
             }

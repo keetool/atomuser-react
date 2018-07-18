@@ -1,4 +1,4 @@
-import {observable, action, computed} from "mobx";
+import {observable, action, computed, runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {getLastArr, isEmpty, isEmptyArr} from "../../helpers/utility";
 import {messageError} from "../../helpers/message";
@@ -27,16 +27,24 @@ class Store {
 
             if (httpSuccess(res.status)) {
                 const marks = data.data;
-                this.marks = [...this.marks, ...this.createStorePosts(marks)];
-                data.meta.remain_total = data.meta.total - marks.length;
-                this.pagination = data.meta;
+                runInAction(() => {
+                    this.marks = [...this.marks, ...this.createStorePosts(marks)];
+                    data.meta.remain_total = data.meta.total - marks.length;
+                    this.pagination = data.meta;
+                });
             } else {
-                this.error = messageHttpRequest();
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+            });
         } finally {
-            this.isLoading = false;
+            runInAction(() => {
+                this.isLoading = false;
+            });
             if (!isEmpty(this.error)) {
                 messageError(this.error);
             }

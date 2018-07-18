@@ -1,4 +1,4 @@
-import {observable, action} from "mobx";
+import {observable, action,runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {addCommentApi} from "../../apis/commentApis";
 import {messageError} from "../../helpers/message";
@@ -30,12 +30,18 @@ class Store {
                     callback(data.data);
                 }
             } else {
-                this.error = messageHttpRequest();
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+            });
         } finally {
-            this.isUploading = false;
+            runInAction(() => {
+                this.isUploading = false;
+            });
             if (this.error) {
                 messageError(this.error);
             }

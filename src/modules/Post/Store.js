@@ -1,4 +1,4 @@
-import {observable, action} from "mobx";
+import {observable, action, runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {getPostApi} from "../../apis/postApis";
 import StorePost from "../../components/Post/Store";
@@ -18,15 +18,25 @@ class Store {
             const data = res.data;
 
             if (httpSuccess(res.status)) {
+
                 const post = data.data;
-                this.storePost = new StorePost(post);
+                runInAction(() => {
+                    this.storePost = new StorePost(post);
+                });
+
             } else {
-                this.error = messageHttpRequest();
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+            });
         } finally {
-            this.isLoading = false;
+            runInAction(() => {
+                this.isLoading = false;
+            });
         }
     }
 }

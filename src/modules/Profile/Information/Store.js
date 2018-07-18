@@ -1,4 +1,4 @@
-import {observable, action} from "mobx";
+import {observable, action, runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../../helpers/httpRequest";
 import {isEmpty} from "../../../helpers/utility";
 import {messageError} from "../../../helpers/message";
@@ -35,18 +35,29 @@ class Store {
 
             if (httpSuccess(res.status)) {
                 const info = data.data;
-                if (isEmpty(info)){
+                if (isEmpty(info)) {
                     throw "null data";
                 }
-                this.info = info;
+
+                runInAction(() => {
+                    this.info = info;
+                });
 
             } else {
-                this.error = messageHttpRequest();
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+            });
+
         } finally {
-            this.isLoading = false;
+            runInAction(() => {
+                this.isLoading = false;
+            });
+            
             if (!isEmpty(this.error)) {
                 messageError(this.error);
             }
