@@ -75,13 +75,34 @@ export function isEmptyWithKey(data, strKey) {
 }
 
 export function removePropertyObjectWithKey(data, strKey) {
-    return Object.entries(data).reduce((acc, [key, value]) => {
-        return key === strKey ? acc : {...acc, [key]: value};
+    if (isEmpty(data) || isEmpty(strKey)) return;
+
+    const arrKey = strKey.split('.');
+
+    const key = arrKey[0];
+
+    const stringKey = arrKey.length <= 1 ? "" : (arrKey.length === 2 ? arrKey[1] : arrKey.join('.'));
+
+    const dataByKey = getValueFromKey(data, key);
+
+    if (!isEmpty(stringKey)) {
+        return {
+            ...data,
+            [key]: removePropertyObjectWithKey(dataByKey, stringKey)
+        };
+    }
+
+    return Object.entries(data).reduce((acc, [keyItem, value]) => {
+        return keyItem === key ? acc : {...acc, [keyItem]: value};
     }, {});
 }
 
 export function removePropertyObjectWithKeys(data, arrayKey) {
-    return Object.entries(data).reduce((acc, [key, value]) => {
-        return arrayKey.indexOf(key) > -1 ? acc : {...acc, [key]: value};
-    }, {});
+
+    let result = {...data};
+    arrayKey.forEach((key) => {
+        result = removePropertyObjectWithKey(result, key);
+    });
+
+    return result;
 }
