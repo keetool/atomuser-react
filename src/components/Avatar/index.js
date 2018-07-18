@@ -11,12 +11,23 @@ const Avatar = ({url = '', size = 30, style = {}}) => {
             "avatar": true
         })}
              style={{
-                 backgroundImage: `url(${url})`,
                  width: size,
                  height: size,
                  ...style
              }}
-        />
+        >
+            <div className={cx({
+                "avatar": true
+            })}
+                 style={{
+                     backgroundImage: `url(${url})`,
+                     width: size,
+                     height: size,
+                     ...style
+                 }}
+            />
+        </div>
+
     );
 };
 

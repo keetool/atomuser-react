@@ -2,7 +2,7 @@ export const TOKEN_EXPIRED_TIME = "518400"; //ms
 export const LOGO_SIDER =
     "https://d1j8r0kxyu9tj8.cloudfront.net/files/1527836835agwLmRolMVrN7Fs.png";
 export const LOGO =
-    "http://d1j8r0kxyu9tj8.cloudfront.net/files/1530022426ip83rk4BSB9FURd.png";
+    "https://d1j8r0kxyu9tj8.cloudfront.net/files/1530022426ip83rk4BSB9FURd.png";
 
 export const LOGO_HEADER_SIGN_IN =
     "https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/img/colorlogo.png";
