@@ -27,7 +27,7 @@ class Store {
     };
 
     constructor(post, config) {
-        this.post = post;
+        this.post = {...post};
         this.storeComment = new StoreComment(post);
         this.storeEditorComment = new StoreEditorComment(post);
         if (config) {

@@ -36,9 +36,10 @@ class EditorComment extends React.Component {
     };
 
     uploadSuccess = (data) => {
+        const {store} = this.props;
         this._onBlur();
         this._ref.innerHTML = "";
-        this.store.reset();
+        store.reset();
         this.props.addComment(data);
     };
 

@@ -41,7 +41,6 @@ class HostPosts extends React.Component {
     render() {
         const {prefixCls} = this.props;
         const {posts, isLoading} = this.store;
-        console.log(posts);
         return (
             <div className={cx(`${prefixCls}-layout`)}>
                 <Header/>
@@ -49,7 +48,6 @@ class HostPosts extends React.Component {
                 {
                     !isLoading && posts && posts.length > 0 &&
                     posts.map((post, index) => {
-                        console.log(post);
                         return (
                             <Post post={{...post}} key={index}/>
                         );

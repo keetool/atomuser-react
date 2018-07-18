@@ -4,12 +4,16 @@ import classNamesBind from "classnames/bind";
 import styles from './styles.less';
 import ActionVote from "../../../components/ActionVote";
 import {LOGO} from "../../../constants";
-import {getValueObjectFromStringKey, linkRoute} from "../../../helpers/utility";
+import {linkRoute} from "../../../helpers/utility";
 import Avatar from "../../../components/Avatar";
 import {observer} from "mobx-react";
 import {fullRelativeTime} from "../../../helpers/time";
 import {Link} from "react-router-dom";
 import {splitStrToViewMore} from "../../../helpers/editor";
+import {
+    getValuePrimary,
+    getValuesFromKeys
+} from "../../../helpers/entity/object";
 
 let cx = classNamesBind.bind(styles);
 
@@ -21,21 +25,15 @@ class Post extends React.Component {
     render() {
         const {prefixCls, post} = this.props;
 
-        const avatarUrl = getValueObjectFromStringKey(post, "creator.avatar_url") ?
-            getValueObjectFromStringKey(post, "creator.avatar_url") : LOGO;
+        const dataPost = getValuesFromKeys(post,
+            ["creator.avatar_url", "creator.name", "created_at", "creator.id", "id", "body", "vote", "upvote", "downvote"]);
 
-        const nameCreator = getValueObjectFromStringKey(post, "creator.name");
+        const avatarUrl = getValuePrimary(dataPost['creator.avatar_url'], LOGO);
 
-        const created_at = getValueObjectFromStringKey(post, "created_at");
-        const userID = getValueObjectFromStringKey(post, "creator.id");
-        const postID = getValueObjectFromStringKey(post, "id");
+        const linkDetailPost = linkRoute("/post/:postID", {postID: dataPost['id']});
+        const linkProfile = linkRoute("/profile/:userID", {userID: dataPost['creator.id']});
 
-        const linkDetailPost = linkRoute("/post/:postID", {postID: postID});
-        const linkProfile = linkRoute("/profile/:userID", {userID: userID});
-
-        let content = getValueObjectFromStringKey(post, "body");
-
-        content = splitStrToViewMore(content, 1, 20);
+        const content = splitStrToViewMore(dataPost['body'], 1, 20);
 
         return (
             <div className={cx(`${prefixCls}-post`)}
@@ -44,6 +42,10 @@ class Post extends React.Component {
                 <div className={cx(`${prefixCls}-post-action`)}>
                     <ActionVote
                         horizontal
+                        vote={dataPost["vote"]}
+                        upvote={dataPost["upvote"]}
+                        downvote={dataPost["downvote"]}
+                        disabled
                     />
                 </div>
 
@@ -54,14 +56,14 @@ class Post extends React.Component {
                         </div>
                         <Link to={linkProfile}>
                             <div className={cx(`${prefixCls}-post-content-creator-name`)}>
-                                {nameCreator}
+                                {dataPost['creator.name']}
                             </div>
                         </Link>
                     </div>
                     <div className={cx(`${prefixCls}-post-content-post`)}>
                         <Link to={linkDetailPost}>
                             <div className={cx(`${prefixCls}-post-content-post-text-time`)}>
-                                {fullRelativeTime(created_at)}
+                                {fullRelativeTime(dataPost['created_at'])}
                             </div>
                         </Link>
                         <div

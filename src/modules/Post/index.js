@@ -7,6 +7,7 @@ import withTitle from "../../components/HOC/withTitle";
 import Loading from "../../components/Post/Loading";
 import Post from "../../components/Post/Post";
 import {isEmpty} from "../../helpers/utility";
+import {withRouter} from "react-router";
 
 let cx = classNamesBind.bind(styles);
 
@@ -15,16 +16,25 @@ let cx = classNamesBind.bind(styles);
 class SinglePost extends React.Component {
     constructor(props) {
         super(props);
-        this.store = new Store();
     }
 
-    componentDidMount() {
-        const {postID} = this.props.match.params;
-        this.store.getPost(postID);
+    state = {
+        postID: '',
+        store: new Store()
+    };
+
+    static getDerivedStateFromProps(props, state) {
+        const {postID} = props.match.params;
+        if (state.postID != postID) {
+            state.store.getPost(postID);
+            return {postID: postID};
+        }
+
+        return null;
     }
 
     render() {
-        const {storePost, isLoading} = this.store;
+        const {storePost, isLoading} = this.state.store;
         const {prefixCls} = this.props;
         if (isLoading) {
             return (
@@ -49,4 +59,4 @@ SinglePost.defaultProps = {
     prefixCls: "module-post"
 };
 
-export default withTitle()(SinglePost);
+export default withTitle()(withRouter(SinglePost));

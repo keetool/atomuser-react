@@ -37,10 +37,10 @@ export const LANGUAGES = [
         value: "vi-vn",
         label: "Tiếng Việt"
     },
-    {
-        value: "fr-fr",
-        label: "Française"
-    }
+    // {
+    //     value: "fr-fr",
+    //     label: "Française"
+    // }
 ];
 
 export const TOKEN_TYPE = "Bearer";
