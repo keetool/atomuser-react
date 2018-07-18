@@ -12,9 +12,8 @@ import {Link} from "react-router-dom";
 import {splitStrToViewMore} from "../../../helpers/editor";
 import {
     getValuePrimary,
-    getValuesFromKeys, removePropertyObjectWithKey, removePropertyObjectWithKeys
+    getValuesFromKeys
 } from "../../../helpers/entity/object";
-import {removeObservable} from "../../../helpers/entity/mobx";
 
 let cx = classNamesBind.bind(styles);
 
@@ -35,11 +34,6 @@ class Post extends React.Component {
         const linkProfile = linkRoute("/profile/:userID", {userID: dataPost['creator.id']});
 
         const content = splitStrToViewMore(dataPost['body'], 1, 20);
-
-        let data = removeObservable(post);
-
-        console.log(removePropertyObjectWithKeys(data, ["creator.id", "merchant.id", 'body']));
-        console.log({data});
 
         return (
             <div className={cx(`${prefixCls}-post`)}
