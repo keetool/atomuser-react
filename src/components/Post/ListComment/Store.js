@@ -1,9 +1,11 @@
-import {observable, action, computed} from "mobx";
+import {observable, action, computed,runInAction} from "mobx";
 import {getCommentsApi} from "../../../apis/commentApis";
 import {httpSuccess, messageHttpRequest} from "../../../helpers/httpRequest";
 import {getFirstArr, isEmpty, isExistArray} from "../../../helpers/utility";
 import StoreComment from "./Comment/Store";
 import {messageError} from "../../../helpers/message";
+
+import {concat2Array} from "../../../helpers/entity/array";
 
 class Store {
     post = null;
@@ -28,19 +30,31 @@ class Store {
             const lastCommentID = lastComment ? lastComment.comment.id : '';
             const res = await getCommentsApi(postID, lastCommentID, limit);
             const data = res.data;
+
             if (httpSuccess(res.status)) {
                 let comments = data.data;
                 comments = this.createStoreComments(comments);
-                this.comments = [...comments.reverse(), ...this.comments];
-                data.meta.remain_total = data.meta.total - comments.length;
-                this.pagination = data.meta;
+
+                runInAction(() => {
+                    this.comments = concat2Array(comments.reverse(), this.comments);
+                    data.meta.remain_total = data.meta.total - comments.length;
+                    this.pagination = data.meta;
+                });
             } else {
-                this.error = messageHttpRequest();
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+            });
         } finally {
-            this.isLoading = false;
+
+            runInAction(() => {
+                this.isLoading = false;
+            });
+
             if (!isEmpty(this.error)) {
                 messageError(this.error);
             }

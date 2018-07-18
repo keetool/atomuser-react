@@ -1,4 +1,4 @@
-import {observable, action} from "mobx";
+import {observable, action, runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../../helpers/httpRequest";
 import {messageError} from "../../../helpers/message";
 import {newUsersApi} from "../../../apis/userApis";
@@ -20,15 +20,23 @@ class Store {
 
             if (httpSuccess(res.status)) {
                 const users = data.data.users;
-                console.log(users);
-                this.users = [...this.users, ...users];
+                runInAction(() => {
+                    this.users = [...this.users, ...users];
+                });
+
             } else {
-                this.error = messageHttpRequest();
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+            });
         } finally {
-            this.isLoading = false;
+            runInAction(() => {
+                this.isLoading = false;
+            });
             if (this.error) {
                 messageError(this.error);
             }

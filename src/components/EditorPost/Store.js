@@ -1,4 +1,4 @@
-import {observable, action, computed} from "mobx";
+import {observable, action, computed, runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {addPostApi, editPostApi} from "../../apis/postApis";
 import progress from "../../helpers/progress";
@@ -50,19 +50,28 @@ class Store {
             const data = res.data;
             if (httpSuccess(res.status)) {
                 setTimeout(() => {
-                    this.isUploading = false;
+
+                    runInAction(() => {
+                        this.isUploading = false;
+                    });
+
                     messageSuccess(translateI18n('social.home.post.upload_success'));
                     if (callback) {
                         callback(data.data);
                     }
                 }, 400);
+
             } else {
-                this.error = messageHttpRequest();
-                this.isUploading = false;
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                    this.isUploading = false;
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
-            this.isUploading = false;
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+                this.isUploading = false;
+            });
         } finally {
             progress.done();
         }
@@ -93,19 +102,29 @@ class Store {
             const data = res.data;
             if (httpSuccess(res.status)) {
                 setTimeout(() => {
-                    this.isUploading = false;
+
+                    runInAction(() => {
+                        this.isUploading = false;
+                    });
+
                     messageSuccess(translateI18n('social.home.post.upload_success'));
                     if (callback) {
                         callback(data.data);
                     }
                 }, 400);
             } else {
-                this.error = messageHttpRequest();
-                this.isUploading = false;
+                runInAction(() => {
+                    this.error = messageHttpRequest();
+                    this.isUploading = false;
+                });
             }
         } catch (error) {
-            this.error = messageHttpRequest(error);
-            this.isUploading = false;
+
+            runInAction(() => {
+                this.error = messageHttpRequest(error);
+                this.isUploading = false;
+            });
+
         } finally {
             progress.done();
         }
@@ -187,7 +206,6 @@ class Store {
     }
 
     @action setContent(value) {
-        console.log(value);
         this.content = convertDataEditor(value);
     }
 

@@ -1,4 +1,4 @@
-import {observable, action} from "mobx";
+import {observable, action, runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {messageSuccess} from "../../helpers/message";
 import {editInfoUserApi} from "../../apis/accountApis";
@@ -24,12 +24,18 @@ class Store {
                 callbackSuccess(info);
                 messageSuccess(translateI18n('social.edit_profile.noti.upload_success'));
             } else {
-                this.errorUpload = messageHttpRequest();
+                runInAction(() => {
+                    this.errorUpload = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.errorUpload = messageHttpRequest(error);
+            runInAction(() => {
+                this.errorUpload = messageHttpRequest(error);
+            });
         } finally {
-            this.isUploading = false;
+            runInAction(() => {
+                this.isUploading = false;
+            });
         }
     }
 }

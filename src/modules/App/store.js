@@ -1,7 +1,9 @@
-import {observable, action} from "mobx";
+import {observable, action, configure, runInAction} from "mobx";
 import {joinMerchantApi, profileApi} from "../../apis/accountApis";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {messageError} from "../../helpers/message";
+
+configure({enforceActions: true});
 
 class Store {
     @observable account = {};
@@ -22,14 +24,21 @@ class Store {
 
             if (httpSuccess(res.status)) {
                 const account = data.data;
-                this.account = account;
+                this.updateAccount(account);
             } else {
-                this.errorAccount = messageHttpRequest();
+                runInAction(() => {
+                    this.errorAccount = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.errorAccount = messageHttpRequest(error);
+            runInAction(() => {
+                this.errorAccount = messageHttpRequest(error);
+            });
         } finally {
-            this.isLoadingAccount = false;
+            runInAction(() => {
+                this.isLoadingAccount = false;
+            });
+
         }
     }
 
@@ -47,12 +56,18 @@ class Store {
                 const account = data.data;
                 this.updateAccount(account);
             } else {
-                this.errorJoinMerchant = messageHttpRequest();
+                runInAction(() => {
+                    this.errorJoinMerchant = messageHttpRequest();
+                });
             }
         } catch (error) {
-            this.errorJoinMerchant = messageHttpRequest(error);
+            runInAction(() => {
+                this.errorJoinMerchant = messageHttpRequest(error);
+            });
         } finally {
-            this.isJoiningMerchant = false;
+            runInAction(() => {
+                this.isJoiningMerchant = false;
+            });
             if (this.errorJoinMerchant) {
                 messageError(this.errorJoinMerchant);
             }

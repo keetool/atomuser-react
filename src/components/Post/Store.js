@@ -1,4 +1,4 @@
-import {observable, action, computed} from "mobx";
+import {observable, action, computed, runInAction} from "mobx";
 import {httpSuccess, messageHttpRequest} from "../../helpers/httpRequest";
 import {deletePostApi, downVoteApi, upVoteApi} from "../../apis/postApis";
 import StoreEditorComment from "../../components/EditorComment/Store";
@@ -53,15 +53,18 @@ class Store {
             const data = res.data;
 
             if (httpSuccess(res.status)) {
-                this.changeDataPost(data.data);
+                this.changeDataPost(data.data.post);
             } else {
                 this.changeDataPost(oldPost);
             }
         } catch (error) {
             this.changeDataPost(oldPost);
         } finally {
-            this.isMarking = false;
+            runInAction(() => {
+                this.isMarking = false;
+            });
         }
+
     }
 
     @action
@@ -79,17 +82,19 @@ class Store {
 
         try {
             const res = await deleteMarkPostApi(postID);
-            const data = res.data;
+            // const data = res.data;
 
             if (httpSuccess(res.status)) {
-                this.changeDataPost(data.data);
+                // this.changeDataPost(data.data);
             } else {
                 this.changeDataPost(oldPost);
             }
         } catch (error) {
             this.changeDataPost(oldPost);
         } finally {
-            this.isMarking = false;
+            runInAction(() => {
+                this.isMarking = false;
+            });
         }
     }
 
@@ -122,7 +127,10 @@ class Store {
         } catch (error) {
             this.changeDataPost(oldPost);
         } finally {
-            this.isVoting = false;
+            runInAction(() => {
+                this.isVoting = false;
+            });
+
         }
     }
 
@@ -157,7 +165,9 @@ class Store {
         } catch (error) {
             this.changeDataPost(oldPost);
         } finally {
-            this.isVoting = false;
+            runInAction(() => {
+                this.isVoting = false;
+            });
         }
     }
 
@@ -180,12 +190,21 @@ class Store {
                     this.config.handleDelete(postID);
                 }
             } else {
-                this.errorDelete = messageHttpRequest();
+                runInAction(() => {
+                    this.errorDelete = messageHttpRequest();
+                });
+
             }
         } catch (error) {
-            this.errorDelete = messageHttpRequest(error);
+            runInAction(() => {
+                this.errorDelete = messageHttpRequest(error);
+            });
+
         } finally {
-            this.isDeleting = false;
+            runInAction(() => {
+                this.isDeleting = false;
+            });
+
             if (this.errorDelete) {
                 messageError(this.errorDelete);
             }

@@ -10,7 +10,6 @@ export function showDeleteConfirm(title, content = '', okFunc, cancelFun, okText
         okType: 'danger',
         cancelText: isEmpty(cancelText) ? translateI18n('social.global.no') : cancelText,
         onOk: () => {
-            console.log("ok");
             if (okFunc) {
                 okFunc();
             }
@@ -31,7 +30,6 @@ export function showWarningConfirm(title, content = '', okFunc, cancelFun, okTex
         okType: 'danger',
         cancelText: isEmpty(cancelText) ? translateI18n('social.global.no') : cancelText,
         onOk: () => {
-            console.log("ok");
             if (okFunc) {
                 okFunc();
             }

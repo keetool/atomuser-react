@@ -43,6 +43,14 @@ class EditorComment extends React.Component {
         this.props.addComment(data);
     };
 
+    setContent = () => {
+        const {store} = this.props;
+        setTimeout(() => {
+            store.setContent(this._ref.innerHTML);
+            store.setLineNumber(this._ref.childElementCount);
+        }, 100);
+    };
+
     onKeyPress = (e) => {
 
         const {store} = this.props;
@@ -57,13 +65,11 @@ class EditorComment extends React.Component {
 
         this._checkEmpty();
 
-        store.setContent(this._ref.innerHTML);
-        store.setLineNumber(this._ref.childElementCount);
+        this.setContent();
     };
 
 
     handlePaste = (e) => {
-        const {store} = this.props;
 
         e.stopPropagation();
         e.preventDefault();
@@ -75,8 +81,7 @@ class EditorComment extends React.Component {
 
         document.execCommand('insertHtml', false, pastedData);
 
-        store.setContent(this._ref.innerHTML);
-        store.setLineNumber(this._ref.childElementCount);
+        this.setContent();
     };
 
     renderMessageError = content => {

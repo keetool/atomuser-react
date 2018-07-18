@@ -33,7 +33,6 @@ class SignInForm extends React.Component {
     };
 
     signinGoogle = (account) => {
-        console.log(account);
         signinGoogle(account, this.getMerchantSubdomain(), this.setData);
     };
 

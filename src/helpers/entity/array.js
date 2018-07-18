@@ -1,3 +1,23 @@
+function isUndefined(data) {
+    return data === undefined;
+}
+
+function isNull(data) {
+    return data == null;
+}
+
+function isNotValue(data) {
+    return data == "";
+}
+
+function isEmpty(data) {
+    return isUndefined(data) || isNull(data) || isNotValue(data);
+}
+
+export function isEmptyArr(arr) {
+    return arr && arr.length > 0;
+}
+
 export function addFirstArray(array, data) {
     if (!Array.isArray(array)) return null;
     return [data, ...array];
