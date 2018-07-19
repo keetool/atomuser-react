@@ -8,6 +8,7 @@
   //import css for antd
   "plugins": [
     "transform-decorators-legacy",
+    "graphql-tag",
     [
       "module-resolver",
       {

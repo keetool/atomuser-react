@@ -34,3 +34,9 @@ export const MERCHANT_API_URL = PROTOCOL_DOMAIN_FULL + 'client-api/';   // https
 export const PUBLIC_MERCHANT_API_URL = PROTOCOL_DOMAIN_FULL + 'open-api/';   // https://test.atomuser.com/open-api/
 export const SOCKET_HOST = 'https://atomuser.com';                      // https://atomuser.com/
 export const SOCKET_PORT = '9000';                                      // 9000
+
+export const GRAPHQL_PUBLIC_CLIENT = PROTOCOL_DOMAIN_FULL + 'graphql';  // https://test.atomuser.com/graphql
+
+export const renderMerchantDomain = (subdomain) => {
+    return protocol + subdomain + '.' + DOMAIN;
+};

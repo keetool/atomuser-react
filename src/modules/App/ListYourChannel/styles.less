@@ -1,6 +1,6 @@
 @import "../../../styles/variables";
 
-@prefixCls: app-list-hot-post;
+@prefixCls: app-list-your-channel;
 
 .@{prefixCls} {
   &-layout {
@@ -20,12 +20,14 @@
         color: @atomuser-primary-color;
       }
     }
+
     &-load-more {
       display: flex;
       flex-direction: row;
       align-items: center;
       padding: 10px;
       margin-left: 5px;
+      cursor: pointer;
       &-icon {
         color: @atomuser-primary-color;
         font-size: 20px;
@@ -35,50 +37,54 @@
         color: @atomuser-primary-color;
       }
     }
+
   }
-  &-post {
+  &-channel {
     display: flex;
     flex-direction: row;
+    align-items: center;
     padding: 10px;
-    &-action {
-      width: 35px;
-      display: flex;
-      justify-content: center;
+    border: solid 1px transparent;
+
+    &:hover{
+      background-color: white;
+      border-color:  @atomuser-divider-color;
+      border-radius: @atomuser-card-border-radius;
     }
     &-content {
-      padding-left: 10px;
+      margin-left: 10px;
       display: flex;
       flex-direction: column;
-      width: 100%;
-      &-creator {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        &-avatar {
-
-        }
-        &-name {
-          padding-left: 10px;
-          width: 100%;
-          font-weight: bold;
-          color: @atomuser-text-color;
-        }
+      flex: 1;
+      &-name {
+        font-weight: bold;
+        flex: 1;
+        color: @atomuser-text-color;
       }
-      &-post {
-        display: flex;
-        flex-direction: column;
-        &-content {
+      &-text-time {
+        color: @atomuser-grey-color;
+        &:hover {
+          text-decoration: underline;
+        }
+        cursor: pointer;
 
-        }
-        &-text-time {
-          color: @atomuser-grey-color;
-          &:hover {
-            text-decoration: underline;
-          }
-          cursor: pointer;
-        }
       }
     }
   }
 
+  &-load-more {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    margin-left: 5px;
+    &-icon {
+      color: @atomuser-primary-color;
+      font-size: 20px;
+    }
+    &-text {
+      padding-left: 15px;
+      color: @atomuser-primary-color;
+    }
+  }
 }

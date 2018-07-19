@@ -33,7 +33,7 @@ const Avatar = ({url = '', size = 30, style = {}}) => {
 
 
 Avatar.propTypes = {
-    url: PropTypes.string.isRequired,
+    url: PropTypes.string,
     size: PropTypes.number,
     style: PropTypes.object,
 };

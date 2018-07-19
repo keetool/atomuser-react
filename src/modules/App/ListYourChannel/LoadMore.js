@@ -27,7 +27,7 @@ class Header extends React.Component {
 }
 
 Header.defaultProps = {
-    prefixCls: 'app-list-hot-post'
+    prefixCls: 'app-list-your-channel'
 };
 
 

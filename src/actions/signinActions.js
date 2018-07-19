@@ -1,6 +1,6 @@
 import {signinApi, signinFBApi, signinGoogleApi} from "../apis/signinApis";
 import history from "../helpers/history";
-import {saveToken, saveRefreshToken, redirectSignedIn} from "../helpers/auth";
+import {saveToken, saveRefreshToken, redirectSignedIn, saveAccountID} from "../helpers/auth";
 import {httpSuccess, messageHttpRequestSignIn} from "../helpers/httpRequest";
 
 export function signin(account, setState) {
@@ -29,6 +29,7 @@ export function signinFB(account, merchantSubDomain, setState) {
             if (httpSuccess(res.status)) {
                 saveToken(res.data.access_token, res.data.expires_in);
                 saveRefreshToken(res.data.refresh_token, res.data.expires_in);
+                saveAccountID(res.data.user_id, res.data.expires_in);
                 redirectSignedIn(merchantSubDomain);
             } else {
                 setState({isLoggingFB: false});
@@ -49,6 +50,7 @@ export function signinGoogle(account, merchantSubDomain, setState) {
             if (httpSuccess(res.status)) {
                 saveToken(res.data.access_token, res.data.expires_in);
                 saveRefreshToken(res.data.refresh_token, res.data.expires_in);
+                saveAccountID(res.data.user_id, res.data.expires_in);
                 redirectSignedIn(merchantSubDomain);
             } else {
                 setState({isLoggingGoogle: false});

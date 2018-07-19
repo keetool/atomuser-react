@@ -27,25 +27,27 @@ class NewUser extends React.Component {
         const linkProfile = linkRoute("/profile/:userID", {userID: userID});
 
         return (
-            <div className={cx(`${prefixCls}-user`)}
-                 style={{width: "100%"}}
-            >
-                <Avatar url={avatarUrl}/>
-                <div className={cx(`${prefixCls}-user-content`)}>
-                    <Link to={linkProfile}>
+            <Link to={linkProfile}>
+                <div className={cx(`${prefixCls}-user`)}
+                     style={{width: "100%"}}
+                >
+                    <Avatar url={avatarUrl}/>
+                    <div className={cx(`${prefixCls}-user-content`)}>
+
                         <div
                             className={cx(`${prefixCls}-user-content-name`)}
                         >
                             {name}
                         </div>
-                    </Link>
-                    <div
-                        className={cx(`${prefixCls}-user-content-text-time`)}
-                    >
-                        {fullRelativeTime(created_at)}
+
+                        <div
+                            className={cx(`${prefixCls}-user-content-text-time`)}
+                        >
+                            {fullRelativeTime(created_at)}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Link>
         );
     }
 }

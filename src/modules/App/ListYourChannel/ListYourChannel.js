@@ -5,22 +5,22 @@ import Header from "./Header";
 import styles from './styles.less';
 import classNamesBind from "classnames/bind";
 import Loading from "./Loading";
-import Store from "./Store";
-import Post from "./Post";
-import {observer} from "mobx-react";
 // import LoadMore from "./LoadMore";
+import Store from "./Store";
+import Channel from "./Channel";
+import {observer} from "mobx-react";
 
 let cx = classNamesBind.bind(styles);
 
 @observer
-class HostPosts extends React.Component {
+class ListYourChannel extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.store = new Store();
     }
 
     componentDidMount() {
-        this.store.getHotPosts();
+        this.store.getYourMerchants();
     }
 
     renderLoading() {
@@ -40,16 +40,16 @@ class HostPosts extends React.Component {
 
     render() {
         const {prefixCls} = this.props;
-        const {posts, isLoading} = this.store;
+        const {yourChannels, isLoading} = this.store;
         return (
             <div className={cx(`${prefixCls}-layout`)}>
                 <Header/>
                 {this.renderLoading()}
                 {
-                    !isLoading && posts && posts.length > 0 &&
-                    posts.map((post, index) => {
+                    !isLoading && yourChannels && yourChannels.length > 0 &&
+                    yourChannels.map((channel, index) => {
                         return (
-                            <Post post={{...post}} key={index}/>
+                            <Channel channel={{...channel}} key={index}/>
                         );
                     })
                 }
@@ -59,10 +59,10 @@ class HostPosts extends React.Component {
     }
 }
 
-HostPosts.defaultProps = {
-    prefixCls: 'app-list-hot-post'
+ListYourChannel.defaultProps = {
+    prefixCls: 'app-list-your-channel'
 };
 
-HostPosts.propTypes = {};
+ListYourChannel.propTypes = {};
 
-export default translate(props => props.namespaces)(HostPosts);
+export default translate(props => props.namespaces)(ListYourChannel);

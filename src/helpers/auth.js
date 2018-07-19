@@ -2,6 +2,7 @@ import {redirectURL} from "./utility";
 import {FACEBOOK_ID, TOKEN_EXPIRED_TIME, TOKEN_FACEBOOK} from "../constants";
 import {DOMAIN, IS_PRODUCTION, PROTOCOL, PROTOCOL_DOMAIN, SUBDOMAIN} from "../constants/env";
 import {deleteCookie, getCookie, setCookie} from "./cookie";
+import i18n from "../languages/i18n";
 
 export function getToken() {
     const token = getCookie("atomuser_token");
@@ -11,12 +12,16 @@ export function getToken() {
     redirectSignedOut();
 }
 
-export function isLoggedIn() {
-    const token = getCookie("atomuser_token");
-    if (token) {
-        return true;
+export function getAccountID() {
+    const accountID = getCookie("atomuser_account_id");
+    if (accountID) {
+        return accountID;
     }
-    return false;
+    redirectSignedOut();
+}
+
+export function isLoggedIn() {
+    return getToken() && getAccountID();
 }
 
 export function saveToken(token, expires_in = TOKEN_EXPIRED_TIME) {
@@ -33,6 +38,23 @@ export function clearToken() {
         deleteCookie("atomuser_token", '.' + DOMAIN);
     } else {
         deleteCookie("atomuser_token");
+    }
+}
+
+export function saveAccountID(account_id, expires_in = TOKEN_EXPIRED_TIME) {
+    if (IS_PRODUCTION) {
+        setCookie("atomuser_account_id", account_id, expires_in, '.' + DOMAIN, true);
+    } else {
+        setCookie("atomuser_account_id", account_id, expires_in);
+    }
+
+}
+
+export function clearAccountID() {
+    if (IS_PRODUCTION) {
+        deleteCookie("atomuser_account_id", '.' + DOMAIN);
+    } else {
+        deleteCookie("atomuser_account_id");
     }
 }
 
@@ -97,10 +119,10 @@ export async function signInGoogle(auth, callback) {
 
 export function redirectSignedIn(merchantSubDomain) {
     if (IS_PRODUCTION) {
-        const domainMerchant = `${PROTOCOL}${merchantSubDomain}.${DOMAIN}`;
+        const domainMerchant = `${PROTOCOL}${merchantSubDomain}.${DOMAIN}?lang=${i18n.language}`;
         redirectURL(domainMerchant);
     } else {
-        redirectURL("/");
+        redirectURL(`/?lang=${i18n.language}`);
     }
 }
 

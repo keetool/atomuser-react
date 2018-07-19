@@ -1,6 +1,6 @@
 @import "../../../styles/variables";
 
-@prefixCls: app-list-new-atom;
+@prefixCls: app-list-suggest-channel;
 
 .@{prefixCls} {
   &-layout {
@@ -39,16 +39,16 @@
     }
 
   }
-  &-user {
+  &-channel {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 10px;
     border: solid 1px transparent;
 
-    &:hover {
+    &:hover{
       background-color: white;
-      border-color: @atomuser-divider-color;
+      border-color:  @atomuser-divider-color;
       border-radius: @atomuser-card-border-radius;
     }
     &-content {

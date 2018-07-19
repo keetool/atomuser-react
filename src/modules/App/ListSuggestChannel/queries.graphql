@@ -1,0 +1,10 @@
+query getSuggestChannels($user_id: String, $page: Int = 1, $limit: Int = 5) {
+  merchants(user_id: $user_id, page: $page, limit: $limit) {
+    data {
+      id
+      name
+      num_users
+      sub_domain
+    }
+  }
+}

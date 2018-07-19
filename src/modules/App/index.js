@@ -18,7 +18,8 @@ import withTitle from "../../components/HOC/withTitle";
 import {observer} from "mobx-react";
 import store from './store';
 import ListNewAtom from "./ListNewAtom/ListNewAtom";
-import HostPosts from "./HostPosts/HostPosts";
+import ListYourChannel from "./ListYourChannel/ListYourChannel";
+import ListSuggestChannel from "./ListSuggestChannel/ListSuggestChannel";
 
 let cx = classNamesBind.bind(styles);
 
@@ -109,7 +110,8 @@ class AppContainer extends React.Component {
                                     [`${prefixCls}-has-tabbar`]: hasTabbar,
                                 })}>
                                     <div className={cx(`${prefixCls}-content-left`)}>
-                                        <HostPosts/>
+                                        <ListYourChannel/>
+                                        <ListSuggestChannel/>
                                     </div>
                                     <div className={cx(`${prefixCls}-content-app`)}>
                                         <AppRoutes/>

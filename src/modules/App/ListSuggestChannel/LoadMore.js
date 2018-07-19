@@ -1,10 +1,9 @@
 import React from "react";
 //import PropTypes from 'prop-types';
-
+import {Icon} from "antd";
 import {translate} from "react-i18next";
 import classNamesBind from "classnames/bind";
 import styles from './styles.less';
-import {Icon} from "antd";
 
 let cx = classNamesBind.bind(styles);
 
@@ -13,15 +12,14 @@ class Header extends React.Component {
     }
 
     render() {
-        const {prefixCls, t} = this.props;
+        const {prefixCls} = this.props;
         return (
-            <div className={cx(`${prefixCls}-layout-header`)}>
-                <div className={cx(`${prefixCls}-layout-header-icon`)}>
-                    <Icon type="bar-chart"/>
+            <div className={cx(`${prefixCls}-layout-load-more`)}>
+                <div className={cx(`${prefixCls}-layout-load-more-icon`)}>
+                    <Icon type="plus-circle" />
                 </div>
-
-                <div className={cx(`${prefixCls}-layout-header-text`)}>
-                    {t('social.list_hot_post.header.title')}
+                <div className={cx(`${prefixCls}-layout-load-more-text`)}>
+                    Xem thêm
                 </div>
             </div>
         );
@@ -29,7 +27,7 @@ class Header extends React.Component {
 }
 
 Header.defaultProps = {
-    prefixCls: 'app-list-hot-post'
+    prefixCls: 'app-list-suggest-channel'
 };
 
 
