@@ -1,0 +1,9 @@
+query getNewUsers($page: Int = 1, $limit: Int = 10) {
+  users(page: $page, limit: $limit) {
+    data {
+      id
+      name
+      created_at
+    }
+  }
+}

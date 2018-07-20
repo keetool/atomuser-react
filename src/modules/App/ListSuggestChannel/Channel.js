@@ -27,7 +27,7 @@ class Channel extends React.Component {
                     <Avatar url={dataChannel['avatar_url']}/>
                     <div className={cx(`${prefixCls}-channel-content`)}>
                         <div
-                            className={cx(`${prefixCls}-channel-content-name`)}
+                            className={cx(`${prefixCls}-channel-content-name`, 'three-dot-text')}
                         >
                             {dataChannel['name']}
                         </div>

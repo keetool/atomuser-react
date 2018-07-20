@@ -3,7 +3,7 @@ import {
     getDataNotification
 } from "../../../helpers/notification/notification";
 import {httpSuccess, messageHttpRequest} from "../../../helpers/httpRequest";
-import {seenNotificationApi} from "../../../apis/notificationApis";
+import {clickedNotificationApi} from "../../../apis/notificationApis";
 
 class Store {
     @observable notification = null;
@@ -17,10 +17,10 @@ class Store {
     }
 
     @action
-    async seenNotification() {
+    async clickNotification() {
         try {
             const notificationId = this.notification.id;
-            const res = await seenNotificationApi(notificationId);
+            const res = await clickedNotificationApi(notificationId);
 
             if (!httpSuccess(res.status)) {
                 runInAction(() => {
@@ -34,8 +34,8 @@ class Store {
         }
     }
 
-    @computed get isUnseen() {
-        return this.notification && this.notification.status == 'unseen';
+    @computed get isClicked() {
+        return this.notification && this.notification.status == 'clicked';
     }
 }
 

@@ -27,6 +27,16 @@ class ListNotification extends React.Component {
         this.scrollView = new ScrollView(listId, this.getNotis);
     }
 
+    static getDerivedStateFromProps(props) {
+        const {unseen_notification, updateAccount} = props.account;
+        if (unseen_notification > 0) {
+            updateAccount({unseen_notification: 0});
+            return null;
+        }
+
+        return null;
+    }
+
     componentDidMount() {
         this.store.getNotifications();
 

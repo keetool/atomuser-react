@@ -13,8 +13,8 @@ export function getNotificationsByMerchantApi(notiID = '') {
     return axios.get(url);
 }
 
-export function seenNotificationApi(notiID) {
-    let url = MERCHANT_API_URL + `v1/user/notification/${notiID}/seen`;
+export function clickedNotificationApi(notiID) {
+    let url = MERCHANT_API_URL + `v1/user/notification/${notiID}/click`;
 
     return axios.put(url);
 }

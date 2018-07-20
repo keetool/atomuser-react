@@ -5,6 +5,7 @@ query getYourChannels($user_id: String, $page: Int = 1, $limit: Int = 5) {
       name
       num_users
       sub_domain
+      unseen_notifications
     }
   }
 }

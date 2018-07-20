@@ -7,6 +7,7 @@ import {observer} from "mobx-react";
 import {getValuesFromKeys} from "../../../helpers/entity/object";
 import {renderMerchantDomain} from "../../../constants/env";
 import {translate} from "react-i18next";
+import {Badge} from "antd";
 
 let cx = classNamesBind.bind(styles);
 
@@ -18,28 +19,31 @@ class Channel extends React.Component {
     render() {
         const {prefixCls, channel, t} = this.props;
         const dataChannel = getValuesFromKeys(channel,
-            ['avatar_url', 'name', 'num_users', 'sub_domain']);
+            ['avatar_url', 'name', 'num_users', 'sub_domain', 'unseen_notifications']);
 
         return (
-                <a href={renderMerchantDomain(dataChannel['sub_domain'])} target="_blank">
-                    <div className={cx(`${prefixCls}-channel`)}
-                         style={{width: "100%"}}
-                    >
-                        <Avatar url={dataChannel['avatar_url']}/>
-                        <div className={cx(`${prefixCls}-channel-content`)}>
-                                <div
-                                    className={cx(`${prefixCls}-channel-content-name`)}
-                                >
-                                    {dataChannel['name']}
-                                </div>
-                            <div
-                                className={cx(`${prefixCls}-channel-content-text-time`)}
-                            >
-                                {`${dataChannel['num_users']} ${t('social.global.atom')}`}
-                            </div>
+            <a href={renderMerchantDomain(dataChannel['sub_domain'])} target="_blank">
+                <div className={cx(`${prefixCls}-channel`)}
+                     style={{width: "100%"}}
+                >
+                    <Avatar url={dataChannel['avatar_url']}/>
+                    <div className={cx(`${prefixCls}-channel-content`)}>
+                        <div
+                            className={cx(`${prefixCls}-channel-content-name`, 'three-dot-text')}
+                        >
+                            {dataChannel['name']}
+                        </div>
+                        <div
+                            className={cx(`${prefixCls}-channel-content-text-time`)}
+                        >
+                            {`${dataChannel['num_users']} ${t('social.global.atom')}`}
                         </div>
                     </div>
-                </a>
+                    <div>
+                        <Badge count={dataChannel['unseen_notifications']} overflowCount={99}/>
+                    </div>
+                </div>
+            </a>
         );
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import {Icon, Layout} from "antd";
+import {Badge, Icon, Layout} from "antd";
 import classNamesBind from "classnames/bind";
 import styles from './styles.less';
 import TooltipCustom from "../common/Tooltip";
@@ -30,6 +30,13 @@ class GlobalTab extends React.Component {
     componentDidMount() {
     }
 
+    handleClickTab(tab) {
+        const {account} = this.props;
+        const isTabNoti = checkLink(tab.path, '/notification');
+        if (isTabNoti) {
+            account.updateAccount({'unseen_notification': 0});
+        }
+    }
 
     render() {
         const {t, prefixCls, account} = this.props;
@@ -43,24 +50,34 @@ class GlobalTab extends React.Component {
                 <div className={cx(`${prefixCls}-tabbar`)}>
                     {
                         TABS(account.id).map((tab, index) => {
+                            const isTabNoti = checkLink(tab.path, '/notification');
                             return (
                                 <TooltipCustom
                                     placement={"top"}
                                     title={t(tab.name)}
                                     key={index}
                                 >
+
                                     <Link
                                         to={tab.path}
                                         style={{width: tabbarItemWidth}}
                                     >
+
                                         <div className={cx(`${prefixCls}-tabbar-item`,
                                             {
                                                 [`${prefixCls}-active`]: checkLink(pathname, tab.path)
                                             })}
                                         >
-                                            <IconTab type={tab.icon}/>
+                                            {isTabNoti ?
+                                                <Badge count={account.unseen_notification} overflowCount={9}>
+                                                    <IconTab type={tab.icon}/>
+                                                </Badge>
+                                                :
+                                                <IconTab type={tab.icon}/>
+                                            }
                                         </div>
                                     </Link>
+
                                 </TooltipCustom>
                             );
                         })
@@ -69,6 +86,8 @@ class GlobalTab extends React.Component {
             </Layout.Footer>
         );
     }
+
+
 }
 
 GlobalTab.defaultProps = {

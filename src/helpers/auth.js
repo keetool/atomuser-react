@@ -21,7 +21,7 @@ export function getAccountID() {
 }
 
 export function isLoggedIn() {
-    return getToken() && getAccountID();
+    return getCookie("atomuser_token") && getCookie("atomuser_account_id");
 }
 
 export function saveToken(token, expires_in = TOKEN_EXPIRED_TIME) {

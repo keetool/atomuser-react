@@ -35,7 +35,7 @@ class NewUser extends React.Component {
                     <div className={cx(`${prefixCls}-user-content`)}>
 
                         <div
-                            className={cx(`${prefixCls}-user-content-name`)}
+                            className={cx(`${prefixCls}-user-content-name`, 'three-dot-text')}
                         >
                             {name}
                         </div>

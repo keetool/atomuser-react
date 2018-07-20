@@ -110,7 +110,7 @@ class AppContainer extends React.Component {
                                     [`${prefixCls}-has-tabbar`]: hasTabbar,
                                 })}>
                                     <div className={cx(`${prefixCls}-content-left`)}>
-                                        <ListYourChannel/>
+                                        {isLoggedIn() && <ListYourChannel/>}
                                         <ListSuggestChannel/>
                                     </div>
                                     <div className={cx(`${prefixCls}-content-app`)}>

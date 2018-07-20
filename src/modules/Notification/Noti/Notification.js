@@ -20,7 +20,7 @@ class Notification extends React.Component {
 
     handleClickNoti = () => {
         const {store} = this.props;
-        store.seenNotification();
+        store.clickNotification();
     };
 
 
@@ -29,10 +29,10 @@ class Notification extends React.Component {
         const {notification} = store;
         const notificationContent = parseNotification(notification, account.id);
         const linkNoti = linkNotification(notification.type, notification.action_web);
-        const notificationUnseen = store.isUnseen;
+        const notificationClicked = store.isClicked;
         return (
             <Link to={linkNoti} onClick={this.handleClickNoti}>
-                <div className={cx(`${prefixCls}-container`, {[`${prefixCls}-unseen`]: notificationUnseen})}>
+                <div className={cx(`${prefixCls}-container`, {[`${prefixCls}-seen`]: !notificationClicked})}>
                     <div className={cx(`${prefixCls}-avatar`)}>
                         <Avatar url={notification.image_url}/>
                     </div>

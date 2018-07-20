@@ -2,7 +2,6 @@ import {observable, action, runInAction} from "mobx";
 import {messageError} from "../../../helpers/message";
 import {getValueFromKey} from "../../../helpers/entity/object";
 import {getSuggestChannels} from './queries.graphql';
-import {getAccountID} from "../../../helpers/auth";
 import {merchantClient} from "../../../graphql/client";
 import {graphqlSuccess, messageGraphqlRequest} from "../../../graphql/graphqlSuccess";
 import {concat2Array} from "../../../helpers/entity/array";
@@ -18,7 +17,6 @@ class Store {
         this.isLoading = true;
         this.error = null;
         const variables = {
-            user_id: getAccountID(),
             limit: 5
         };
 
